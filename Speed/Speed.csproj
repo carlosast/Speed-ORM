@@ -14,10 +14,10 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
     <PublishUrl>..\publish\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
+    <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -25,7 +25,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <UpdateUrl>https://github.com/carlosast/Speed-ORM/publish/</UpdateUrl>
+    <InstallUrl>https://raw.githubusercontent.com/carlosast/Speed-ORM/master/publish/</InstallUrl>
+    <UpdateUrl>https://raw.githubusercontent.com/carlosast/Speed-ORM/master/publish/</UpdateUrl>
     <SupportUrl>https://github.com/carlosast/Speed-ORM</SupportUrl>
     <ProductName>Speed ORM</ProductName>
     <PublisherName>Carlos Alberto Stefani</PublisherName>
