@@ -4,3 +4,4 @@ storage.ide
 bin
 obj
 packages
+!publish/

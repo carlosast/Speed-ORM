@@ -5,7 +5,7 @@
     <PublishUrlHistory>..\publish\|publish\</PublishUrlHistory>
     <InstallUrlHistory>http://Speed.codeplex.com/releases/clickonce/</InstallUrlHistory>
     <SupportUrlHistory>https://speed.codeplex.com/</SupportUrlHistory>
-    <UpdateUrlHistory />
+    <UpdateUrlHistory>https://github.com/carlosast/Speed-ORM/publish/</UpdateUrlHistory>
     <BootstrapperUrlHistory />
     <ErrorReportUrlHistory />
     <FallbackCulture>en-US</FallbackCulture>
