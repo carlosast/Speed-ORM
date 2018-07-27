@@ -1,0 +1,6 @@
+.suo
+db.lock
+storage.ide
+bin
+obj
+packages

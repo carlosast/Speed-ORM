@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFrameworks>net40</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes>Speed ORM .NET Data Access Firebird ADO.NET</PackageReleaseNotes>
+    <Authors>Carlos Alberto Stefani</Authors>
+    <Company>Carlos Alberto Stefani</Company>
+    <PackageProjectUrl>https://github.com/carlosast/Speed-ORM</PackageProjectUrl>
+    <PackageId>Speed.ORM.Firebird</PackageId>
+    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <Product>Speed.ORM.Firebird</Product>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net40'">
+	<DefineConstants>NET40;NETFULL</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DbFirebirdProvider2.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="5.12.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Speed.Data\Speed.Data.csproj" />
+  </ItemGroup>
+
+  </Project>
