@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Speed.Data;
 using System.Diagnostics;
 using System.Data.Common;
+using Speed.Common;
 
 namespace Speed.Windows.Controls
 {
@@ -423,6 +424,12 @@ namespace Speed.Windows.Controls
             if (ci != null)
             {
                 cboProviderType.SelectByValue<EnumDbProviderType>(ci.Provider);
+
+                if (ci.BuildConnectionString)
+                    rbtBuildCs.Checked = true;
+                else
+                    rbtEnterCs.Checked = true;
+
                 txtHost.Text = ci.Server;
 
                 // compatibility
@@ -459,11 +466,17 @@ namespace Speed.Windows.Controls
             // ci.ProviderName = this.txtProviderName.Text;
             ci.Embedded = chkEmbedded.Checked;
             ci.ConnectionString = txtConnectionString.Text.Trim();
+            ci.BuildConnectionString = rbtBuildCs.Checked;
         }
 
         public Database GetDb()
         {
-            var db = new Database(this.Connection);
+            Database db;
+            if (string.IsNullOrWhiteSpace(Connection.ConnectionString))
+                db = new Database(Connection);
+            else
+                db = new Database(Connection.Provider, Connection.ConnectionString);
+
             db.Open();
             return db;
         }
@@ -494,6 +507,11 @@ namespace Speed.Windows.Controls
                     lblConenctionString.ForeColor = Color.Red;
                 }
             }
+            grbEnterCs.Location = grbBuildCs.Location;
+            grbEnterCs.Width = grbBuildCs.Width;
+
+            var name1 = grbEnterCs.Parent.Name;
+            var name2 = grbBuildCs.Parent.Name;
         }
 
         #endregion Methods

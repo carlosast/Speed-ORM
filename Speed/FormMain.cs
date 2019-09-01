@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using Speed.UI;
 using Speed.UI.UserControls;
 using System.IO;
 using System.Diagnostics;
+using Speed.Common;
 
 namespace Speed
 {
@@ -32,14 +27,14 @@ namespace Speed
                 this.Icon = Properties.Resources.APP;
                 imlIcons.Images.Add("Gear", Speed.UI.Properties.Resources.Gear);
             }
-#if DEBUG
+#if DEBUG2
             if (count == 0 && Environment.MachineName == "QUASAR")
             {
                 string fileName = null;
-                // fileName = @"..\..\..\__Testes\MyProject\MyProject.spd";
-                // fileName = @"..\..\..\Testes\TestGen.Oracle\TestOracle.spd";
-                // fileName = @"..\..\..\Testes\TestGen.MySql\TestMySql.spd";
-                fileName = @"E:\_Projects\_Systems\SpeedCluster\SpeedCluster.spd";
+                // fileName = @"..\..\..\__Testes\MyProject\MyProject.elf";
+                // fileName = @"..\..\..\Testes\TestGen.Oracle\TestOracle.elf";
+                // fileName = @"..\..\..\Testes\TestGen.MySql\TestMySql.elf";
+                fileName = @"E:\_Projects\_Systems\SpeedCluster\SpeedCluster.elf";
 
                 if (fileName != null)
                 {
@@ -56,8 +51,14 @@ namespace Speed
             btnClose.Tag = btnClose.ForeColor;
             btnClose.MouseEnter += (o, ev) => btnClose.ForeColor = Color.Black;
             btnClose.MouseLeave += (o, ev) => btnClose.ForeColor = (Color)btnClose.Tag;
-            
+
             mnuFile_Click(null, null);
+
+            // abre o último arquivo
+#if DEBUG
+            if (mnuFileRecenteFiles.DropDownItems.Count > 0)
+                mnuFileRecenteFilesItem_Click(mnuFileRecenteFiles.DropDownItems[0], null);
+#endif
             SetControls();
         }
 
@@ -95,7 +96,7 @@ namespace Speed
             CopyDlls();
         }
 
-        #region mnuFile
+#region mnuFile
 
         private void mnuFile_Click(object sender, EventArgs e)
         {
@@ -138,9 +139,9 @@ namespace Speed
             Program.RunSafe(this, () => Application.Exit());
         }
 
-        #endregion mnuFile
+#endregion mnuFile
 
-        #region mnuHelp
+#region mnuHelp
 
         private void mnuHelpAbout_Click(object sender, EventArgs e)
         {
@@ -156,9 +157,9 @@ namespace Speed
             Program.RunSafe(this, () => Process.Start("http://speed.codeplex.com/documentation"));
         }
 
-        #endregion mnuHelp
+#endregion mnuHelp
 
-        #region Methods
+#region Methods
 
         public DialogResult AddChildModal<T>() where T : Form, new()
         {
@@ -235,8 +236,8 @@ namespace Speed
                 f.CheckFileExists = true;
                 f.CheckPathExists = true;
                 f.AddExtension = true;
-                f.DefaultExt = ".spd";
-                f.Filter = "Speed files (*.spd)|*.spd|All files (*.*)|*.*";
+                f.DefaultExt = ".elf";
+                f.Filter = "Speed files (*.elf)|*.elf|All files (*.*)|*.*";
                 f.FilterIndex = 0;
                 if (f.ShowDialog() == DialogResult.OK)
                 {
@@ -284,8 +285,8 @@ namespace Speed
                         f.CheckFileExists = false;
                         f.CheckPathExists = true;
                         f.AddExtension = true;
-                        f.DefaultExt = ".spd";
-                        f.Filter = "Speed files (*.spd)|*.spd|All files (*.*)|*.*";
+                        f.DefaultExt = ".elf";
+                        f.Filter = "Speed files (*.elf)|*.elf|All files (*.*)|*.*";
                         f.FilterIndex = 0;
                         if (f.ShowDialog() == DialogResult.OK)
                             browser.Save(f.FileName);
@@ -309,8 +310,8 @@ namespace Speed
                     f.CheckFileExists = false;
                     f.CheckPathExists = true;
                     f.AddExtension = true;
-                    f.DefaultExt = ".spd";
-                    f.Filter = "Speed files (*.spd)|*.spd|All files (*.*)|*.*";
+                    f.DefaultExt = ".elf";
+                    f.Filter = "Speed files (*.elf)|*.elf|All files (*.*)|*.*";
                     if (!string.IsNullOrEmpty(browser.FileName))
                     {
                         FileInfo fi = new FileInfo(browser.FileName);
@@ -336,7 +337,7 @@ MySql.Data.dll
 Npgsql.dll
 Npgsql.pdb
 Npgsql.xml
-Oracle.DataAccess.dll
+Oracle.ManagedDataAccess.dll
 policy.2.0.Npgsql.config
 policy.2.0.Npgsql.dll
 Speed.Common.dll
@@ -362,19 +363,13 @@ Microsoft.SqlServer.Types.dll
                                 CopyFile(file, dir);
 
                             dir = Path.Combine(Program.AppDirectory, "x86");
-                            if (Directory.Exists(dir))
-                            {
-                                foreach (var file in Directory.GetFiles(dir, "*.*"))
-                                    CopyFile(file, Path.Combine(f.SelectedPath, "x86"));
-                            }
+                            foreach (var file in Directory.GetFiles(dir, "*.*"))
+                                CopyFile(file, Path.Combine(f.SelectedPath, "x86"));
 
                             dir = Path.Combine(Program.AppDirectory, "x64");
-                            if (Directory.Exists(dir))
-                            {
-                                foreach (var file in Directory.GetFiles(dir, "*.*"))
-                                    CopyFile(file, Path.Combine(f.SelectedPath, "x64"));
-                            }
-                            
+                            foreach (var file in Directory.GetFiles(dir, "*.*"))
+                                CopyFile(file, Path.Combine(f.SelectedPath, "x64"));
+
                             Program.ShowInformation("Files copied to the directory '" + f.SelectedPath);
                         }
                     }
@@ -399,7 +394,7 @@ Microsoft.SqlServer.Types.dll
             }
         }
 
-        #endregion Methods
+#endregion Methods
 
     }
 

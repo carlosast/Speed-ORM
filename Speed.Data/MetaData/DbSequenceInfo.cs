@@ -1,4 +1,6 @@
-﻿namespace Speed.Data.MetaData
+﻿using Speed.Common;
+
+namespace Speed.Data.MetaData
 {
 
     public class DbSequenceInfo

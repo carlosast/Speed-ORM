@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Win32;
+using Speed.Common;
 
 namespace Speed.Windows
 {

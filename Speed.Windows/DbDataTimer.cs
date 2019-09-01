@@ -4,7 +4,7 @@ using Speed.Data;
 namespace Speed.Windows
 {
 
-    public class DbDataTimer<T> : Speed.DataTimer<T>
+    public class DbDataTimer<T> : Speed.Common.DataTimer<T>
     {
 
 

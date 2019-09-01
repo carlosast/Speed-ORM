@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.lblHost = new System.Windows.Forms.Label();
             this.grbBuildCs = new System.Windows.Forms.GroupBox();
+            this.lblConenctionString = new System.Windows.Forms.TextBox();
             this.numPort = new System.Windows.Forms.NumericUpDown();
             this.chkEmbedded = new System.Windows.Forms.CheckBox();
             this.lblEmbedded = new System.Windows.Forms.Label();
@@ -41,7 +42,6 @@
             this.lblUserId = new System.Windows.Forms.Label();
             this.lblIntegSec = new System.Windows.Forms.Label();
             this.lblDatabase = new System.Windows.Forms.Label();
-            this.lblConenctionString = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.txtUserId = new System.Windows.Forms.TextBox();
@@ -65,7 +65,8 @@
             // 
             // lblHost
             // 
-            this.lblHost.Location = new System.Drawing.Point(6, 124);
+            this.lblHost.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHost.Location = new System.Drawing.Point(6, 113);
             this.lblHost.Name = "lblHost";
             this.lblHost.Size = new System.Drawing.Size(88, 20);
             this.lblHost.TabIndex = 0;
@@ -73,6 +74,9 @@
             // 
             // grbBuildCs
             // 
+            this.grbBuildCs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grbBuildCs.Controls.Add(this.lblConenctionString);
             this.grbBuildCs.Controls.Add(this.numPort);
             this.grbBuildCs.Controls.Add(this.chkEmbedded);
             this.grbBuildCs.Controls.Add(this.lblEmbedded);
@@ -83,23 +87,39 @@
             this.grbBuildCs.Controls.Add(this.lblUserId);
             this.grbBuildCs.Controls.Add(this.lblIntegSec);
             this.grbBuildCs.Controls.Add(this.lblDatabase);
-            this.grbBuildCs.Controls.Add(this.lblConenctionString);
             this.grbBuildCs.Controls.Add(this.label8);
             this.grbBuildCs.Controls.Add(this.lblHost);
             this.grbBuildCs.Controls.Add(this.txtPassword);
             this.grbBuildCs.Controls.Add(this.txtUserId);
             this.grbBuildCs.Controls.Add(this.txtDatabase);
             this.grbBuildCs.Controls.Add(this.txtHost);
-            this.grbBuildCs.Location = new System.Drawing.Point(0, 77);
+            this.grbBuildCs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grbBuildCs.Location = new System.Drawing.Point(0, 86);
             this.grbBuildCs.Name = "grbBuildCs";
-            this.grbBuildCs.Size = new System.Drawing.Size(550, 287);
+            this.grbBuildCs.Size = new System.Drawing.Size(957, 279);
             this.grbBuildCs.TabIndex = 3;
             this.grbBuildCs.TabStop = false;
             this.grbBuildCs.Text = "Build connection string";
             // 
+            // lblConenctionString
+            // 
+            this.lblConenctionString.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblConenctionString.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblConenctionString.Location = new System.Drawing.Point(107, 19);
+            this.lblConenctionString.Multiline = true;
+            this.lblConenctionString.Name = "lblConenctionString";
+            this.lblConenctionString.ReadOnly = true;
+            this.lblConenctionString.Size = new System.Drawing.Size(844, 25);
+            this.lblConenctionString.TabIndex = 0;
+            this.lblConenctionString.TabStop = false;
+            this.toolTip1.SetToolTip(this.lblConenctionString, "Click to copy to clipboard");
+            this.lblConenctionString.Click += new System.EventHandler(this.lblConenctionString_Click);
+            // 
             // numPort
             // 
-            this.numPort.Location = new System.Drawing.Point(107, 262);
+            this.numPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numPort.Location = new System.Drawing.Point(107, 251);
             this.numPort.Maximum = new decimal(new int[] {
             999999,
             0,
@@ -111,7 +131,8 @@
             // 
             // chkEmbedded
             // 
-            this.chkEmbedded.Location = new System.Drawing.Point(107, 93);
+            this.chkEmbedded.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkEmbedded.Location = new System.Drawing.Point(107, 82);
             this.chkEmbedded.Name = "chkEmbedded";
             this.chkEmbedded.Size = new System.Drawing.Size(152, 20);
             this.chkEmbedded.TabIndex = 7;
@@ -120,7 +141,8 @@
             // 
             // lblEmbedded
             // 
-            this.lblEmbedded.Location = new System.Drawing.Point(6, 93);
+            this.lblEmbedded.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEmbedded.Location = new System.Drawing.Point(6, 82);
             this.lblEmbedded.Name = "lblEmbedded";
             this.lblEmbedded.Size = new System.Drawing.Size(99, 20);
             this.lblEmbedded.TabIndex = 6;
@@ -128,7 +150,8 @@
             // 
             // chkIntegSec
             // 
-            this.chkIntegSec.Location = new System.Drawing.Point(107, 177);
+            this.chkIntegSec.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkIntegSec.Location = new System.Drawing.Point(107, 166);
             this.chkIntegSec.Name = "chkIntegSec";
             this.chkIntegSec.Size = new System.Drawing.Size(152, 20);
             this.chkIntegSec.TabIndex = 2;
@@ -137,7 +160,8 @@
             // 
             // lblPortDefault
             // 
-            this.lblPortDefault.Location = new System.Drawing.Point(228, 264);
+            this.lblPortDefault.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPortDefault.Location = new System.Drawing.Point(228, 253);
             this.lblPortDefault.Name = "lblPortDefault";
             this.lblPortDefault.Size = new System.Drawing.Size(88, 20);
             this.lblPortDefault.TabIndex = 0;
@@ -145,7 +169,8 @@
             // 
             // lblPort
             // 
-            this.lblPort.Location = new System.Drawing.Point(6, 262);
+            this.lblPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPort.Location = new System.Drawing.Point(6, 251);
             this.lblPort.Name = "lblPort";
             this.lblPort.Size = new System.Drawing.Size(88, 20);
             this.lblPort.TabIndex = 0;
@@ -153,7 +178,8 @@
             // 
             // lblPassword
             // 
-            this.lblPassword.Location = new System.Drawing.Point(6, 232);
+            this.lblPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPassword.Location = new System.Drawing.Point(6, 221);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(88, 20);
             this.lblPassword.TabIndex = 0;
@@ -161,7 +187,8 @@
             // 
             // lblUserId
             // 
-            this.lblUserId.Location = new System.Drawing.Point(6, 206);
+            this.lblUserId.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUserId.Location = new System.Drawing.Point(6, 195);
             this.lblUserId.Name = "lblUserId";
             this.lblUserId.Size = new System.Drawing.Size(88, 20);
             this.lblUserId.TabIndex = 0;
@@ -169,7 +196,8 @@
             // 
             // lblIntegSec
             // 
-            this.lblIntegSec.Location = new System.Drawing.Point(6, 177);
+            this.lblIntegSec.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIntegSec.Location = new System.Drawing.Point(6, 166);
             this.lblIntegSec.Name = "lblIntegSec";
             this.lblIntegSec.Size = new System.Drawing.Size(99, 20);
             this.lblIntegSec.TabIndex = 0;
@@ -177,25 +205,12 @@
             // 
             // lblDatabase
             // 
-            this.lblDatabase.Location = new System.Drawing.Point(6, 150);
+            this.lblDatabase.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDatabase.Location = new System.Drawing.Point(6, 139);
             this.lblDatabase.Name = "lblDatabase";
             this.lblDatabase.Size = new System.Drawing.Size(88, 20);
             this.lblDatabase.TabIndex = 0;
             this.lblDatabase.Text = "Database";
-            // 
-            // lblConenctionString
-            // 
-            this.lblConenctionString.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblConenctionString.Location = new System.Drawing.Point(107, 18);
-            this.lblConenctionString.Multiline = true;
-            this.lblConenctionString.Name = "lblConenctionString";
-            this.lblConenctionString.ReadOnly = true;
-            this.lblConenctionString.Size = new System.Drawing.Size(437, 50);
-            this.lblConenctionString.TabIndex = 0;
-            this.lblConenctionString.TabStop = false;
-            this.toolTip1.SetToolTip(this.lblConenctionString, "Click to copy to clipboard");
-            this.lblConenctionString.Click += new System.EventHandler(this.lblConenctionString_Click);
             // 
             // label8
             // 
@@ -209,10 +224,11 @@
             // 
             this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPassword.Location = new System.Drawing.Point(107, 232);
+            this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPassword.Location = new System.Drawing.Point(107, 221);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(437, 20);
+            this.txtPassword.Size = new System.Drawing.Size(844, 20);
             this.txtPassword.TabIndex = 4;
             this.txtPassword.UseSystemPasswordChar = true;
             this.txtPassword.TextChanged += new System.EventHandler(this.txt_TextChanged);
@@ -221,9 +237,10 @@
             // 
             this.txtUserId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUserId.Location = new System.Drawing.Point(107, 206);
+            this.txtUserId.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUserId.Location = new System.Drawing.Point(107, 195);
             this.txtUserId.Name = "txtUserId";
-            this.txtUserId.Size = new System.Drawing.Size(437, 20);
+            this.txtUserId.Size = new System.Drawing.Size(844, 20);
             this.txtUserId.TabIndex = 3;
             this.txtUserId.TextChanged += new System.EventHandler(this.txt_TextChanged);
             // 
@@ -231,9 +248,10 @@
             // 
             this.txtDatabase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDatabase.Location = new System.Drawing.Point(107, 150);
+            this.txtDatabase.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDatabase.Location = new System.Drawing.Point(107, 139);
             this.txtDatabase.Name = "txtDatabase";
-            this.txtDatabase.Size = new System.Drawing.Size(437, 20);
+            this.txtDatabase.Size = new System.Drawing.Size(844, 20);
             this.txtDatabase.TabIndex = 1;
             this.txtDatabase.TextChanged += new System.EventHandler(this.txt_TextChanged);
             // 
@@ -241,9 +259,10 @@
             // 
             this.txtHost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtHost.Location = new System.Drawing.Point(107, 124);
+            this.txtHost.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtHost.Location = new System.Drawing.Point(107, 113);
             this.txtHost.Name = "txtHost";
-            this.txtHost.Size = new System.Drawing.Size(437, 20);
+            this.txtHost.Size = new System.Drawing.Size(844, 20);
             this.txtHost.TabIndex = 0;
             this.txtHost.TextChanged += new System.EventHandler(this.txt_TextChanged);
             // 
@@ -292,11 +311,14 @@
             // 
             // grbEnterCs
             // 
+            this.grbEnterCs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grbEnterCs.Controls.Add(this.txtConnectionString);
             this.grbEnterCs.Controls.Add(this.label11);
-            this.grbEnterCs.Location = new System.Drawing.Point(165, 111);
+            this.grbEnterCs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grbEnterCs.Location = new System.Drawing.Point(174, 86);
             this.grbEnterCs.Name = "grbEnterCs";
-            this.grbEnterCs.Size = new System.Drawing.Size(532, 93);
+            this.grbEnterCs.Size = new System.Drawing.Size(846, 62);
             this.grbEnterCs.TabIndex = 4;
             this.grbEnterCs.TabStop = false;
             this.grbEnterCs.Text = "Enter connection string";
@@ -305,13 +327,16 @@
             // 
             this.txtConnectionString.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtConnectionString.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtConnectionString.Location = new System.Drawing.Point(107, 25);
+            this.txtConnectionString.Multiline = true;
             this.txtConnectionString.Name = "txtConnectionString";
-            this.txtConnectionString.Size = new System.Drawing.Size(419, 20);
+            this.txtConnectionString.Size = new System.Drawing.Size(733, 20);
             this.txtConnectionString.TabIndex = 2;
             // 
             // label11
             // 
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(6, 25);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(98, 20);
@@ -326,7 +351,7 @@
             this.lblHints.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHints.Location = new System.Drawing.Point(556, 12);
             this.lblHints.Name = "lblHints";
-            this.lblHints.Size = new System.Drawing.Size(415, 347);
+            this.lblHints.Size = new System.Drawing.Size(415, 62);
             this.lblHints.TabIndex = 10;
             this.lblHints.Text = "label8";
             // 
@@ -344,9 +369,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.grbEnterCs);
             this.Controls.Add(this.picHelp);
             this.Controls.Add(this.lblHints);
-            this.Controls.Add(this.grbEnterCs);
             this.Controls.Add(this.rbtEnterCs);
             this.Controls.Add(this.rbtBuildCs);
             this.Controls.Add(this.cboProviderType);

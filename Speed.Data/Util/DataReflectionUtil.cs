@@ -1,5 +1,7 @@
+using Speed.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Speed.Data
@@ -16,46 +18,46 @@ namespace Speed.Data
 
         public static string GetTableName(Type type)
         {
-            DbTableAttribute[] ca = (DbTableAttribute[])type.GetCustomAttributes(typeof(DbTableAttribute), false);
+            var  ca = type.GetCustomAttributesEx<DbTableAttribute>(false);
             if (ca.Length > 0 && ca[0].TableName == null)
                 ca[0].TableName = type.Name;
             else if (ca.Length == 0)
                 return type.Name;
-            return ca[0].TableName;
+            return ca[0].TableName.removeBrackets();
         }
 
         public static string GetSequenceName(Type type)
         {
-            DbTableAttribute[] ca = (DbTableAttribute[])type.GetCustomAttributes(typeof(DbTableAttribute), false);
+            DbTableAttribute[] ca = (DbTableAttribute[])type.GetCustomAttributesEx<DbTableAttribute>(false);
             if (ca.Length > 0)
-                return ca[0].SequenceName != null ? ca[0].SequenceName : null;
+                return ca[0].SequenceName != null ? ca[0].SequenceName.removeBrackets() : null;
             else
                 return null;
         }
 
         public static string GetSequenceColumn(Type type)
         {
-            DbTableAttribute[] ca = (DbTableAttribute[])type.GetCustomAttributes(typeof(DbTableAttribute), false);
+            DbTableAttribute[] ca = type.GetCustomAttributesEx<DbTableAttribute>(false);
             if (ca.Length > 0)
-                return ca[0].SequenceColumn != null ? ca[0].SequenceColumn : null;
+                return ca[0].SequenceColumn != null ? ca[0].SequenceColumn.removeBrackets() : null;
             else
                 return null;
         }
 
         public static string GetSchemaName(Type type)
         {
-            DbTableAttribute[] ca = (DbTableAttribute[])type.GetCustomAttributes(typeof(DbTableAttribute), false);
+            DbTableAttribute[] ca = type.GetCustomAttributesEx<DbTableAttribute>(false);
             //if (ca[0].SchemaName  == null)
             //    ca[0].SchemaName = type.Name;
             if (ca.Length > 0)
-                return ca[0].SchemaName != null ? ca[0].SchemaName : null;
+                return ca[0].SchemaName != null ? ca[0].SchemaName.removeBrackets() : null;
             else
                 return null;
         }
 
         //public static string GetViewName(Type type)
         //{
-        //    DbViewAttribute[] ca = (DbViewAttribute[])type.GetCustomAttributes(typeof(DbViewAttribute), false);
+        //    DbViewAttribute[] ca = (DbViewAttribute[])type.GetCustomAttributesEx(typeof(DbViewAttribute), false);
         //    if (ca[0].ViewName == null)
         //        ca[0].ViewName = type.Name;
         //    return ca[0].ViewName;
@@ -63,7 +65,7 @@ namespace Speed.Data
 
         public static string GetSqlCommand(Type type)
         {
-            DbSqlCommandAttribute[] ca = (DbSqlCommandAttribute[])type.GetCustomAttributes(typeof(DbSqlCommandAttribute), false);
+            DbSqlCommandAttribute[] ca = type.GetCustomAttributesEx<DbSqlCommandAttribute>(false);
             return ca[0].Sql;
         }
 
@@ -75,15 +77,15 @@ namespace Speed.Data
         /// <returns></returns>
         public static Dictionary<string, DbColumnAttribute> GetColumns(Type type)
         {
-            Dictionary<string, DbColumnAttribute> columns = new Dictionary<string, DbColumnAttribute>(StringComparer.InvariantCultureIgnoreCase);
+            Dictionary<string, DbColumnAttribute> columns = new Dictionary<string, DbColumnAttribute>(StringComparer.OrdinalIgnoreCase);
             PropertyInfo[] pis = type.GetProperties();
             foreach (PropertyInfo pi in pis)
             {
                 Type t = pi.PropertyType;
                 string name = t.Name;
 
-                object[] cas = pi.GetCustomAttributes(typeof(DbColumnAttribute), true);
-                if (cas.Length == 1)
+                var cas = pi.GetCustomAttributes(typeof(DbColumnAttribute), true).ToList();
+                if (cas.Count == 1)
                 {
                     DbColumnAttribute col = (DbColumnAttribute)cas[0];
                     if (col.ColumnName == null)
@@ -107,15 +109,15 @@ namespace Speed.Data
         /// <returns></returns>
         public static Dictionary<string, PropertyInfo> GetMapColumns(Type type)
         {
-            Dictionary<string, PropertyInfo> columns = new Dictionary<string, PropertyInfo>(StringComparer.InvariantCultureIgnoreCase);
+            Dictionary<string, PropertyInfo> columns = new Dictionary<string, PropertyInfo>(StringComparer.OrdinalIgnoreCase);
             PropertyInfo[] pis = type.GetProperties();
             foreach (PropertyInfo pi in pis)
             {
                 Type t = pi.PropertyType;
                 string name = t.Name;
 
-                object[] cas = pi.GetCustomAttributes(typeof(DbColumnAttribute), true);
-                if (cas.Length == 1)
+                var cas = pi.GetCustomAttributes(typeof(DbColumnAttribute), true).ToList();
+                if (cas.Count == 1)
                 {
                     DbColumnAttribute col = (DbColumnAttribute)cas[0];
                     if (col.ColumnName == null)
@@ -154,13 +156,24 @@ namespace Speed.Data
             PropertyInfo[] pis = type.GetProperties();
             foreach (PropertyInfo pi in pis)
             {
-                object[] cas = pi.GetCustomAttributes(typeof(DbColumnAttribute), true);
-                if (cas.Length == 1)
+                var cas = pi.GetCustomAttributes(typeof(DbColumnAttribute), true).ToList();
+                if (cas.Count == 1)
                 {
                     columns.Add(pi.Name, pi.GetValue(null, null));
                 }
             }
             return columns;
+        }
+
+        private static string removeBrackets(this string value)
+        {
+            if (string.IsNullOrEmpty(value ))
+                return null;
+            if (value.IndexOf('[') > -1)
+                value = value.Substring(1, value.Length - 1);
+            if (value.IndexOf('[') > -1)
+                value = value.Substring(0, value.Length - 1);
+            return value;
         }
 
 

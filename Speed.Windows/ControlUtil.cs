@@ -60,6 +60,19 @@ namespace Speed.Windows
             }
         }
 
+        public static void ChangeFontOnlyParent(Control control, float fontSize = 12)
+        {
+            var ctrls = GetChildren(control, false);
+            var dict = new Dictionary<Control, float>();
+            foreach (var ctrl in ctrls)
+                dict.Add(ctrl, ctrl.Font.Size);
+
+            control.Font = new System.Drawing.Font(control.Font.FontFamily, fontSize);
+
+            foreach (var ctrl in ctrls)
+                ctrl.Font = new System.Drawing.Font(ctrl.Font.FontFamily, dict[ctrl]);
+        }
+
         /// <summary>
         /// Sobe na hierarquia procurando por um Parent do tipo T
         /// Se não encontrar retorna null

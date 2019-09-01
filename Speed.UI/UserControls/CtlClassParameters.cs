@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Speed.Data.Generation;
 using Speed.Windows;
 using Speed.Data;
+using Speed.Common;
 
 namespace Speed.UI.UserControls
 {

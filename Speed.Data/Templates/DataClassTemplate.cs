@@ -274,7 +274,6 @@ public partial class [ClassName] : DataClass
     private int update(Database db, object instance)
     {
         [TypeName] value = ([TypeName])instance;
-        [!POCO]if (value.RecordOriginal as [TypeName] != null) CheckConcurrency(db, value);
         string sql = 'update [TableName] set [UpdateColumns] where [WhereOldParameters]';
         using (DbCommand cmd = db.NewCommand(sql))
         {
@@ -357,7 +356,7 @@ public partial class [ClassName] : DataClass
         [!POCO]    return update(db, value);
         [!POCO]else if (value.RecordStatus == RecordStatus.New)
         [!POCO]    return insert(db, value);
-        [!POCO]else if (value.RecordStatus == RecordStatus.Deleted)
+        [!POCO]else // if (value.RecordStatus == RecordStatus.Deleted)
         [!POCO]    return Delete(db, value);
         [POCO]throw new Exception('To use the Save method, the class must inherit from \'Record\'. Use INSERT, UPDATE, and DELETE directly');
     }
@@ -369,7 +368,7 @@ public partial class [ClassName] : DataClass
         [!POCO]    return Update(db, value, saveMode);
         [!POCO]else if (value.RecordStatus == RecordStatus.New)
         [!POCO]    return Insert(db, value, saveMode);
-        [!POCO]else if (value.RecordStatus == RecordStatus.Deleted)
+        [!POCO]else // if (value.RecordStatus == RecordStatus.Deleted)
         [!POCO]    return Delete(db, value);
         [POCO]throw new Exception('To use the Save method, the class must inherit from \'Record\'. Use INSERT, UPDATE, and DELETE directly');
     }
@@ -432,7 +431,7 @@ public partial class [ClassName] : DataClass
         return select(db, where, false, parameters);
     }
 
-    public override object Select(Database db, object _filter, EnumDbFilter mode = EnumDbFilter.AndLike, bool concurrency = false, int commandTimeout = 30)
+    public override object Select(Database db, object _filter, EnumDbFilter mode = EnumDbFilter.AndEqual, bool concurrency = false, int commandTimeout = 30)
     {
         [TypeName] filter = ([TypeName])_filter;
         string sql = '[Sql] {0} {1} {2}';
@@ -464,7 +463,7 @@ public partial class [ClassName] : DataClass
         return list;
     }
 
-    public override long Count(Database db, object _filter, EnumDbFilter mode = EnumDbFilter.AndLike, int commandTimeout = 30)
+    public override long Count(Database db, object _filter, EnumDbFilter mode = EnumDbFilter.AndEqual, int commandTimeout = 30)
     {
         [TypeName] filter = ([TypeName])_filter;
         string sql = 'select count(*) from [TableName] {0} ';
@@ -530,7 +529,7 @@ public partial class [ClassName] : DataClass
         return readReader(db, sql, concurrency, parameters);
     }
 
-    public override object SelectPage(Database db, object _filter, int start, int pageSize = 20, string sort = null, EnumDbFilter mode = EnumDbFilter.AndLike, int commandTimeout = 30, bool concurrency = false, params Parameter[] parameters)
+    public override object SelectPage(Database db, object _filter, int start, int pageSize = 20, string sort = null, EnumDbFilter mode = EnumDbFilter.AndEqual, int commandTimeout = 30, bool concurrency = false, params Parameter[] parameters)
     {
         [TypeName] filter = ([TypeName])_filter;
         sort = sort ?? '[SortDefault]';
@@ -642,7 +641,7 @@ public partial class [ClassName] : DataClass
         return readReaderSingle(db, sql, parameters);
     }
 
-    public override object SelectSingle(Database db, object _filter, EnumDbFilter mode = EnumDbFilter.AndLike, bool concurrency = false, int commandTimeout = 30)
+    public override object SelectSingle(Database db, object _filter, EnumDbFilter mode = EnumDbFilter.AndEqual, bool concurrency = false, int commandTimeout = 30)
     {
         [TypeName] filter = ([TypeName])_filter;
         string sql = '[Sql] {0} {1} {2}';

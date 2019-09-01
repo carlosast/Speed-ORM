@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data.Common;
 using System.Data;
+using Speed.Data;
+using System.Data.SqlClient;
 using Speed.Data.MetaData;
 
 namespace Speed.Data
@@ -18,6 +19,15 @@ namespace Speed.Data
         public string ParameterSymbol { get { return "@"; } }
         public string ParameterSymbolVar { get { return ParameterSymbol; } }
 
+        public IDbProvider CreateProvider(Database db)
+        {
+            return new DbSqlServerProvider(db);
+        }
+
+        public DbSqlServerProvider()
+        {
+        }
+
         public DbSqlServerProvider(Database db)
         {
             this.db = db;
@@ -28,7 +38,15 @@ namespace Speed.Data
             db = null;
         }
 
-        public Type DbType { get { return typeof(SqlDbType); } }
+        public Type DbType
+        {
+            get
+            {
+                return null;
+                throw new NotImplementedException();
+                return typeof(SqlDbType);
+            }
+        }
 
         [ThreadStatic]
         static Dictionary<int, Enum> dbTypes;
@@ -36,9 +54,20 @@ namespace Speed.Data
         {
             get
             {
+                return null;
+                throw new NotImplementedException();
                 if (dbTypes == null)
                     dbTypes = DbUtil.GetTypes<SqlDbType>();
                 return dbTypes;
+            }
+        }
+
+        Dictionary<string, string> ReservedWords
+        {
+            get
+            {
+                return null;
+                throw new NotImplementedException();
             }
         }
 
@@ -82,7 +111,7 @@ namespace Speed.Data
             }
             if (integratedSecurity)
                 csb.IntegratedSecurity = integratedSecurity;
-            
+
             // Speed usa isto
             csb.MultipleActiveResultSets = true;
             return csb;
@@ -105,17 +134,22 @@ namespace Speed.Data
             return new SqlCommand(commandText);
         }
 
-        public System.Data.Common.DbDataAdapter CreateDataAdapter(string selectCommand, DbConnection cn)
-        {
-            return new SqlDataAdapter(selectCommand, (SqlConnection)cn);
-        }
+        //public System.Data.Common.DbDataAdapter CreateDataAdapter(string selectCommand, DbConnection cn)
+        //{
+        //    return new SqlDataAdapter(selectCommand, (SqlConnection)cn);
+        //}
 
-        public System.Data.Common.DbDataAdapter CreateDataAdapter(System.Data.Common.DbCommand cmd)
-        {
-            return new SqlDataAdapter((SqlCommand)cmd);
-        }
+        //public System.Data.Common.DbDataAdapter CreateDataAdapter(System.Data.Common.DbCommand cmd)
+        //{
+        //    return new SqlDataAdapter((SqlCommand)cmd);
+        //}
 
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DbParameter AddWithValue(DbCommand cmd, string parameterName, string dataType, object value)
         {
             return ((SqlCommand)cmd).Parameters.AddWithValue(parameterName, value);
         }
@@ -174,8 +208,14 @@ namespace Speed.Data
         {
             if (string.IsNullOrEmpty(name))
                 return name;
-            if (name.Contains(" ") && name.IndexOf('[') == -1 || ReservedWords.ContainsKey(name))
-                return "[" + name + "]";
+            if (name.Contains(" ") && name.IndexOf('[') == -1 || ReservedWords == null || ReservedWords.Count == 0 || ReservedWords.ContainsKey(name))
+            {
+                if (!name.StartsWith("["))
+                    name = "[" + name;
+                if (!name.EndsWith("]"))
+                    name = name + "]";
+                return name;
+            }
             else
                 return name;
         }
@@ -187,7 +227,7 @@ namespace Speed.Data
 
         public string SetTop(string sql, long count)
         {
-            var pos = sql.IndexOf("select", StringComparison.InvariantCultureIgnoreCase);
+            var pos = sql.IndexOf("select", StringComparison.OrdinalIgnoreCase);
             if (pos > -1)
             {
                 sql = sql.Remove(pos, "select".Length);
@@ -233,7 +273,7 @@ namespace Speed.Data
    where k.type_desc = 'PRIMARY_KEY_CONSTRAINT'
  order by TABLE_SCHEMA, TABLE_NAME, k.type_desc, ORDINAL_POSITION;
 ";
-                bufferPKs = new DictionarySchemaTable<List<string>>(StringComparer.InvariantCultureIgnoreCase);
+                bufferPKs = new DictionarySchemaTable<List<string>>(StringComparer.OrdinalIgnoreCase);
                 string lastName = null;
                 using (var dr = db.ExecuteReader(sql))
                 {
@@ -278,9 +318,9 @@ namespace Speed.Data
             {
                 string sql = string.Format(
                 "SELECT o.name, c.name FROM syscolumns c, sysobjects o WHERE c.id = o.id AND (c.status & 128) = 128;",
-                    //tableName, !string.IsNullOrEmpty(schemaName) ? "schema_name(o.uid) = '" + db.Provider.GetObjectName(schemaName) : "");
+                //tableName, !string.IsNullOrEmpty(schemaName) ? "schema_name(o.uid) = '" + db.Provider.GetObjectName(schemaName) : "");
 
-                bufferIdentity = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase));
+                bufferIdentity = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
                 using (var dr = db.ExecuteReader(sql))
                 {
                     while (dr.Read())
@@ -300,9 +340,9 @@ namespace Speed.Data
             {
                 string sql = string.Format(
                 "select SCHEMA_NAME(o.uid) 'SchemaName', object_name(c.id) 'TableName', c.name 'ColumnName' from syscolumns c inner join sysobjects o on c.id = o.id where iscomputed = 1",
-                    //tableName, !string.IsNullOrEmpty(schemaName) ? "schema_name(o.uid) = '" + db.Provider.GetObjectName(schemaName) : "");
+                //tableName, !string.IsNullOrEmpty(schemaName) ? "schema_name(o.uid) = '" + db.Provider.GetObjectName(schemaName) : "");
 
-                bufferCalculatedColumns = new Dictionary<string, List<string>>(StringComparer.InvariantCultureIgnoreCase));
+                bufferCalculatedColumns = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase));
                 using (var dr = db.ExecuteReader(sql))
                 {
                     while (dr.Read())
@@ -360,9 +400,8 @@ namespace Speed.Data
         Dictionary<string, DataTable> bufferSchemaColumns;
         public DataTable GetSchemaColumns(string schemaName, string tableName)
         {
-            return db.GetSchemaColumnsGeneric(schemaName, tableName);
-            //var commandText = SetTop(string.Format("select * from [{0}].[{1}]", schemaName, tableName), 0);
-            //return GetSchemaColumns(commandText);
+            var commandText = SetTop(string.Format("select * from {0}.{1}", GetObjectName(schemaName), GetObjectName(tableName)), 0);
+            return GetSchemaColumns(commandText);
         }
 
         public DataTable GetSchemaColumns(string commandText)
@@ -370,9 +409,17 @@ namespace Speed.Data
             return db.ExecuteDataTable(commandText);
         }
 
+        public List<DbReferencialConstraintInfo> GetParentRelations(string schemaName, string tableName)
+        {
+            return null;
+            //return db.GetParentRelationsGeneric(schemaName, tableName);
+        }
+
         public DataTable GetDataTypes()
         {
-            return db.Connection.GetSchema("DataTypes");
+            return null;
+            throw new NotImplementedException();
+            //return db.Connection.GetSchema("DataTypes");
         }
 
         public List<DbSequenceInfo> GetSequences()
@@ -398,16 +445,16 @@ namespace Speed.Data
             }
         }
 
-        static Dictionary<string, string> reservedWords;
-        public Dictionary<string, string> ReservedWords
-        {
-            get
-            {
-                if (reservedWords == null)
-                    reservedWords = db.GetReservedWordsGeneric();
-                return reservedWords;
-            }
-        }
+        //static Dictionary<string, string> reservedWords;
+        //public Dictionary<string, string> ReservedWords
+        //{
+        //    get
+        //    {
+        //        if (reservedWords == null)
+        //            reservedWords = db.GetReservedWordsGeneric();
+        //        return reservedWords;
+        //    }
+        //}
 
         private static Dictionary<string, DbDataType> dataTypes;
         /// <summary>
@@ -417,9 +464,20 @@ namespace Speed.Data
         {
             get
             {
-                if (dataTypes == null)
-                    dataTypes = db.GetDataTypesGeneric();
-                return dataTypes;
+                return null;
+                throw new NotImplementedException();
+                //if (dataTypes == null)
+                //    dataTypes = db.GetDataTypesGeneric();
+                //return dataTypes;
+            }
+        }
+
+        Dictionary<string, string> IDbProvider.ReservedWords
+        {
+            get
+            {
+                return null;
+                throw new NotImplementedException();
             }
         }
 
@@ -488,7 +546,7 @@ END;';
 
         public int ExecuteSequenceInt32(string sequenceName)
         {
-            return db.ExecuteInt32("select {0}.nextval from dual",  sequenceName);
+            return db.ExecuteInt32("select {0}.nextval from dual", sequenceName);
         }
 
         public long ExecuteSequenceInt64(string sequenceName)
@@ -496,25 +554,28 @@ END;';
             return db.ExecuteInt64("select {0}.nextval from dual", sequenceName);
         }
 
-        public IDbProvider CreateProvider(Database db)
+        public DbDataAdapter CreateDataAdapter(string selectCommand, DbConnection cn)
         {
-            return new DbSqlServerProvider(db);
+            return new SqlDataAdapter(selectCommand, (SqlConnection)cn);
         }
 
-        public TimeSpan GetTimeSpan(DbDataReader reader, int ordinal)
+        public DbDataAdapter CreateDataAdapter(DbCommand cmd)
         {
-            return ((SqlDataReader)reader).GetTimeSpan(ordinal);
+            return new SqlDataAdapter((SqlCommand)cmd);
         }
 
-        public DictionarySchemaTable<List<DbReferencialConstraintInfo>> GetReferentialContraints()
+        public bool AddUsings(DbColumnInfo col, Dictionary<string, string> usings)
         {
-            throw new NotImplementedException();
+
+            //if (col.DataTypeDotNet == "SqlHierarchyId")
+            //{
+            //    if (!usings.ContainsKey("using Microsoft.SqlServer.Types;"))
+            //        usings.Add("using Microsoft.SqlServer.Types;", typeof(Microsoft.SqlServer.Types.SqlHierarchyId).Assembly.Location);
+            //    return true;
+            //}
+            return false;
         }
 
-        public List<DbReferencialConstraintInfo> GetParentRelations(string schemaName, string tableName)
-        {
-            return db.GetParentRelationsGeneric(schemaName, tableName);
-        }
     }
 
 }

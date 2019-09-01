@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Speed.Common;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -63,20 +64,31 @@ namespace Speed.Data.MetaData
 
             DataTable tb2 = null;
 
+            var tc = new TimerCount("GetCalculatedColumns");
+
             var calculatedColumns = db.Provider.GetCalculatedColumns(db.DatabaseName, schemaName, tableName);
 
             bool newMethod = false;
 
-            string sql = db.Provider.SetTop("select * from " + db.Provider.GetObjectName(schemaName, tableName) + "", 1);
+            string sql = db.Provider.SetTop("select * from " + db.Provider.GetObjectName(schemaName, tableName) + "", db.ProviderType == EnumDbProviderType.Access ? 1 : 0);
 
-            if (!isCommand)
+            if (!isCommand) //is object (table or view)
             {
                 try
                 {
+                    //if (db.ProviderType == EnumDbProviderType.Oracle)
+                    //{
+                    //    newMethod = true;
+                    //    sql = "select * from " + db.Provider.GetObjectName(schemaName, tableName) + " where rownum = 0";
+                    //}
+
+                    tc.Next("GetSchemaTable");
                     if (newMethod)
+                    {
                         tb2 = db.GetSchemaTable(sql);
+                    }
                     else
-                        tb2 = db.ExecuteDataTable(sql); // top 0 dá erro no access
+                        tb2 = db.ExecuteDataTable(sql, 0); // top 0 dá erro no access
                 }
                 catch (Exception ex)
                 {
@@ -85,65 +97,74 @@ namespace Speed.Data.MetaData
             }
             else
             {
+                tc.Next("GetSchemaTable2");
                 if (newMethod)
                     tb2 = db.GetSchemaTable(sql);
                 else
                     tb2 = db.ExecuteDataTable(sql);
             }
 
-            //DataRow[] rows = tb.Select("", "ORDINAL_POSITION");
-            DataRow[] rows = tb.Select();
+            DataRow[] rows = tb.Select("", "ORDINAL_POSITION");
 
             string tbSchemaName = null;
 
             if (rows.Length > 0)
             {
+                tc.Next("Parse");
                 Dictionary<string, DbDataType> dataTypes = db.Provider.DataTypes;
                 foreach (DataRow row in rows)
                 {
                     DbColumnInfo col = new DbColumnInfo(db, row);
 
-                    if (calculatedColumns != null && calculatedColumns.Count > 0)
+                    if (tb2.Columns.Contains(col.ColumnName))
                     {
-                        bool isComputed = calculatedColumns.Exists(p => p.ToUpper() == col.ColumnName.ToUpper());
-                        if (isComputed)
-                            col.IsComputed = true;
-                    }
-
-                    // coloca algumas propridades adicionais
-                    if (tb2 != null)
-                        col.DataTypeDotNet = tb2.Columns[col.ColumnName].DataType.Name;
-                    else
-                    {
-                        col.DataTypeDotNet = dataTypes[col.DataType].DataType;
-                        if (col.DataTypeDotNet.StartsWith("System."))
-                            col.DataTypeDotNet = col.DataTypeDotNet.Substring("System.".Length, col.DataTypeDotNet.Length - "System.".Length);
-                    }
-                    Columns.Add(col.ColumnName, col);
-
-                    if (string.IsNullOrEmpty(schemaName))
-                    {
-                        if (Columns.Count == 1)
+                        if (calculatedColumns != null && calculatedColumns.Count > 0)
                         {
-                            tbSchemaName = Conv.ToString(row["TABLE_SCHEMA"]);
-                            if (!string.IsNullOrEmpty(tbSchemaName))
+                            bool isComputed = calculatedColumns.Exists(p => p.ToUpper() == col.ColumnName.ToUpper());
+                            if (isComputed)
+                                col.IsComputed = true;
+                        }
+
+                        // coloca algumas propridades adicionais
+                        if (tb2 != null)
+                        {
+                            col.DataTypeDotNet = tb2.Columns[col.ColumnName].DataType.Name;
+                        }
+                        else
+                        {
+                            col.DataTypeDotNet = dataTypes[col.DataType].DataType;
+                            if (col.DataTypeDotNet.StartsWith("System."))
+                                col.DataTypeDotNet = col.DataTypeDotNet.Substring("System.".Length, col.DataTypeDotNet.Length - "System.".Length);
+                        }
+                        Columns.Add(col.ColumnName, col);
+
+                        if (string.IsNullOrEmpty(schemaName))
+                        {
+                            if (Columns.Count == 1)
                             {
-                                schemaName = tbSchemaName;
-                                this.SchemaName = schemaName;
+                                if (db.ProviderType == EnumDbProviderType.Oracle)
+                                    tbSchemaName = tb.Columns.Contains("TABLE_CATALOG") ? Conv.ToString(row["TABLE_CATALOG"]) : Conv.ToString(row["TABLE_SCHEMA"]);
+                                else
+                                    tbSchemaName = Conv.ToString(row["TABLE_SCHEMA"]);
+                                if (!string.IsNullOrEmpty(tbSchemaName))
+                                {
+                                    schemaName = tbSchemaName;
+                                    this.SchemaName = schemaName;
+                                }
                             }
                         }
-                    }
 
-                    if (db.ProviderType == EnumDbProviderType.PostgreSQL)
-                    {
-                        var seqs = db.Sequences;
-                        if (!col.IsIdentity && (!string.IsNullOrEmpty(col.ColumnDefault) && col.ColumnDefault.ToLower().Contains("nextval(")))
+                        if (db.ProviderType == EnumDbProviderType.PostgreSQL)
                         {
-                            this.SequenceColumn = col.ColumnName;
-                            string key = Conv.GetKey(Conv.Unquote(schemaName), Conv.Unquote(tableName), col.ColumnName);
-                            if (seqs.ContainsKey(key))
+                            var seqs = db.Sequences;
+                            if (!col.IsIdentity && (!string.IsNullOrEmpty(col.ColumnDefault) && col.ColumnDefault.ToLower().Contains("nextval(")))
                             {
-                                this.SequenceName = seqs[key].SequenceName;
+                                this.SequenceColumn = col.ColumnName;
+                                string key = Conv.GetKey(Conv.Unquote(schemaName), Conv.Unquote(tableName), col.ColumnName);
+                                if (seqs.ContainsKey(key))
+                                {
+                                    this.SequenceName = seqs[key].SequenceName;
+                                }
                             }
                         }
                     }
@@ -152,6 +173,7 @@ namespace Speed.Data.MetaData
             else
             {
                 // Usa DataTable
+                tc.Next("DbColumnInfo");
                 foreach (DataColumn col in tb2.Columns)
                 {
                     DbColumnInfo item = new DbColumnInfo(db, tableName, col);
@@ -162,6 +184,7 @@ namespace Speed.Data.MetaData
             }
 
             // Identity
+            tc.Next("Identity");
             var idCol = (from c in Columns where c.Value.IsIdentity select c.Value.ColumnName).FirstOrDefault();
             string identity;
 
@@ -177,6 +200,7 @@ namespace Speed.Data.MetaData
             }
 
             // se o datatable retornar a pk é melhor, pq sp_keys não retorna nada para views
+            tc.Next("Pk");
             if (tb2 != null && tb2.PrimaryKey != null && tb2.PrimaryKey.Length > 0)
             {
                 foreach (DataColumn col in tb2.PrimaryKey)
@@ -198,68 +222,72 @@ namespace Speed.Data.MetaData
                 }
             }
 
-            // ParentRelations
-            try
-            {
-#if DEBUG
-                try
-                {
-                    var x = db.Provider.GetParentRelations(schemaName, tableName);
+            //            // ParentRelations
+            //            try
+            //            {
+            //#if DEBUG2
+            //                try
+            //                {
+            //                    tc.Next("GetParentRelations");
+            //                    var x = db.Provider.GetParentRelations(schemaName, tableName);
 
-                }
-                catch (Exception ex)
-                {
-                    ex.ToString();
-                }
-#endif
-                var fks = db.Provider.GetParentRelations(schemaName, tableName);
-                if (fks != null && fks.Count > 0)
-                {
-                    foreach (var fk in fks)
-                    {
-                        if (!ParentRelations.ContainsKey(fk.ConstraintName))
-                            ParentRelations.Add(fk.ConstraintName, fk);
-                    }
-                    ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in GetParentRelations", ex);
-            }
+            //                }
+            //                catch (Exception ex)
+            //                {
+            //                    ex.ToString();
+            //                }
+            //#endif
+            //                    tc.Next("GetParentRelations");
+            //                var fks = db.Provider.GetParentRelations(schemaName, tableName);
+            //                if (fks != null && fks.Count > 0)
+            //                {
+            //                    foreach (var fk in fks)
+            //                    {
+            //                        if (!ParentRelations.ContainsKey(fk.ConstraintName))
+            //                            ParentRelations.Add(fk.ConstraintName, fk);
+            //                    }
+            //                    ToString();
+            //                }
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                throw new Exception("Error in GetParentRelations", ex);
+            //            }
 
-            // ChildRelations
-            try
-            {
-                foreach (var pair in db.ReferentialContraints)
-                {
-                    foreach (DbReferencialConstraintInfo constr in pair.Value)
-                    {
-                        if (constr.Columns.Count > 0)
-                        {
-                            var col = constr.Columns[0];
-                            if (db.ProviderType == EnumDbProviderType.Access)
-                            {
-                                if (col.ReferencedTableSchema.EqualsICIC(schemaName) && col.ReferencedTableName.EqualsICIC(tableName))
-                                {
-                                    ChildrenRelations.Add(constr.ConstraintFullName, constr);
-                                }
-                            }
-                            else
-                            {
-                                if ((col.ReferencedTableSchema.EqualsICIC(schemaName) | schemaName == "sqlite_default_schema") && col.ReferencedTableName.EqualsICIC(tableName))
-                                {
-                                    ChildrenRelations.Add(constr.ConstraintFullName, constr);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in DbTableInfo", ex);
-            }
+            //            // ChildRelations
+            //                    tc.Next("ChildRelations");
+            //            try
+            //            {
+            //                foreach (var pair in db.ReferentialContraints)
+            //                {
+            //                    foreach (DbReferencialConstraintInfo constr in pair.Value)
+            //                    {
+            //                        if (constr.Columns.Count > 0)
+            //                        {
+            //                            var col = constr.Columns[0];
+            //                            if (db.ProviderType == EnumDbProviderType.Access)
+            //                            {
+            //                                if (col.ReferencedTableSchema.EqualsICIC(schemaName) && col.ReferencedTableName.EqualsICIC(tableName))
+            //                                {
+            //                                    ChildrenRelations.Add(constr.ConstraintFullName, constr);
+            //                                }
+            //                            }
+            //                            else
+            //                            {
+            //                                if ((col.ReferencedTableSchema.EqualsICIC(schemaName) | schemaName == "sqlite_default_schema") && col.ReferencedTableName.EqualsICIC(tableName))
+            //                                {
+            //                                    ChildrenRelations.Add(constr.ConstraintFullName, constr);
+            //                                }
+            //                            }
+            //                        }
+            //                    }
+            //                }
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                throw new Exception("Error in DbTableInfo", ex);
+            //            }
+            string time = tc.ToString();
         }
 
         public override string ToString()

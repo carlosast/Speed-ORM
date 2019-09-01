@@ -1,5 +1,5 @@
 ﻿#if !DEBUG
-    [System.Diagnostics.DebuggerStepThrough]
+//[System.Diagnostics.DebuggerStepThrough]
 #endif
 public static class Templates
 {
@@ -151,7 +151,6 @@ namespace [NameSpace]
     public const string RECORD_COLUMN_TEMPLATE_POCO =
 @"        [DbColumn('[ColumnName]')]
         [DataAnnotation]
-        [DataMember]
         public [DataTypeNullable] [PopertyName] { get; set; }
 
 ";
@@ -161,7 +160,6 @@ namespace [NameSpace]
         private [DataTypeNullable] z_[ColumnName];
 
         [DbColumn('[ColumnName]')]
-        [DataMember]
         public [DataTypeNullable] [ColumnName]
         {
             get { return z_[ColumnName]; }
@@ -431,7 +429,7 @@ namespace [NameSpace]
             {
                 if (++index > 1)
                     where.Append(op);
-                db.AddWithValue(cmd, '[ParameterName]', filter.[PropertyName]);
+                db.AddWithValue(cmd, '[ParameterName]', '[DataType]', filter.[PropertyName]);
                 where.AppendFormat('[ColumnName] = {0} ', '[ParameterName]');
             }
 ";
@@ -445,12 +443,12 @@ namespace [NameSpace]
         
                 if (mode == EnumDbFilter.AndLike || mode == EnumDbFilter.OrLike)
                 {
-                    db.AddWithValue(cmd, '[ParameterName]', '%'+  filter.[PropertyName] + '%');
+                    db.AddWithValue(cmd, '[ParameterName]', '[DataType]', '%'+  filter.[PropertyName] + '%');
                     where.AppendFormat('[ColumnName] LIKE {0} ', '[ParameterName]');
                 }
                 else
                 {
-                    db.AddWithValue(cmd, '[ParameterName]', filter.[PropertyName]);
+                    db.AddWithValue(cmd, '[ParameterName]', '[DataType]', filter.[PropertyName]);
                     where.AppendFormat('[ColumnName] = {0} ', '[ParameterName]');
                 }
             }

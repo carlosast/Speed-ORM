@@ -95,7 +95,7 @@ namespace Speed.UI.UserControls
         public void SetCheck()
         {
             if (isWorking)
-                return; 
+                return;
 
             this.isWorking = true;
             foreach (var n in this.Nodes)
@@ -261,6 +261,7 @@ namespace Speed.UI.UserControls
         }
     }
 
+    /*
     public class NodeProcedures : NodeBase
     {
         public NodeProcedures()
@@ -310,5 +311,6 @@ namespace Speed.UI.UserControls
         {
         }
     }
+    */
 
 }

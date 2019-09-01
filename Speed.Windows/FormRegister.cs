@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Speed.Common;
 using Speed.Data;
 
 namespace Speed.Windows

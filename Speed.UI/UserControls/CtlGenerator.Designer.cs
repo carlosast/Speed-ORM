@@ -31,16 +31,16 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabConnection = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.parameters = new Speed.UI.UserControls.CtlGenParameters();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblNotConnected = new System.Windows.Forms.Label();
             this.dbConnect = new Speed.Windows.Controls.CtlDbConnect();
             this.tabBrowser = new System.Windows.Forms.TabPage();
-            this.browser = new Speed.UI.UserControls.CtlBrowser();
             this.btnConnect = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panButtons = new System.Windows.Forms.Panel();
             this.btnGenerate = new System.Windows.Forms.Button();
+            this.parameters = new Speed.UI.UserControls.CtlGenParameters();
+            this.browser = new Speed.UI.UserControls.CtlBrowser();
             this.tabControl1.SuspendLayout();
             this.tabConnection.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -57,6 +57,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabConnection);
             this.tabControl1.Controls.Add(this.tabBrowser);
+            this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControl1.Location = new System.Drawing.Point(0, 5);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -67,42 +68,35 @@
             // 
             this.tabConnection.Controls.Add(this.groupBox2);
             this.tabConnection.Controls.Add(this.groupBox1);
-            this.tabConnection.Location = new System.Drawing.Point(4, 22);
+            this.tabConnection.Location = new System.Drawing.Point(4, 27);
             this.tabConnection.Name = "tabConnection";
             this.tabConnection.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConnection.Size = new System.Drawing.Size(966, 604);
+            this.tabConnection.Size = new System.Drawing.Size(966, 599);
             this.tabConnection.TabIndex = 0;
             this.tabConnection.Text = "Configuration";
             this.tabConnection.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.parameters);
-            this.groupBox2.Location = new System.Drawing.Point(16, 408);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(3, 301);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(944, 160);
+            this.groupBox2.Size = new System.Drawing.Size(960, 180);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Global Parameters";
             // 
-            // parameters
-            // 
-            this.parameters.Location = new System.Drawing.Point(28, 22);
-            this.parameters.Name = "parameters";
-            this.parameters.Size = new System.Drawing.Size(910, 134);
-            this.parameters.TabIndex = 1;
-            // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.lblNotConnected);
             this.groupBox1.Controls.Add(this.dbConnect);
-            this.groupBox1.Location = new System.Drawing.Point(16, 5);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(944, 392);
+            this.groupBox1.Size = new System.Drawing.Size(960, 298);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Database";
@@ -120,32 +114,24 @@
             // 
             // dbConnect
             // 
-            this.dbConnect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dbConnect.Location = new System.Drawing.Point(15, 19);
+            this.dbConnect.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dbConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dbConnect.Location = new System.Drawing.Point(3, 16);
             this.dbConnect.Name = "dbConnect";
-            this.dbConnect.Size = new System.Drawing.Size(923, 364);
+            this.dbConnect.Size = new System.Drawing.Size(954, 364);
             this.dbConnect.TabIndex = 0;
             this.dbConnect.VisibleChanged += new System.EventHandler(this.dbConnect_VisibleChanged);
             // 
             // tabBrowser
             // 
             this.tabBrowser.Controls.Add(this.browser);
-            this.tabBrowser.Location = new System.Drawing.Point(4, 22);
+            this.tabBrowser.Location = new System.Drawing.Point(4, 27);
             this.tabBrowser.Name = "tabBrowser";
             this.tabBrowser.Padding = new System.Windows.Forms.Padding(3);
-            this.tabBrowser.Size = new System.Drawing.Size(966, 604);
+            this.tabBrowser.Size = new System.Drawing.Size(966, 599);
             this.tabBrowser.TabIndex = 1;
             this.tabBrowser.Text = "Object Browser";
             this.tabBrowser.UseVisualStyleBackColor = true;
-            // 
-            // browser
-            // 
-            this.browser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.browser.Location = new System.Drawing.Point(3, 3);
-            this.browser.Name = "browser";
-            this.browser.Size = new System.Drawing.Size(960, 598);
-            this.browser.TabIndex = 0;
             // 
             // btnConnect
             // 
@@ -186,6 +172,24 @@
             this.btnGenerate.Text = "Generate";
             this.btnGenerate.UseVisualStyleBackColor = true;
             this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
+            // 
+            // parameters
+            // 
+            this.parameters.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.parameters.Location = new System.Drawing.Point(28, 22);
+            this.parameters.Name = "parameters";
+            this.parameters.Size = new System.Drawing.Size(910, 134);
+            this.parameters.TabIndex = 1;
+            // 
+            // browser
+            // 
+            this.browser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.browser.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.browser.Location = new System.Drawing.Point(3, 3);
+            this.browser.Margin = new System.Windows.Forms.Padding(4);
+            this.browser.Name = "browser";
+            this.browser.Size = new System.Drawing.Size(960, 593);
+            this.browser.TabIndex = 0;
             // 
             // CtlGenerator
             // 

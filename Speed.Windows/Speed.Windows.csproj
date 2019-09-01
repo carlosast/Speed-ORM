@@ -12,6 +12,14 @@
     <AssemblyName>Speed.Windows</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -168,7 +176,6 @@
     <Compile Include="FormRegister.designer.cs">
       <DependentUpon>FormRegister.cs</DependentUpon>
     </Compile>
-    <Compile Include="ItemText.cs" />
     <Compile Include="ProgramBase.cs" />
     <Compile Include="Controls\Button.cs">
       <SubType>Component</SubType>
@@ -237,12 +244,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Speed.Data\Speed.Data.csproj">
-      <Project>{23ac56a3-c34f-4524-8d2a-3d852c50c10a}</Project>
+      <Project>{e9d58e90-d9b9-45f4-92cd-2e8248bc2df5}</Project>
       <Name>Speed.Data</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

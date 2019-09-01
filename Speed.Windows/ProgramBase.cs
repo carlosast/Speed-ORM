@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Speed.Data;
 using System.ServiceModel;
+using Speed.Common;
 
 namespace Speed.Windows
 {

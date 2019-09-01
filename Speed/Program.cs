@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
-using Speed.Windows;
-using Speed.Data;
-using System.Data;
-using System.Text;
-using Speed.UI;
 using System.IO;
+using Speed.Common;
 
 namespace Speed
 {
@@ -22,9 +16,10 @@ namespace Speed
         [STAThread]
         static void Main()
         {
-            Program.ProviderType = Speed.Data.EnumDbProviderType.SqlServer;
-            Title = AppName = "Speed.ORM";
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
+            Program.ProviderType = Speed.Data.EnumDbProviderType.SqlServer;
+            Title = AppName = "Speed.ORM";  
 #if !DEBUG
             Program.IsDebug = false;
 #endif
@@ -35,6 +30,25 @@ namespace Speed
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FormMain());
+        }
+
+        static System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            if (args.Name.Contains("Oracle", StringComparison.OrdinalIgnoreCase))
+            {
+                var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                if (IntPtr.Size > 4)
+                {
+                    var dll = System.IO.Path.Combine(path, @"MySubDir\MyDLL_x64.dll");
+                    return System.Reflection.Assembly.LoadFile(dll);
+                }
+                else
+                {
+                    var dll = System.IO.Path.Combine(path, @"MySubDir\MyDLL.dll");
+                    return System.Reflection.Assembly.LoadFile(dll);
+                }
+            }
+            return null;
         }
 
         static void Application_ApplicationExit(object sender, EventArgs e)

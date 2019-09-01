@@ -7,6 +7,10 @@ using System.Linq;
 using System.Windows.Forms;
 using Speed.Data;
 using Speed.Data.Generation;
+using Speed.UI.Forms;
+using System.Xml;
+using Speed.Common;
+using Speed.Windows;
 
 namespace Speed.UI.UserControls
 {
@@ -21,7 +25,7 @@ namespace Speed.UI.UserControls
         SourceGrid.Cells.Views.Cell headerView;
         Dictionary<string, string> numericTypes;
         bool isLoading;
-        Label lblProgress;
+        FormProgress progress;
 
         #endregion Declarations
 
@@ -208,9 +212,10 @@ namespace Speed.UI.UserControls
                 grid.ResumeLayout();
                 SelectTab(grid);
             }
-            else if (e.Node is NodeTables)
+
+            if (e.Node is NodeTables || e.Node is NodeTable)
                 tabObjects.SelectedIndex = 0;
-            else if (e.Node is NodeViews)
+            else if (e.Node is NodeViews || e.Node is NodeView)
                 tabObjects.SelectedIndex = 1;
 
             isNodeSelecting = false;
@@ -295,40 +300,60 @@ namespace Speed.UI.UserControls
         {
             isLoading = true;
             trv.Nodes.Clear();
+            string time;
 
-            if (lblProgress == null)
+            var tc = new TimerCount();
+
+            file.Parameters.Tables.ForEach(p => p.IsSelected = false);
+            file.Parameters.Views.ForEach(p => p.IsSelected = false);
+
+            using (progress = new FormProgress())
             {
-                lblProgress = new Label {BackColor = Color.White, ForeColor = Color.Blue, Font = new Font("Arial", 14, FontStyle.Bold), BorderStyle = BorderStyle.FixedSingle, Visible = false };
-                this.Controls.Add(lblProgress);
+                //f.StartProgress(1, count);
+                progress.SetMessage("Loading objects");
+                progress.Show(this);
+                progress.Update();
+
+                try
+                {
+                    tc.Next("NodeDatabase");
+                    nodeDb = new NodeDatabase(ci.Text);
+                    nodeDb.Fill(db);
+                    trv.Nodes.Add(nodeDb);
+
+                    trv.HandleMultiSelection = true;
+
+                    tc.Next("ExpandAllForce");
+                    trv.ExpandAllForce(db);
+
+                    tc.Next("DataToView");
+                    DataToView();
+                    tc.Next("LoadGrid");
+                    LoadGrid(db);
+                    tc.Next("nodeDb.Expand()");
+                    nodeDb.Expand();
+
+                    nodeDb.Checked = false;
+                    nodeDb.UncheckChildren();
+                    nodeDb.Checked = false;
+
+                    time = tc.ToString();
+                }
+                catch (Exception ex)
+                {
+                    time = tc.ToString();
+                    Program.ShowError(ex);
+                }
             }
 
-            // centraliza;
-            var r = this.ClientRectangle;
-            lblProgress.SetBounds(0, r.Height - 40 / 2, r.Width, 40);
-            lblProgress.BringToFront();
-            lblProgress.Visible = true;
-            lblProgress.Text = "";
-            lblProgress.Update();
-            try
-            {
-                nodeDb = new NodeDatabase(ci.Text);
-                nodeDb.Fill(db);
-                trv.Nodes.Add(nodeDb);
+            //ControlUtil.ChangeFontOnlyParent(tabObjects, 12);
 
-                trv.HandleMultiSelection = true;
-                
-                trv.ExpandAllForce(db);
-                
-                DataToView();
-                LoadGrid(db);
-                nodeDb.Expand();
-            }
-            catch (Exception ex)
-            {
-                Program.ShowError(ex);
-            }
-            lblProgress.Visible = false;
             isLoading = false;
+
+#if DEBUG2
+            if (db.ProviderType == EnumDbProviderType.Oracle)
+                Program.ShowInformation(time);
+#endif
         }
 
         void addHeader(SourceGrid.Grid grid, int col, string text, int minWidth)
@@ -420,6 +445,7 @@ namespace Speed.UI.UserControls
                 }
             }
 
+            /*
             NodeProcedures nodeProcs = GetNode<NodeProcedures>();
             if (nodeProcs != null)
             {
@@ -437,6 +463,7 @@ namespace Speed.UI.UserControls
                     }
                 }
             }
+            */
 
             chkRaisePropertyChanged.Checked = file.Parameters.RaisePropertyChanged;
             UpdateGrid();
@@ -539,6 +566,7 @@ namespace Speed.UI.UserControls
                 }
             }
 
+            /*
             NodeProcedure nodeProcs = GetNode<NodeProcedure>();
             var procs = file.Parameters.Procedures.ToDictionary(p => p.FullName);
             if (nodeProcs != null)
@@ -552,6 +580,7 @@ namespace Speed.UI.UserControls
                         node.Checked = false;
                 }
             }
+            */
             ctlDataPars.ViewToData();
             ctlBusPars.ViewToData();
         }
@@ -566,7 +595,13 @@ namespace Speed.UI.UserControls
 
         void LoadGrid(Database db)
         {
-            LoadTables(db, grdTables, "Tables", "Table Name", GetNode<NodeTables>());
+            var node = GetNode<NodeTables>();
+            progress.StartProgress(0, node.Nodes.Count);
+            progress.SetMessage("Processing Tables ...");
+            LoadTables(db, grdTables, "Tables", "Table Name", node);
+
+            progress.StartProgress(0, node.Nodes.Count);
+            progress.SetMessage("Processing Views ...");
             LoadTables(db, grdViews, "Views", "View Name", GetNode<NodeViews>());
         }
 
@@ -610,6 +645,7 @@ namespace Speed.UI.UserControls
 
         void LoadTables(Database db, SourceGrid.Grid grid, string title, string nameTitle, NodeBase tableViewNode)
         {
+            var tc = new TimerCount("LoadTables");
             grid.BorderStyle = BorderStyle.FixedSingle;
             grid.SelectionMode = SourceGrid.GridSelectionMode.Cell;
             grid.ClipboardMode = SourceGrid.ClipboardMode.All;
@@ -618,7 +654,7 @@ namespace Speed.UI.UserControls
             grid.Columns.Clear();
 
             grid.ColumnsCount = 10;
-            grid.FixedRows = 0;
+            grid.FixedRows = 1;
             grid.FixedColumns = 2;
 
             //int r = 0;
@@ -661,14 +697,15 @@ namespace Speed.UI.UserControls
 
             Dictionary<string, GenTable> objects = new Dictionary<string, GenTable>();
 
+            tc.Next("GetSequences");
             var sequences = db.Provider.GetSequences();
 
             r++;
+
             foreach (NodeTable node in tableViewNode.Nodes)
             {
-                lblProgress.Visible = true;
-                lblProgress.Text = "Processando " + node.Text + " ...";
-                lblProgress.Update();
+                progress.SetProgress();
+                //progress.SetProgress("Processing table" + node.Text + " ...");
 
                 var gtb = node.Item;
                 if (gtb.TableName == "CAMPOS_MINUTA")
@@ -676,17 +713,24 @@ namespace Speed.UI.UserControls
 
                 objects.Add(gtb.FullName, null);
 
+                tc.Next(gtb.TableName);
+
                 try
                 {
-                    var tb = db.GetTableInfo(gtb.SchemaName, gtb.TableName);
+                    //tc.Next("GetTableInfo");
+                    //var tb = db.GetTableInfo(gtb.SchemaName, gtb.TableName);
+                    var tbCols = db.GetColumnsInfo(gtb.SchemaName, gtb.TableName);
+
+                    if (tbCols == null) // objeto inválido
+                        continue;
+
                     Dictionary<string, GenColumn> dict = new Dictionary<string, GenColumn>(StringComparer.InvariantCultureIgnoreCase);
                     foreach (var col in gtb.Columns)
                         if (!dict.ContainsKey(col.ColumnName))
                             dict.Add(col.ColumnName, col);
 
-                    foreach (var pair in tb.Columns)
+                    foreach (var col in tbCols)
                     {
-                        var col = pair.Value;
                         GenColumn gcol;
                         if (dict.TryGetValue(col.ColumnName, out gcol))
                         {
@@ -721,9 +765,9 @@ namespace Speed.UI.UserControls
                     SourceGrid.GridRow row = grid.Rows[r];
 
                     // tags
-                    row.AutoSizeMode =  SourceGrid.AutoSizeMode.EnableAutoSize | SourceGrid.AutoSizeMode.EnableStretch;
+                    row.AutoSizeMode = SourceGrid.AutoSizeMode.EnableAutoSize | SourceGrid.AutoSizeMode.EnableStretch;
                     row.Tag = node;
-                    gtb.Tag = tb;
+                    gtb.Tag = tbCols;
                     node.Tag = row;
 
                     grid[r, 0] = new SourceGrid.Cells.Cell(gtb.SchemaName);
@@ -741,7 +785,7 @@ namespace Speed.UI.UserControls
 
                     // EnumColumnName
                     SourceGrid.Cells.Editors.ComboBox cbEditor = new SourceGrid.Cells.Editors.ComboBox(typeof(string));
-                    var cols = (from c in tb.Columns where c.Value.DataTypeDotNet.ToLower().Contains("string") orderby c.Value.ColumnName select c.Value.ColumnName).ToList();
+                    var cols = (from c in tbCols where c.DataTypeDotNet.ToLower().Contains("string") orderby c.ColumnName select c.ColumnName).ToList();
                     if (!string.IsNullOrWhiteSpace(gtb.EnumColumnName))
                     {
                         if (cols.FirstOrDefault(p => p.ToUpper() == gtb.EnumColumnName) == null)
@@ -760,11 +804,11 @@ namespace Speed.UI.UserControls
                         cbEditor.EditableMode = SourceGrid.EditableMode.None;
                     grid[r, 4] = new SourceGrid.Cells.Cell(gtb.EnumColumnName, cbEditor);
 
-                    var x = (from c in tb.Columns orderby c.Value.DataTypeDotNet select c.Value.DataTypeDotNet).Distinct().ToList();
+                    var x = (from c in tbCols orderby c.DataTypeDotNet select c.DataTypeDotNet).Distinct().ToList();
 
                     // EnumColumnId
                     cbEditor = new SourceGrid.Cells.Editors.ComboBox(typeof(string));
-                    cols = (from c in tb.Columns where numericTypes.ContainsKey(c.Value.DataTypeDotNet) orderby c.Value.ColumnName select c.Value.ColumnName).ToList();
+                    cols = (from c in tbCols where numericTypes.ContainsKey(c.DataTypeDotNet.Replace("?", "")) orderby c.ColumnName select c.ColumnName).ToList();
                     if (cols.Count > 0)
                     {
                         cols.Insert(0, "");
@@ -782,7 +826,7 @@ namespace Speed.UI.UserControls
 
                     // SequenceColumn
                     cbEditor = new SourceGrid.Cells.Editors.ComboBox(typeof(string));
-                    cols = (from c in tb.Columns where numericTypes.ContainsKey(c.Value.DataTypeDotNet) orderby c.Value.ColumnName select c.Value.ColumnName).ToList();
+                    cols = (from c in tbCols where numericTypes.ContainsKey(c.DataTypeDotNet.Replace("?", "")) orderby c.ColumnName select c.ColumnName).ToList();
                     if (cols.Count > 0)
                     {
                         cols.Insert(0, "");
@@ -806,7 +850,7 @@ namespace Speed.UI.UserControls
                     grid[r, 8] = new SourceGrid.Cells.Cell(gtb.SequenceName, cbEditor);
 
                     var ed2 = SourceGrid.Cells.Editors.Factory.Create(typeof(string));
-                    var txt  =(SourceGrid.Cells.Editors.TextBox)ed2;
+                    var txt = (SourceGrid.Cells.Editors.TextBox)ed2;
                     txt.Control.Multiline = true;
                     txt.Control.AcceptsReturn = true;
                     //txt.Control.ScrollBars = ScrollBars.Both;
@@ -825,10 +869,11 @@ namespace Speed.UI.UserControls
                     //ed.EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
                     //grid[r, 5] = new SourceGrid.Cells.Cell(gtb.SubDirectory, ed);
                     r++;
+                    //string time = tc.ToString();
                 }
                 catch (Exception ex)
                 {
-                    Program.ShowError(ex);
+                    //Program.ShowError(ex);
                 }
             }
 
@@ -843,6 +888,8 @@ namespace Speed.UI.UserControls
             grid.Selection.FocusRowEntered += Selection_FocusRowEntered;
             grid.Selection.FocusRowLeaving += Selection_FocusRowLeaving;
             grid.AutoSizeCells();
+
+            string time = tc.ToString();
         }
 
         private void Control_Click(object sender, EventArgs e)
@@ -959,6 +1006,71 @@ namespace Speed.UI.UserControls
 
         #endregion Methods
 
-    }
+        private void BtnImportHibernate_Click(object sender, EventArgs e)
+        {
+            Program.RunSafe(() =>
+            {
+                using (OpenFileDialog fd = new OpenFileDialog())
+                {
+                    fd.CheckFileExists = true;
+                    fd.CheckPathExists = true;
+                    fd.RestoreDirectory = false;
 
+                    if (fd.ShowDialog() == DialogResult.OK)
+                        ImportHibernateSchema(fd.FileName);
+                }
+            });
+        }
+
+        void ImportHibernateSchema(string fileName)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(fileName);
+            var node = trv.SelectedNode;
+
+            if (!(node is NodeTable || node is NodeView))
+                return;
+
+            var grdColumns = node is NodeView ? grdViewColumns : grdTableColumns;
+
+            // addHeader(grid, 1, "PropertyName", 130);
+
+            Dictionary<string, string> cols = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            XmlNodeList manyToOnes = doc.GetElementsByTagName("many-to-one");
+            foreach (XmlNode manyToOne in manyToOnes)
+            {
+                try
+                {
+                    var propName = manyToOne.Attributes["name"].Value;
+                    var colName = manyToOne.FirstChild.Attributes["name"].Value;
+                    cols.Add(colName, "Id" + propName);
+                }
+                catch { }
+            }
+
+            XmlNodeList properties = doc.GetElementsByTagName("property");
+            foreach (XmlNode property in properties)
+            {
+                try
+                {
+                    var propName = property.Attributes["name"].Value;
+                    string colName;
+                    if (property.Attributes["column"] != null)
+                        colName = property.Attributes["column"].Value;
+                    else
+                        colName = property.FirstChild.Attributes["name"].Value;
+                    cols.Add(colName, propName);
+                }
+                catch { }
+            }
+
+            for (int r = 1; r < grdColumns.RowsCount; r++)
+            {
+                string colName = grdColumns[r, 0].Value.ToString();
+                if (cols.ContainsKey(colName))
+                    grdColumns[r, 1].Value = cols[colName];
+            }
+        }
+    }
 }

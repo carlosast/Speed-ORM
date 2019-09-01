@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Speed.Common;
+using System.Collections.Generic;
 using System.Data;
 using System.Runtime.Serialization;
 
@@ -10,33 +11,33 @@ namespace Speed.Data.MetaData
 
         #region Declarations
 
-        [DataMember]
+        // // [DataMember]
         public string ConstraintCatalog { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string ConstraintSchema { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string ConstraintName { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string ConstraintFullName { get { return Conv.GetKey(ConstraintCatalog, ConstraintSchema, ConstraintName); } }
 
-        [DataMember]
+        // // [DataMember]
         public string TableCatalog { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string TableSchema { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string TableName { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string TableFullName { get { return Conv.GetKey(TableCatalog, TableSchema, TableName); } }
 
-        [DataMember]
+        // // [DataMember]
         public bool IsDeferrable { get; set; }
-        [DataMember]
+        // // [DataMember]
         public bool InitiallyDeferred { get; set; }
 
-        [DataMember]
+        // // [DataMember]
         public EnumConstraintType ConstraintType { get; set; }
 
-        [DataMember]
+        // // [DataMember]
         public List<DbConstraintColumnInfo> Columns { get; set; }
 
         #endregion Declarations

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data.Common;
 using Oracle.ManagedDataAccess.Client;
+using System.Data.Common;
 using System.Data;
 using Speed.Data.MetaData;
+using System.IO;
+using System.Reflection;
+using Speed.Common;
 
 namespace Speed.Data
 {
@@ -12,16 +15,106 @@ namespace Speed.Data
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
-    class DbOracleProvider : IDbProvider
+    public class DbOracleProvider : IDbProvider
     {
 
         Database db;
-        public string ParameterSymbol { get { return "?"; } }
-        public string ParameterSymbolVar { get { return ParameterSymbol; } }
+        public string ParameterSymbol { get { return ":"; } }
+        public string ParameterSymbolVar { get { return ":"; } }
+
+        const string sqlSelectColumns =
+@"
+select
+    null TABLE_CATALOG
+  , t.tablespace_name TABLE_SCHEMA
+  , t.TABLE_NAME
+	, COLUMN_NAME 
+  , DATA_TYPE
+  , column_id ORDINAL_POSITION
+  , DATA_DEFAULT COLUMN_DEFAULT
+  , NULLABLE IS_NULLABLE
+  ,CHAR_COL_DECL_LENGTH CHARACTER_MAXIMUM_LENGTH
+  , DATA_PRECISION NUMERIC_PRECISION
+  , DATA_SCALE NUMERIC_SCALE
+from
+    USER_TAB_COLS c 
+    inner join user_tables t on c.table_name = t.table_name
+";
+
+        const string sqlSelectColumnsXml =
+@"
+select
+    null TABLE_CATALOG
+  , t.tablespace_name TABLE_SCHEMA
+  , t.TABLE_NAME
+	, COLUMN_NAME 
+  , DATA_TYPE
+  , column_id ORDINAL_POSITION
+  , DATA_DEFAULT COLUMN_DEFAULT
+  , NULLABLE IS_NULLABLE
+  ,CHAR_COL_DECL_LENGTH CHARACTER_MAXIMUM_LENGTH
+  , DATA_PRECISION NUMERIC_PRECISION
+  , DATA_SCALE NUMERIC_SCALE
+from
+    USER_TAB_COLS c 
+    inner join user_tables t on c.table_name = t.table_name
+";
 
         static DbOracleProvider()
         {
-            //Sys.LoadLibraryW("./Oracle.Data.dll");
+            var asm = CheckDdll("Oracle.ManagedDataAccess.dll");
+            //if (asm != null)
+            //    AppDomain.CurrentDomain.Load(asm);
+        }
+
+        static Assembly CheckDdll(string name)
+        {
+            Assembly asm = null;
+            var files = Directory.GetFiles(Sys.AppDirectory, name, SearchOption.AllDirectories).ToList();
+            if (files.Count == 0)
+                return null;
+
+            if (files.Count == 1)
+                return LoadDll(files[0]);
+
+            var file = files.FirstOrDefault(p => Path.GetFileName(Path.GetDirectoryName(p)).Equals("x64", StringComparison.OrdinalIgnoreCase));
+            if (IntPtr.Size > 4) // > 32 bits
+            {
+                if (file != null)
+                {
+                    files.Remove(file);
+                    asm = LoadDll(file);
+                    if (asm != null)
+                        return asm;
+                }
+            }
+
+            file = files.FirstOrDefault(p => Path.GetFileName(Path.GetDirectoryName(p)).Equals("x86", StringComparison.OrdinalIgnoreCase));
+            if (file != null)
+            {
+                files.Remove(file);
+                asm = LoadDll(file);
+                if (asm != null)
+                    return asm;
+            }
+
+            if (files.Count > 0)
+                asm = LoadDll(files[0]);
+
+            return asm;
+        }
+
+        static Assembly LoadDll(string path)
+        {
+            try
+            {
+                var ass = Assembly.LoadFile(path);
+                return ass;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public DbOracleProvider(Database db)
@@ -50,7 +143,7 @@ namespace Speed.Data
 
         public bool SupportInformationSchema
         {
-            get { return true; }
+            get { return false; }
         }
 
         public bool SupportBatchStatements
@@ -61,6 +154,7 @@ namespace Speed.Data
         public DbConnectionStringBuilder CreateConnectionStringBuilder(string connectionString)
         {
             OracleConnectionStringBuilder csb = new OracleConnectionStringBuilder(connectionString);
+            csb.Pooling = true;
             return csb;
         }
 
@@ -77,6 +171,7 @@ namespace Speed.Data
         public DbConnectionStringBuilder BuildConnectionString(EnumDbProviderType providerType, string server, string database, string userId, string password, bool integratedSecurity = false, int port = 0, bool embedded = false, string provider = null)
         {
             var csb = new OracleConnectionStringBuilder();
+            csb.Pooling = true;
             csb.DataSource = server;
             if (!string.IsNullOrWhiteSpace(userId))
                 csb.UserID = userId;
@@ -122,10 +217,20 @@ namespace Speed.Data
             return new OracleDataAdapter((OracleCommand)cmd);
         }
 
-        public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value)
+        public DbParameter AddWithValue(DbCommand cmd, string parameterName, string dataType, object value)
         {
             OracleParameter par = new OracleParameter(parameterName, value);
             par.Direction = ParameterDirection.Input;
+
+            switch (dataType)
+            {
+                case "CLOB":
+                    par.OracleDbType = OracleDbType.Clob;
+                    break;
+                case "NCLOB":
+                    par.OracleDbType = OracleDbType.NClob;
+                    break;
+            }
             cmd.Parameters.Add(par);
             return par;
         }
@@ -191,13 +296,21 @@ namespace Speed.Data
 
         public string GetObjectName(string name, bool quote = true)
         {
+            name = getbjectName(name);
             if (string.IsNullOrWhiteSpace(name))
                 return name;
-            if (name.Contains(" ") && name.IndexOf('[') == -1 || ReservedWords.ContainsKey(name))
-                return "[" + name + "]";
+            if (name.Contains(" ") && name.IndexOf('"') == -1 || ReservedWords.ContainsKey(name))
+                return "\"" + name + "\"";
             else
                 return name;
         }
+
+        string getbjectName(string name)
+        {
+            name = name.RemoveChars(@"#:$/\");
+            return name;
+        }
+
 
         public string GetObjectName(string schemaName, string name, bool quote = true)
         {
@@ -318,6 +431,7 @@ ORDER BY
             //       'SALE' |         'SPEED' |         NULL |     NULL | 'VALID' |       10 |        0 |         1 |       255 |              0 |           0 |           0 |           0 |            0 |         0 |               0 |   'YES' |       'N' |        0 |      0 |            0 |         0 |         0 |           0 |                         0 |                   0 | '         1' | '         1' | '    N' |  'ENABLED' |           0 |          NULL |        'NO' |     NULL |       'N' |       'N' |   'NO' |   'DEFAULT' |   'DEFAULT' |        'DEFAULT' |   'DISABLED' |         'NO' |       'NO' |     NULL |   'DISABLED' |      'YES' |          NULL |   'DISABLED' |  'DISABLED' |         NULL |    'NO' |      'NO' |            'NO' |    'DEFAULT'
             //'SALE_DETAIL' |         'SPEED' |         NULL |     NULL | 'VALID' |       10 |        0 |         1 |       255 |              0 |           0 |           0 |           0 |            0 |         0 |               0 |   'YES' |       'N' |        0 |      0 |            0 |         0 |         0 |           0 |                         0 |                   0 | '         1' | '         1' | '    N' |  'ENABLED' |           0 |          NULL |        'NO' |     NULL |       'N' |       'N' |   'NO' |   'DEFAULT' |   'DEFAULT' |        'DEFAULT' |   'DISABLED' |         'NO' |       'NO' |     NULL |   'DISABLED' |      'YES' |          NULL |   'DISABLED' |  'DISABLED' |         NULL |    'NO' |      'NO' |            'NO' |    'DEFAULT'
 
+            //db.GetSchema("tables")
             string sql = null;
             if (tableType == null)
                 sql = "SELECT TABLE_NAME, 1 IS_TABLE FROM USER_TABLES    UNION     SELECT VIEW_NAME AS TABLE_NAME, 0 IS_TABLE FROM USER_VIEWS";
@@ -343,25 +457,126 @@ ORDER BY
             return tables;
         }
 
+        Dictionary<string, DataTable> tbSchemaColumnsCache;
+
         public DataTable GetSchemaColumns(string schemaName, string tableName)
         {
-            string sql = "select column_id ORDINAL_POSITION, null TABLE_CATALOG, t.tablespace_name TABLE_SCHEMA, DATA_DEFAULT COLUMN_DEFAULT, NULLABLE IS_NULLABLE,CHAR_COL_DECL_LENGTH CHARACTER_MAXIMUM_LENGTH, DATA_PRECISION NUMERIC_PRECISION, DATA_SCALE NUMERIC_SCALE, c.* from USER_TAB_COLS c inner join user_tables t on c.table_name = t.table_name WHERE t.TABLE_NAME = " + Conv.ToSqlTextA(tableName);
-            if (!string.IsNullOrEmpty(schemaName))
-                sql += " AND t.tablespace_name=" + Conv.ToSqlTextA(schemaName);
-            var tb = db.ExecuteDataTable(sql);
-            if (tb.Rows.Count == 0)
+            string sql = null;
+            DataTable tb = null;
+            if (tbSchemaColumnsCache == null)
             {
-                sql = "select column_id ORDINAL_POSITION, null TABLE_CATALOG, null TABLE_SCHEMA, DATA_DEFAULT COLUMN_DEFAULT, NULLABLE IS_NULLABLE,CHAR_COL_DECL_LENGTH CHARACTER_MAXIMUM_LENGTH, DATA_PRECISION NUMERIC_PRECISION, DATA_SCALE NUMERIC_SCALE, c.* from USER_tab_COLS c inner join user_views t on c.table_name = t.view_name WHERE t.view_name =" + Conv.ToSqlTextA(tableName);
+                bool usGetSchema = false;
+
+                DataTable tb2 = null;
+
+                //var tc = new TimerCount("usGetSchema = " + usGetSchema);
+
+                if (usGetSchema)
+                {
+                    try
+                    {
+                        var tbColsSchema = db.Connection.GetSchema("Columns", new string[] { "TRANSLOGIC" });
+                        tb2 = new DataTable();
+                        tb2.Columns.Add("TABLE_CATALOG", typeof(string));
+                        tb2.Columns.Add("TABLE_SCHEMA", typeof(string));
+                        tb2.Columns.Add("TABLE_NAME", typeof(string));
+                        tb2.Columns.Add("COLUMN_NAME", typeof(string));
+                        tb2.Columns.Add("DATA_TYPE", typeof(string));
+                        tb2.Columns.Add("ORDINAL_POSITION", typeof(int));
+                        tb2.Columns.Add("COLUMN_DEFAULT", typeof(string));
+                        tb2.Columns.Add("IS_NULLABLE", typeof(string));
+                        tb2.Columns.Add("CHARACTER_MAXIMUM_LENGTH", typeof(int));
+                        tb2.Columns.Add("NUMERIC_PRECISION", typeof(int));
+                        tb2.Columns.Add("NUMERIC_SCALE", typeof(int));
+
+                        foreach (DataRow row in tbColsSchema.Rows)
+                        {
+                            var nRow = tb2.NewRow();
+                            nRow["TABLE_CATALOG"] = null;
+                            nRow["TABLE_SCHEMA"] = row["OWNER"];
+                            nRow["TABLE_NAME"] = row["TABLE_NAME"];
+                            nRow["COLUMN_NAME"] = row["COLUMN_NAME"];
+                            nRow["DATA_TYPE"] = row["DATATYPE"];
+                            nRow["ORDINAL_POSITION"] = row["ID"].ToInt32();
+                            nRow["COLUMN_DEFAULT"] = row["DATA_DEFAULT"];
+                            nRow["IS_NULLABLE"] = row["NULLABLE"];
+                            nRow["CHARACTER_MAXIMUM_LENGTH"] = row["LENGTHINCHARS"].ToInt32();
+                            nRow["NUMERIC_PRECISION"] = row["PRECISION"].ToInt32();
+                            nRow["NUMERIC_SCALE"] = row["SCALE"].ToInt32();
+                            tb2.Rows.Add(nRow);
+                        }
+                    }
+                    catch
+                    {
+                        tb2 = null;
+                    }
+                }
+                else
+                {
+                    //sql = "select ORDINAL_POSITION, COLUMN_NAME, TABLE_CATALOG, TABLE_SCHEMA, table_name, DATA_TYPE, COLUMN_DEFAULT, IS_NULLABLE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION, NUMERIC_SCALE from MD_USER_TAB_COLS";
+                    sql = sqlSelectColumns;
+                    try
+                    {
+                        tb2 = db.ExecuteDataTable(sql, 0);
+                    }
+                    catch
+                    {
+                        tb2 = null;
+                    }
+
+                    if (tb2 == null)
+                    {
+                        // sql = "select column_id ORDINAL_POSITION, COLUMN_NAME, null TABLE_CATALOG, t.tablespace_name TABLE_SCHEMA, t.table_name, DATA_DEFAULT COLUMN_DEFAULT, NULLABLE IS_NULLABLE,CHAR_COL_DECL_LENGTH CHARACTER_MAXIMUM_LENGTH, DATA_PRECISION NUMERIC_PRECISION, DATA_SCALE NUMERIC_SCALE from USER_TAB_COLS c inner join user_tables t on c.table_name = t.table_name";
+                        // retirei o DATA_DEFAULT pq fica extremamente lenta a query
+                        sql = "select column_id ORDINAL_POSITION, COLUMN_NAME, null TABLE_CATALOG, t.tablespace_name TABLE_SCHEMA, t.table_name, DATA_TYPE, DATA_DEFAULT COLUMN_DEFAULT, NULLABLE IS_NULLABLE,CHAR_COL_DECL_LENGTH CHARACTER_MAXIMUM_LENGTH, DATA_PRECISION NUMERIC_PRECISION, DATA_SCALE NUMERIC_SCALE from USER_TAB_COLS c inner join user_tables t on c.table_name = t.table_name";
+
+                        tb2 = db.ExecuteDataTable(sql, 0);
+                    }
+                }
+
+                //var time = tc.ToString();
+                //MessageBox.Show(time);
+                //throw new Exception(time);
+
+                var keys = new List<string>();
+                foreach (DataRow row in tb2.Rows)
+                {
+                    string key = $"{row["TABLE_CATALOG"].Trim()}.{row["TABLE_NAME"]}";
+                    keys.Add(key);
+                }
+                keys = keys.Distinct().ToList();
+
+                tbSchemaColumnsCache = new Dictionary<string, DataTable>();
+                foreach (var key in keys)
+                    tbSchemaColumnsCache.Add(key, tb2.Clone());
+
+                while (tb2.Rows.Count > 0)
+                {
+                    var index = tb2.Rows.Count - 1;
+                    var r = tb2.Rows[index];
+                    string key = $"{r["TABLE_CATALOG"].Trim()}.{r["TABLE_NAME"]}";
+                    tbSchemaColumnsCache[key].Rows.Add(r.ItemArray);
+                    tb2.Rows.RemoveAt(index);
+                }
+            }
+
+            string k = $"{schemaName}.{tableName}";
+            tb = tbSchemaColumnsCache.GetValue(k);
+
+            if (tb == null)
+            {
+                sql = "select column_id ORDINAL_POSITION, TABLE_NAME, COLUMN_NAME, null TABLE_CATALOG, null TABLE_SCHEMA, DATA_TYPE, DATA_DEFAULT COLUMN_DEFAULT, NULLABLE IS_NULLABLE,CHAR_COL_DECL_LENGTH CHARACTER_MAXIMUM_LENGTH, DATA_PRECISION NUMERIC_PRECISION, DATA_SCALE NUMERIC_SCALE from USER_tab_COLS c inner join user_views t on c.table_name = t.view_name WHERE t.view_name =" + Conv.ToSqlTextA(tableName);
                 if (!string.IsNullOrEmpty(schemaName))
-                    sql += " AND TABLE_CATALOG=" + Conv.ToSqlTextA(schemaName);
-                tb = db.ExecuteDataTable("select column_id ORDINAL_POSITION, null TABLE_CATALOG, null TABLE_SCHEMA, DATA_DEFAULT COLUMN_DEFAULT, NULLABLE IS_NULLABLE,CHAR_COL_DECL_LENGTH CHARACTER_MAXIMUM_LENGTH, DATA_PRECISION NUMERIC_PRECISION, DATA_SCALE NUMERIC_SCALE, c.* from USER_tab_COLS c inner join user_views t on c.table_name = t.view_name WHERE t.view_name =" + Conv.ToSqlTextA(tableName));
+                    sql += " AND TABLE_CATALOG =" + Conv.ToSqlTextA(schemaName);
+                tb = db.ExecuteDataTable("select column_id ORDINAL_POSITION, TABLE_NAME, COLUMN_NAME, null TABLE_CATALOG, null TABLE_SCHEMA, DATA_TYPE, DATA_DEFAULT COLUMN_DEFAULT, NULLABLE IS_NULLABLE,CHAR_COL_DECL_LENGTH CHARACTER_MAXIMUM_LENGTH, DATA_PRECISION NUMERIC_PRECISION, DATA_SCALE NUMERIC_SCALE from USER_tab_COLS c inner join user_views t on c.table_name = t.view_name WHERE t.view_name =" + Conv.ToSqlTextA(tableName));
             }
             return tb;
         }
 
         public List<DbReferencialConstraintInfo> GetParentRelations(string schemaName, string tableName)
         {
-            return db.GetParentRelationsGeneric(schemaName, tableName);
+            return null;
+            //return db.GetParentRelationsGeneric(schemaName, tableName);
         }
 
         public DataTable GetDataTypes()
@@ -423,19 +638,29 @@ ORDER BY
             return db.ExecuteInt64("SELECT NEXT VALUE FOR {0}", sequenceName);
         }
 
+        public string GetCurrentSchema()
+        {
+            return db.ExecuteString("select user from dual;");
+        }
+
         public IDbProvider CreateProvider(Database db)
         {
             return new DbOracleProvider(db);
         }
 
-        public TimeSpan GetTimeSpan(DbDataReader reader, int ordinal)
-        {
-            return ((OracleDataReader)reader).GetTimeSpan(ordinal);
-        }
-
-        public DictionarySchemaTable<List<DbReferencialConstraintInfo>> GetReferentialContraints()
+        public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value)
         {
             throw new NotImplementedException();
+        }
+
+        public DataTable GetSchemaColumns(string commandText)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddUsings(DbColumnInfo col, Dictionary<string, string> usings)
+        {
+            return false;
         }
 
     }

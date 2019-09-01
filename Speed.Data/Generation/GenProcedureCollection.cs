@@ -9,7 +9,7 @@ namespace Speed.Data.Generation
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
-    [Serializable]
+    // [Serializable]
     [CollectionDataContract(ItemName = "Procedure")]
     public class GenProcedureCollection : List<GenProcedure>
     {

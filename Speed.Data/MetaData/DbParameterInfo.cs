@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Speed.Common;
+using System.Data;
 using System.Runtime.Serialization;
 
 namespace Speed.Data.MetaData
@@ -7,66 +8,66 @@ namespace Speed.Data.MetaData
     public class DbParameterInfo
     {
 
-        [DataMember]
+        // // [DataMember]
         public string SpecificCatalog { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string SpecificSchema { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string SpecificName { get; set; }
-        [DataMember]
+        // // [DataMember]
         public int OrdinalPosition { get; set; }
-        [DataMember]
+        // // [DataMember]
         public ParameterDirection ParameterMode { get; set; }
-        [DataMember]
+        // // [DataMember]
         public bool IsResult { get; set; }
-        [DataMember]
+        // // [DataMember]
         public bool AsLocator { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string ParameterName { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string DataType { get; set; }
-        [DataMember]
+        // // [DataMember]
         public int CharacterMaximumLength { get; set; }
-        [DataMember]
+        // // [DataMember]
         public int CharacterOctetLength { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string CollationCatalog { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string CollationSchema { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string CollationName { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string CharacterSetCatalog { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string CharacterSetSchema { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string CharacterSetName { get; set; }
-        [DataMember]
+        // // [DataMember]
         public int NumericPrecision { get; set; }
-        [DataMember]
+        // // [DataMember]
         public int NumericPrecisionRadix { get; set; }
-        [DataMember]
+        // // [DataMember]
         public int NumericScale { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string DatetimePrecision { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string IntervalType { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string IntervalPrecision { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string UserDefinedTypeCatalog { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string UserDefinedTypeSchema { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string UserDefinedTypeName { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string ScopeCatalog { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string ScopeSchema { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string ScopeName { get; set; }
 
-        [DataMember]
+        // // [DataMember]
         public string RoutineFullName { get { return string.IsNullOrEmpty(SpecificSchema) ? SpecificName : SpecificSchema + "." + SpecificName; } }
 
 

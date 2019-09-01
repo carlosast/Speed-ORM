@@ -8,7 +8,7 @@ namespace Speed.Data.Generation
     /// <summary>
     /// Parâmetros de geração de código
     /// </summary>
-    [Serializable]
+    // [Serializable]
     [DataContract( Name="Spd", Namespace = "Speed")]
     public class GenParameters
     {
@@ -16,19 +16,19 @@ namespace Speed.Data.Generation
         /// <summary>
         /// Namespace das classes de dados
         /// </summary>
-        [DataMember]
-        [XmlElement(Order = 0)]
+        // // [DataMember]
+        // //[XmlElement(Order = 0)]
         public GenClassParameters DataClass { get; set; }
 
         /// <summary>
         /// Namespace das classes de dados
         /// </summary>
-        [DataMember]
-        [XmlElement(Order = 1)]
+        // // [DataMember]
+        // //[XmlElement(Order = 1)]
         public GenClassParameters BusinessClass { get; set; }
 
-        [DataMember]
-        [XmlElement(Order = 2)]
+        // // [DataMember]
+        // //[XmlElement(Order = 2)]
         public bool ArrangeDirectoriesBySchema { get; set; }
 
 
@@ -36,26 +36,26 @@ namespace Speed.Data.Generation
         /// <summary>
         /// Tables e Views do banco de dados que serão geradas classes
         /// </summary>
-        [DataMember]
-        [XmlArray(Order=3, ElementName="Tables")]
+        // // [DataMember]
+        // //[XmlArray(Order=3, ElementName="Tables")]
         public GenTableCollection Tables { get; set; }
 
         /// <summary>
         /// Tables e Views do banco de dados que serão geradas classes
         /// </summary>
-        [DataMember]
-        [XmlArray(Order = 4, ElementName = "Views")]
+        // // [DataMember]
+        // //[XmlArray(Order = 4, ElementName = "Views")]
         public GenTableCollection Views { get; set; }
 
         /// <summary>
         /// Procedures do banco de dados que serão geradas classes
         /// </summary>
-        [DataMember]
-        [XmlArray(Order = 5, ElementName="Procedures")]
+        // // [DataMember]
+        // //[XmlArray(Order = 5, ElementName="Procedures")]
         public GenProcedureCollection Procedures { get; set; }
 
-        [DataMember]
-        [XmlElement(Order = 6)]
+        // // [DataMember]
+        // //[XmlElement(Order = 6)]
         public bool RaisePropertyChanged { get; set; }
         
         public GenParameters()
@@ -66,7 +66,7 @@ namespace Speed.Data.Generation
             DataClass = new GenClassParameters();
             BusinessClass = new GenClassParameters();
             BusinessClass.Prefix = "BL_";
-            RaisePropertyChanged = true;
+            RaisePropertyChanged = false;
         }
 
         public void Save(string fileName)
@@ -92,7 +92,7 @@ namespace Speed.Data.Generation
     }
 
 
-    [Serializable]
+    // [Serializable]
     [DataContract(Name = "Spd", Namespace = "Speed")]
     public class GenClassParameters
     {
@@ -100,50 +100,50 @@ namespace Speed.Data.Generation
         /// <summary>
         /// Namespace das classes de dados
         /// </summary>
-        [DataMember]
-        [XmlElement(Order = 0)]
+        // // [DataMember]
+        // //[XmlElement(Order = 0)]
         public string NameSpace { get; set; }
 
         /// <summary>
         /// Diretório onde serão geradas as classes de dados
         /// </summary>
-        [DataMember]
-        [XmlElement(Order = 1)]
+        // // [DataMember]
+        // //[XmlElement(Order = 1)]
         public string Directory { get; set; }
 
         /// <summary>
         /// Diretório onde serão geradas as classes de extensão de dados
         /// </summary>
-        [DataMember]
-        [XmlElement(Order = 2)]
+        // // [DataMember]
+        // //[XmlElement(Order = 2)]
         public string DirectoryExt { get; set; }
 
         /// <summary>
         /// Se inclui o Schema da base de dados, no início dos nomes das classes de dados e negócios
         /// </summary>
-        [DataMember]
-        [XmlElement(Order = 3)]
+        // // [DataMember]
+        // //[XmlElement(Order = 3)]
         public bool StartWithSchema { get; set; }
 
         /// <summary>
         /// Modo de conversão dos nomes dos objetos da base de dados ao gerar as classes
         /// </summary>
-        [DataMember]
-        [XmlElement(Order = 4)]
+        // // [DataMember]
+        // //[XmlElement(Order = 4)]
         public EnumNameCase NameCase { get; set; }
 
         /// <summary>
         /// Modo de conversão dos nomes dos objetos da base de dados ao gerar as classes
         /// </summary>
-        [DataMember]
-        [XmlElement(Order = 5)]
+        // // [DataMember]
+        // //[XmlElement(Order = 5)]
         public string Prefix { get; set; }
 
         /// <summary>
         /// Modo de conversão dos nomes dos objetos da base de dados ao gerar as classes
         /// </summary>
-        [DataMember]
-        [XmlElement(Order = 6)]
+        // // [DataMember]
+        // //[XmlElement(Order = 6)]
         public string Remove { get; set; }
 
     }

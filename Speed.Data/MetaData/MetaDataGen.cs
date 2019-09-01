@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using Speed.Data.MetaData;
+using Speed.Common;
 
 namespace Speed.Data
 {
@@ -17,7 +18,7 @@ namespace Speed.Data
         static string templateClass =
 @"using System;
 using System.Collections.Generic;
-[NameSpaces]using System.ComponentModel.DataAnnotations;
+// [NameSpaces]using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
 

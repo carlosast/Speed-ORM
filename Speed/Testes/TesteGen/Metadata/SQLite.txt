@@ -1,0 +1,218 @@
+﻿MetaDataCollections
+         CollectionName | NumberOfRestrictions | NumberOfIdentifierParts
+  'MetaDataCollections' |                    0 |                       0
+'DataSourceInformation' |                    0 |                       0
+            'DataTypes' |                    0 |                       0
+        'ReservedWords' |                    0 |                       0
+             'Catalogs' |                    1 |                       1
+              'Columns' |                    4 |                       4
+              'Indexes' |                    4 |                       3
+         'IndexColumns' |                    5 |                       4
+               'Tables' |                    4 |                       3
+                'Views' |                    3 |                       3
+          'ViewColumns' |                    4 |                       4
+          'ForeignKeys' |                    4 |                       3
+             'Triggers' |                    4 |                       0
+
+================================================================================
+
+DataSourceInformation
+CompositeIdentifierSeparatorPattern | DataSourceProductName | DataSourceProductVersion | DataSourceProductVersionNormalized | GroupByBehavior |                                                                                         IdentifierPattern | IdentifierCase | OrderByColumnsInSelect | ParameterMarkerFormat |                                                                ParameterMarkerPattern | ParameterNameMaxLength |                                                                  ParameterNamePattern | QuotedIdentifierPattern | QuotedIdentifierCase | StatementSeparatorPattern |  StringLiteralPattern | SupportedJoinOperators
+                               NULL |              'SQLite' |                 '3.7.17' |                           '3.7.17' |               3 | '(^\[\p{Lo}\p{Lu}\p{Ll}_@#][\p{Lo}\p{Lu}\p{Ll}\p{Nd}@$#_]*$)|(^\[[^\]\0]|\]\]+\]$)|(^\"[^\"\0]|\"\"+\"$)' |              1 |                      0 |                 '{0}' | '@[\p{Lo}\p{Lu}\p{Ll}\p{Lm}_@#][\p{Lo}\p{Lu}\p{Ll}\p{Lm}\p{Nd}\uff3f_@#\$]*(?=\s+|$)' |                    255 | '^[\p{Lo}\p{Lu}\p{Ll}\p{Lm}_@#][\p{Lo}\p{Lu}\p{Ll}\p{Lm}\p{Nd}\uff3f_@#\$]*(?=\s+|$)' |       '(([^\[]|\]\])*)' |                    1 |                       ';' | '''(([^'']|'''')*)''' |                     15
+
+================================================================================
+
+DataTypes
+          TypeName | ProviderDbType | ColumnSize |       CreateFormat | CreateParameters |          DataType | IsAutoIncrementable | IsBestMatch | IsCaseSensitive | IsFixedLength | IsFixedPrecisionScale | IsLong | IsNullable | IsSearchable | IsSearchableWithLike | IsLiteralSupported | LiteralPrefix | LiteralSuffix | IsUnsigned | MaximumScale | MinimumScale | IsConcurrencyType
+        'smallint' |             10 |          5 |         'smallint' |             NULL |    'System.Int16' |                   0 |           1 |               0 |             1 |                     1 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+             'int' |             11 |         10 |              'int' |             NULL |    'System.Int32' |                   0 |           1 |               0 |             1 |                     1 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+            'real' |             15 |          7 |             'real' |             NULL |   'System.Single' |                   0 |           1 |               0 |             1 |                     0 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+           'float' |              8 |          6 |            'float' |             NULL |   'System.Double' |                   0 |           1 |               0 |             1 |                     0 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+          'double' |              8 |          6 |           'double' |             NULL |   'System.Double' |                   0 |           0 |               0 |             1 |                     0 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+           'money' |              7 |         19 |            'money' |             NULL |  'System.Decimal' |                   0 |           1 |               0 |             1 |                     1 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+        'currency' |              7 |         19 |         'currency' |             NULL |  'System.Decimal' |                   0 |           0 |               0 |             1 |                     1 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+         'decimal' |              7 |         19 |          'decimal' |             NULL |  'System.Decimal' |                   0 |           1 |               0 |             1 |                     1 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+         'numeric' |              7 |         19 |          'numeric' |             NULL |  'System.Decimal' |                   0 |           0 |               0 |             1 |                     1 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+             'bit' |              3 |          1 |              'bit' |             NULL |  'System.Boolean' |                   0 |           1 |               0 |             1 |                     0 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+           'yesno' |              3 |          1 |            'yesno' |             NULL |  'System.Boolean' |                   0 |           0 |               0 |             1 |                     0 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+         'logical' |              3 |          1 |          'logical' |             NULL |  'System.Boolean' |                   0 |           0 |               0 |             1 |                     0 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+            'bool' |              3 |          1 |             'bool' |             NULL |  'System.Boolean' |                   0 |           0 |               0 |             1 |                     0 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+         'boolean' |              3 |          1 |          'boolean' |             NULL |  'System.Boolean' |                   0 |           0 |               0 |             1 |                     0 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+         'tinyint' |              2 |          3 |          'tinyint' |             NULL |     'System.Byte' |                   0 |           1 |               0 |             1 |                     1 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          1 |            0 |            0 |                 0
+         'integer' |             12 |         19 |          'integer' |             NULL |    'System.Int64' |                   1 |           1 |               0 |             1 |                     1 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+         'counter' |             12 |         19 |          'counter' |             NULL |    'System.Int64' |                   1 |           0 |               0 |             1 |                     1 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+   'autoincrement' |             12 |         19 |    'autoincrement' |             NULL |    'System.Int64' |                   1 |           0 |               0 |             1 |                     1 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+        'identity' |             12 |         19 |         'identity' |             NULL |    'System.Int64' |                   1 |           0 |               0 |             1 |                     1 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+            'long' |             12 |         19 |             'long' |             NULL |    'System.Int64' |                   1 |           0 |               0 |             1 |                     1 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+          'bigint' |             12 |         19 |           'bigint' |             NULL |    'System.Int64' |                   1 |           0 |               0 |             1 |                     1 |      0 |          1 |            1 |                    0 |                  0 |          NULL |          NULL |          0 |            0 |            0 |                 0
+          'binary' |              1 | 2147483647 |           'binary' |             NULL |   'System.Byte[]' |                   0 |           1 |               0 |             0 |                     0 |      0 |          1 |            0 |                    0 |                  0 |         'X''' |          '''' |          0 |            0 |            0 |                 0
+       'varbinary' |              1 | 2147483647 |        'varbinary' |             NULL |   'System.Byte[]' |                   0 |           0 |               0 |             0 |                     0 |      0 |          1 |            0 |                    0 |                  0 |         'X''' |          '''' |          0 |            0 |            0 |                 0
+            'blob' |              1 | 2147483647 |             'blob' |             NULL |   'System.Byte[]' |                   0 |           0 |               0 |             0 |                     0 |      0 |          1 |            0 |                    0 |                  0 |         'X''' |          '''' |          0 |            0 |            0 |                 0
+           'image' |              1 | 2147483647 |            'image' |             NULL |   'System.Byte[]' |                   0 |           0 |               0 |             0 |                     0 |      0 |          1 |            0 |                    0 |                  0 |         'X''' |          '''' |          0 |            0 |            0 |                 0
+         'general' |              1 | 2147483647 |          'general' |             NULL |   'System.Byte[]' |                   0 |           0 |               0 |             0 |                     0 |      0 |          1 |            0 |                    0 |                  0 |         'X''' |          '''' |          0 |            0 |            0 |                 0
+       'oleobject' |              1 | 2147483647 |        'oleobject' |             NULL |   'System.Byte[]' |                   0 |           0 |               0 |             0 |                     0 |      0 |          1 |            0 |                    0 |                  0 |         'X''' |          '''' |          0 |            0 |            0 |                 0
+         'varchar' |             16 | 2147483647 |     'varchar({0})' |     'max length' |   'System.String' |                   0 |           1 |               0 |             0 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+        'nvarchar' |             16 | 2147483647 |    'nvarchar({0})' |     'max length' |   'System.String' |                   0 |           1 |               0 |             0 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+            'memo' |             16 | 2147483647 |        'memo({0})' |     'max length' |   'System.String' |                   0 |           0 |               0 |             0 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+        'longtext' |             16 | 2147483647 |    'longtext({0})' |     'max length' |   'System.String' |                   0 |           0 |               0 |             0 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+            'note' |             16 | 2147483647 |        'note({0})' |     'max length' |   'System.String' |                   0 |           0 |               0 |             0 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+            'text' |             16 | 2147483647 |        'text({0})' |     'max length' |   'System.String' |                   0 |           0 |               0 |             0 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+           'ntext' |             16 | 2147483647 |       'ntext({0})' |     'max length' |   'System.String' |                   0 |           0 |               0 |             0 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+          'string' |             16 | 2147483647 |      'string({0})' |     'max length' |   'System.String' |                   0 |           0 |               0 |             0 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+            'char' |             16 | 2147483647 |        'char({0})' |     'max length' |   'System.String' |                   0 |           0 |               0 |             0 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+           'nchar' |             16 | 2147483647 |        'char({0})' |     'max length' |   'System.String' |                   0 |           0 |               0 |             0 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+        'datetime' |              6 |         23 |         'datetime' |             NULL | 'System.DateTime' |                   0 |           1 |               0 |             1 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+       'smalldate' |              6 |         23 |        'smalldate' |             NULL | 'System.DateTime' |                   0 |           0 |               0 |             1 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+       'timestamp' |              6 |         23 |        'timestamp' |             NULL | 'System.DateTime' |                   0 |           0 |               0 |             1 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+            'date' |              6 |         23 |             'date' |             NULL | 'System.DateTime' |                   0 |           0 |               0 |             1 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+            'time' |              6 |         23 |             'time' |             NULL | 'System.DateTime' |                   0 |           0 |               0 |             1 |                     0 |      0 |          1 |            1 |                    1 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+'uniqueidentifier' |              4 |         16 | 'uniqueidentifier' |             NULL |     'System.Guid' |                   0 |           1 |               0 |             1 |                     0 |      0 |          1 |            1 |                    0 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+            'guid' |              4 |         16 |             'guid' |             NULL |     'System.Guid' |                   0 |           0 |               0 |             1 |                     0 |      0 |          1 |            1 |                    0 |                  0 |          '''' |          '''' |          0 |            0 |            0 |                 0
+
+================================================================================
+
+ReservedWords
+   ReservedWord | MaximumVersion | MinimumVersion
+          'ALL' |           NULL |           NULL
+        'ALTER' |           NULL |           NULL
+          'AND' |           NULL |           NULL
+           'AS' |           NULL |           NULL
+'AUTOINCREMENT' |           NULL |           NULL
+      'BETWEEN' |           NULL |           NULL
+           'BY' |           NULL |           NULL
+         'CASE' |           NULL |           NULL
+        'CHECK' |           NULL |           NULL
+      'COLLATE' |           NULL |           NULL
+       'COMMIT' |           NULL |           NULL
+   'CONSTRAINT' |           NULL |           NULL
+       'CREATE' |           NULL |           NULL
+        'CROSS' |           NULL |           NULL
+      'DEFAULT' |           NULL |           NULL
+   'DEFERRABLE' |           NULL |           NULL
+       'DELETE' |           NULL |           NULL
+     'DISTINCT' |           NULL |           NULL
+         'DROP' |           NULL |           NULL
+         'ELSE' |           NULL |           NULL
+       'ESCAPE' |           NULL |           NULL
+       'EXCEPT' |           NULL |           NULL
+      'FOREIGN' |           NULL |           NULL
+         'FROM' |           NULL |           NULL
+         'FULL' |           NULL |           NULL
+        'GROUP' |           NULL |           NULL
+       'HAVING' |           NULL |           NULL
+           'IN' |           NULL |           NULL
+        'INDEX' |           NULL |           NULL
+        'INNER' |           NULL |           NULL
+       'INSERT' |           NULL |           NULL
+    'INTERSECT' |           NULL |           NULL
+         'INTO' |           NULL |           NULL
+           'IS' |           NULL |           NULL
+       'ISNULL' |           NULL |           NULL
+         'JOIN' |           NULL |           NULL
+         'LEFT' |           NULL |           NULL
+        'LIMIT' |           NULL |           NULL
+      'NATURAL' |           NULL |           NULL
+          'NOT' |           NULL |           NULL
+      'NOTNULL' |           NULL |           NULL
+         'NULL' |           NULL |           NULL
+           'ON' |           NULL |           NULL
+           'OR' |           NULL |           NULL
+        'ORDER' |           NULL |           NULL
+        'OUTER' |           NULL |           NULL
+      'PRIMARY' |           NULL |           NULL
+   'REFERENCES' |           NULL |           NULL
+        'RIGHT' |           NULL |           NULL
+     'ROLLBACK' |           NULL |           NULL
+       'SELECT' |           NULL |           NULL
+          'SET' |           NULL |           NULL
+        'TABLE' |           NULL |           NULL
+         'THEN' |           NULL |           NULL
+           'TO' |           NULL |           NULL
+  'TRANSACTION' |           NULL |           NULL
+        'UNION' |           NULL |           NULL
+       'UNIQUE' |           NULL |           NULL
+       'UPDATE' |           NULL |           NULL
+        'USING' |           NULL |           NULL
+       'VALUES' |           NULL |           NULL
+         'WHEN' |           NULL |           NULL
+        'WHERE' |           NULL |           NULL
+
+================================================================================
+
+Catalogs
+CATALOG_NAME |                                                         DESCRIPTION | ID
+      'main' | 'E:\_Codeplex\_Systems\Speed\Testes\TesteGen\bin\Debug\Test.sqlite' |  0
+
+================================================================================
+
+Columns
+TABLE_CATALOG |            TABLE_SCHEMA |        TABLE_NAME |      COLUMN_NAME | COLUMN_GUID | COLUMN_PROPID | ORDINAL_POSITION | COLUMN_HASDEFAULT | COLUMN_DEFAULT | COLUMN_FLAGS | IS_NULLABLE | DATA_TYPE | TYPE_GUID | CHARACTER_MAXIMUM_LENGTH | CHARACTER_OCTET_LENGTH | NUMERIC_PRECISION | NUMERIC_SCALE | DATETIME_PRECISION | CHARACTER_SET_CATALOG | CHARACTER_SET_SCHEMA | CHARACTER_SET_NAME | COLLATION_CATALOG | COLLATION_SCHEMA | COLLATION_NAME | DOMAIN_CATALOG | DOMAIN_NAME | DESCRIPTION | PRIMARY_KEY |   EDM_TYPE | AUTOINCREMENT | UNIQUE
+       'main' | 'sqlite_default_schema' | 'sqlite_sequence' |           'name' |        NULL |             0 |                0 |                 0 |           NULL |            0 |           1 |        '' |      NULL |               2147483647 |                      0 |                 0 |             0 |                  0 |                  NULL |                 NULL |               NULL |              NULL |             NULL |       'BINARY' |           NULL |        NULL |        NULL |           0 |         '' |             0 |      0
+       'main' | 'sqlite_default_schema' | 'sqlite_sequence' |            'seq' |        NULL |             0 |                1 |                 0 |           NULL |            0 |           1 |        '' |      NULL |               2147483647 |                      0 |                 0 |             0 |                  0 |                  NULL |                 NULL |               NULL |              NULL |             NULL |       'BINARY' |           NULL |        NULL |        NULL |           0 |         '' |             0 |      0
+       'main' | 'sqlite_default_schema' |        'Customer' |     'CustomerId' |        NULL |             0 |                0 |                 0 |           NULL |            0 |           0 | 'integer' |      NULL |                        8 |                      0 |                19 |             0 |                  0 |                  NULL |                 NULL |               NULL |              NULL |             NULL |       'BINARY' |           NULL |        NULL |        NULL |           1 |  'integer' |             1 |      1
+       'main' | 'sqlite_default_schema' |        'Customer' |   'CustomerName' |        NULL |             0 |                1 |                 0 |           NULL |            0 |           1 |    'text' |      NULL |               2147483647 |                      0 |                 0 |             0 |                  0 |                  NULL |                 NULL |               NULL |              NULL |             NULL |       'BINARY' |           NULL |        NULL |        NULL |           0 | 'nvarchar' |             0 |      0
+       'main' | 'sqlite_default_schema' |            'Sale' |         'SaleId' |        NULL |             0 |                0 |                 0 |           NULL |            0 |           0 | 'integer' |      NULL |                        8 |                      0 |                19 |             0 |                  0 |                  NULL |                 NULL |               NULL |              NULL |             NULL |       'BINARY' |           NULL |        NULL |        NULL |           1 |  'integer' |             1 |      1
+       'main' | 'sqlite_default_schema' |            'Sale' | 'SaleCustomerId' |        NULL |             0 |                1 |                 0 |           NULL |            0 |           1 | 'integer' |      NULL |                        8 |                      0 |                19 |             0 |                  0 |                  NULL |                 NULL |               NULL |              NULL |             NULL |       'BINARY' |           NULL |        NULL |        NULL |           0 |  'integer' |             0 |      0
+       'main' | 'sqlite_default_schema' |      'SaleDetail' |       'DetailId' |        NULL |             0 |                0 |                 0 |           NULL |            0 |           0 | 'integer' |      NULL |                        8 |                      0 |                19 |             0 |                  0 |                  NULL |                 NULL |               NULL |              NULL |             NULL |       'BINARY' |           NULL |        NULL |        NULL |           1 |  'integer' |             1 |      1
+       'main' | 'sqlite_default_schema' |      'SaleDetail' |      'DetSaleId' |        NULL |             0 |                1 |                 0 |           NULL |            0 |           1 | 'integer' |      NULL |                        8 |                      0 |                19 |             0 |                  0 |                  NULL |                 NULL |               NULL |              NULL |             NULL |       'BINARY' |           NULL |        NULL |        NULL |           0 |  'integer' |             0 |      0
+
+================================================================================
+
+Indexes
+TABLE_CATALOG | TABLE_SCHEMA |   TABLE_NAME | INDEX_CATALOG | INDEX_SCHEMA |                    INDEX_NAME | PRIMARY_KEY | UNIQUE | CLUSTERED | TYPE | FILL_FACTOR | INITIAL_SIZE | NULLS | SORT_BOOKMARKS | AUTO_UPDATE | NULL_COLLATION | ORDINAL_POSITION | COLUMN_NAME | COLUMN_GUID | COLUMN_PROPID | COLLATION | CARDINALITY | PAGES | FILTER_CONDITION | INTEGRATED | INDEX_DEFINITION
+       'main' |         NULL |   'Customer' |        'main' |         NULL |   'sqlite_master_PK_Customer' |           1 |      1 |         0 |    0 |           0 |            0 |     0 |              0 |           0 |              0 |                0 |        NULL |        NULL |             0 |         0 |           0 |     0 |             NULL |          0 |             NULL
+       'main' |         NULL |       'Sale' |        'main' |         NULL |       'sqlite_master_PK_Sale' |           1 |      1 |         0 |    0 |           0 |            0 |     0 |              0 |           0 |              0 |                0 |        NULL |        NULL |             0 |         0 |           0 |     0 |             NULL |          0 |             NULL
+       'main' |         NULL | 'SaleDetail' |        'main' |         NULL | 'sqlite_master_PK_SaleDetail' |           1 |      1 |         0 |    0 |           0 |            0 |     0 |              0 |           0 |              0 |                0 |        NULL |        NULL |             0 |         0 |           0 |     0 |             NULL |          0 |             NULL
+
+================================================================================
+
+IndexColumns
+CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA |               CONSTRAINT_NAME | TABLE_CATALOG | TABLE_SCHEMA |   TABLE_NAME |  COLUMN_NAME | ORDINAL_POSITION |                    INDEX_NAME | COLLATION_NAME | SORT_MODE | CONFLICT_OPTION
+            'main' |              NULL |   'sqlite_master_PK_Customer' |        'main' |         NULL |   'Customer' | 'CustomerId' |                0 |   'sqlite_master_PK_Customer' |       'BINARY' |     'ASC' |               2
+            'main' |              NULL |       'sqlite_master_PK_Sale' |        'main' |         NULL |       'Sale' |     'SaleId' |                0 |       'sqlite_master_PK_Sale' |       'BINARY' |     'ASC' |               2
+            'main' |              NULL | 'sqlite_master_PK_SaleDetail' |        'main' |         NULL | 'SaleDetail' |   'DetailId' |                0 | 'sqlite_master_PK_SaleDetail' |       'BINARY' |     'ASC' |               2
+
+================================================================================
+
+Tables
+TABLE_CATALOG | TABLE_SCHEMA |        TABLE_NAME |     TABLE_TYPE | TABLE_ID | TABLE_ROOTPAGE |                                                                                                                                                    TABLE_DEFINITION
+       'main' |         NULL | 'sqlite_sequence' | 'SYSTEM_TABLE' |        2 |              3 |                                                                                                                            'CREATE TABLE sqlite_sequence(name,seq)'
+       'main' |         NULL |        'Customer' |        'table' |        3 |              2 |                                                             'CREATE TABLE Customer (
+	CustomerId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+	CustomerName TEXT
+)'
+       'main' |         NULL |            'Sale' |        'table' |        4 |              4 | 'CREATE TABLE Sale (
+	SaleId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+	SaleCustomerId INTEGER ,
+	FOREIGN KEY(SaleCustomerId) REFERENCES Customer(CustomerId)
+)'
+       'main' |         NULL |      'SaleDetail' |        'table' |        5 |              5 |         'CREATE TABLE SaleDetail (
+	DetailId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+	DetSaleId INTEGER  , 
+	FOREIGN KEY(DetSaleId) REFERENCES Sale(SaleId)
+)'
+
+================================================================================
+
+Views
+TABLE_CATALOG | TABLE_SCHEMA | TABLE_NAME | VIEW_DEFINITION | CHECK_OPTION | IS_UPDATABLE | DESCRIPTION | DATE_CREATED | DATE_MODIFIED
+
+================================================================================
+
+ViewColumns
+VIEW_CATALOG | VIEW_SCHEMA | VIEW_NAME | VIEW_COLUMN_NAME | TABLE_CATALOG | TABLE_SCHEMA | TABLE_NAME | COLUMN_NAME | ORDINAL_POSITION | COLUMN_HASDEFAULT | COLUMN_DEFAULT | COLUMN_FLAGS | IS_NULLABLE | DATA_TYPE | CHARACTER_MAXIMUM_LENGTH | NUMERIC_PRECISION | NUMERIC_SCALE | DATETIME_PRECISION | CHARACTER_SET_CATALOG | CHARACTER_SET_SCHEMA | CHARACTER_SET_NAME | COLLATION_CATALOG | COLLATION_SCHEMA | COLLATION_NAME | PRIMARY_KEY | EDM_TYPE | AUTOINCREMENT | UNIQUE
+
+================================================================================
+
+ForeignKeys
+CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA |     CONSTRAINT_NAME | TABLE_CATALOG | TABLE_SCHEMA |   TABLE_NAME | CONSTRAINT_TYPE | IS_DEFERRABLE | INITIALLY_DEFERRED | FKEY_ID | FKEY_FROM_COLUMN | FKEY_FROM_ORDINAL_POSITION | FKEY_TO_CATALOG | FKEY_TO_SCHEMA | FKEY_TO_TABLE | FKEY_TO_COLUMN | FKEY_ON_UPDATE | FKEY_ON_DELETE | FKEY_MATCH
+            'main' |              NULL |       'FK_Sale_0_0' |        'main' |         NULL |       'Sale' |   'FOREIGN KEY' |             0 |                  0 |       0 | 'SaleCustomerId' |                          0 |          'main' |           NULL |    'Customer' |   'CustomerId' |    'NO ACTION' |    'NO ACTION' |     'NONE'
+            'main' |              NULL | 'FK_SaleDetail_0_0' |        'main' |         NULL | 'SaleDetail' |   'FOREIGN KEY' |             0 |                  0 |       0 |      'DetSaleId' |                          0 |          'main' |           NULL |        'Sale' |       'SaleId' |    'NO ACTION' |    'NO ACTION' |     'NONE'
+
+================================================================================
+
+Triggers
+TABLE_CATALOG | TABLE_SCHEMA | TABLE_NAME | TRIGGER_NAME | TRIGGER_DEFINITION
+
+================================================================================
+

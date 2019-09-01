@@ -7,6 +7,8 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Xml;
 using Speed.Data;
+using System.Reflection;
+using Speed.Common;
 
 // Carlos Alberto Stefani
 
@@ -147,39 +149,43 @@ namespace Speed
             return Deserialize<T>(File.ReadAllText(fileName));
         }
 
+        /*
         public static void WriteToCsv<T>(string fileName, IEnumerable<T> list)
         {
-            using (var w = new StreamWriter(fileName))
+            using (var fs = new System.IO.FileStream(fileName, FileMode.Create))
             {
-                var props = typeof(T).GetProperties().ToDictionary(p => p.Name);
-
-
-                int index = 0;
-                foreach (var prop in props)
+                using (var w = new StreamWriter(fs))
                 {
-                    if (index < props.Count - 1)
-                        w.Write(string.Format("\"{0}\";", getCsvValue(prop.Value.Name)));
-                    else
-                        w.Write(string.Format("\"{0}\"", getCsvValue(prop.Value.Name)));
-                    index++;
-                }
+                    var props = typeof(T).GetRuntimeProperties().ToDictionary(p => p.Name);
 
-                foreach (var item in list)
-                {
-                    index = 0;
+
+                    int index = 0;
                     foreach (var prop in props)
                     {
                         if (index < props.Count - 1)
-                            w.Write(string.Format("\"{0}\";", getCsvValue(prop.Value.GetValue(item, null))));
+                            w.Write(string.Format("\"{0}\";", getCsvValue(prop.Value.Name)));
                         else
-                            w.Write(string.Format("\"{0}\"", getCsvValue(prop.Value.GetValue(item, null))));
+                            w.Write(string.Format("\"{0}\"", getCsvValue(prop.Value.Name)));
                         index++;
                     }
-                    w.WriteLine();
+
+                    foreach (var item in list)
+                    {
+                        index = 0;
+                        foreach (var prop in props)
+                        {
+                            if (index < props.Count - 1)
+                                w.Write(string.Format("\"{0}\";", getCsvValue(prop.Value.GetValue(item, null))));
+                            else
+                                w.Write(string.Format("\"{0}\"", getCsvValue(prop.Value.GetValue(item, null))));
+                            index++;
+                        }
+                        w.WriteLine();
+                    }
                 }
             }
         }
-
+        */
         static string getCsvValue(object value)
         {
             if (value == null)

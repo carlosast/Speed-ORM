@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.Data;
+using System.Data.Common;
+using Speed.Common;
 
 namespace Speed.Data.MetaData
 {
@@ -9,7 +11,7 @@ namespace Speed.Data.MetaData
     /// Classe com informações de uma coluna da base de dados
     /// </summary>
 
-    [DataContract]
+    // // [DataContract]
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
@@ -18,51 +20,51 @@ namespace Speed.Data.MetaData
 
         #region Declarations
 
-        [DataMember]
+        // // [DataMember]
         public string TableCatalog { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string TableSchema { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string TableName { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string ColumnName { get; set; }
-        [DataMember]
+        // // [DataMember]
         public int OrdinalPosition { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string ColumnDefault { get; set; }
-        [DataMember]
+        // // [DataMember]
         public bool IsNullable { get; set; }
-        [DataMember]
+        // // [DataMember]
         public bool IsIdentity { get; set; }
-        [DataMember]
+        // // [DataMember]
         public bool IsComputed { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string DataType { get; set; }
 
         private string dataTypeDotNet;
 
-        [DataMember]
+        // // [DataMember]
         public long CharacterMaximumLength { get; set; }
-        [DataMember]
+        // // [DataMember]
         public long CharacterOctetLength { get; set; }
-        [DataMember]
+        // // [DataMember]
         public byte NumericPrecision { get; set; }
-        [DataMember]
+        // // [DataMember]
         public short NumericPrecisionRadix { get; set; }
-        [DataMember]
+        // // [DataMember]
         public int NumericScale { get; set; }
-        [DataMember]
+        // // [DataMember]
         public short DatetimePrecision { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string CharacterSetCatalog { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string CharacterSetSchema { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string CharacterSetName { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string CollationCatalog { get; set; }
 
-        [DataMember]
+        // // [DataMember]
         public bool AddQuote = false;
 
         #endregion Declarations
@@ -155,30 +157,30 @@ namespace Speed.Data.MetaData
 
         public DbColumnInfo(Database db, string tableName, DataColumn col)
         {
-            // this.TableCatalog = Conv.ToString(row["TABLE_CATALOG"]);
-            // this.TableSchema = Conv.ToString(row["TABLE_SCHEMA"]);
-            this.TableName = tableName;
-            this.ColumnName = col.ColumnName;
-            this.OrdinalPosition = col.Ordinal;
-            this.ColumnDefault = col.DefaultValue.ToString();
-            this.IsNullable = col.AllowDBNull;
-            //this.DataType = col.DataType.Name ;
-            // this.DataType = Conv.ToString(row["DATA_TYPE"]);
-            // this.CharacterMaximumLength = Conv.ToInt32(row["CHARACTER_MAXIMUM_LENGTH"]);
-            // this.CharacterOctetLength = Conv.ToInt32(row["CHARACTER_OCTET_LENGTH"]);
-            // this.NumericPrecision = Conv.ToByte(row["NUMERIC_PRECISION"]);
-            // this.NumericPrecisionRadix = Conv.ToInt16(row["NUMERIC_PRECISION_RADIX"]);
-            // this.NumericScale = Conv.ToInt32(row["NUMERIC_SCALE"]);
-            // this.DatetimePrecision = Conv.ToInt16(row["DATETIME_PRECISION"]);
-            // this.CharacterSetCatalog = Conv.ToString(row["CHARACTER_SET_CATALOG"]);
-            // this.CharacterSetSchema = Conv.ToString(row["CHARACTER_SET_SCHEMA"]);
-            // this.CharacterSetName = Conv.ToString(row["CHARACTER_SET_NAME"]);
-            // this.CollationCatalog = Convert.ToString(row["COLLATION_CATALOG"]);
+            // TableCatalog = Conv.ToString(row["TABLE_CATALOG"]);
+            // TableSchema = Conv.ToString(row["TABLE_SCHEMA"]);
+            TableName = tableName;
+            ColumnName = col.ColumnName;
+            OrdinalPosition = col.Ordinal;
+            //ColumnDefault = col.DefaultValue.ToString();
+            IsNullable = col.AllowDBNull;
+            DataType = col.DataType.Name;
 
-            this.IsIdentity = col.AutoIncrement;
+            // CharacterMaximumLength = Conv.ToInt32(row["CHARACTER_MAXIMUM_LENGTH"]);
+            // CharacterOctetLength = Conv.ToInt32(row["CHARACTER_OCTET_LENGTH"]);
+            // NumericPrecision = Conv.ToByte(row["NUMERIC_PRECISION"]);
+            // NumericPrecisionRadix = Conv.ToInt16(row["NUMERIC_PRECISION_RADIX"]);
+            // NumericScale = Conv.ToInt32(row["NUMERIC_SCALE"]);
+            // DatetimePrecision = Conv.ToInt16(row["DATETIME_PRECISION"]);
+            // CharacterSetCatalog = Conv.ToString(row["CHARACTER_SET_CATALOG"]);
+            // CharacterSetSchema = Conv.ToString(row["CHARACTER_SET_SCHEMA"]);
+            // CharacterSetName = Conv.ToString(row["CHARACTER_SET_NAME"]);
+            // CollationCatalog = Convert.ToString(row["COLLATION_CATALOG"]);
+
+            IsIdentity = col.AutoIncrement;
         }
 
-        [DataMember]
+        // // [DataMember]
         public string DataTypeDotNet
         {
             get { return dataTypeDotNet; }

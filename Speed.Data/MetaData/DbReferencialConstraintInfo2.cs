@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Speed.Common;
+using System.Collections.Generic;
 using System.Data;
 using System.Runtime.Serialization;
 
@@ -8,37 +9,37 @@ namespace Speed.Data.MetaData
     public class DbReferencialConstraintInfo2
     {
 
-        [DataMember]
+        // // [DataMember]
         public string ConstraintCatalog { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string ConstraintSchema { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string ConstraintName { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string ConstraintFullName { get { return Conv.GetKey(ConstraintCatalog, ConstraintSchema, ConstraintName); } }
 
-        [DataMember]
+        // // [DataMember]
         public string UniqueConstraintCatalog { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string UniqueConstraintSchema { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string UniqueConstraintName { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string UniqueConstraintFullName { get { return Conv.GetKey(UniqueConstraintCatalog, UniqueConstraintSchema, UniqueConstraintName); } }
 
-        [DataMember]
+        // // [DataMember]
         public string TableCatalog { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string TableSchema { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string TableName { get; set; }
-        [DataMember]
+        // // [DataMember]
         public string TableFullName { get { return Conv.GetKey(TableSchema, TableName); } }
 
-        [DataMember]
+        // // [DataMember]
         public EnumConstraintType ConstraintType { get; set; }
 
-        [DataMember]
+        // // [DataMember]
         public List<DbConstraintColumnInfo> Columns { get; set; }
 
         public DbReferencialConstraintInfo2()

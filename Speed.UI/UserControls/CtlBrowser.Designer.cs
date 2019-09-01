@@ -41,6 +41,7 @@
             this.grdViews = new SourceGrid.Grid();
             this.grdViewColumns = new SourceGrid.Grid();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnImportHibernate = new System.Windows.Forms.Button();
             this.panNaming = new System.Windows.Forms.Panel();
             this.grpNaming = new System.Windows.Forms.GroupBox();
             this.chkRaisePropertyChanged = new System.Windows.Forms.CheckBox();
@@ -84,7 +85,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabObjects);
             this.splitContainer1.Size = new System.Drawing.Size(1093, 255);
-            this.splitContainer1.SplitterDistance = 372;
+            this.splitContainer1.SplitterDistance = 572;
             this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -96,7 +97,7 @@
             this.trv.Location = new System.Drawing.Point(0, 0);
             this.trv.Name = "trv";
             this.trv.ShowNodeToolTips = true;
-            this.trv.Size = new System.Drawing.Size(372, 255);
+            this.trv.Size = new System.Drawing.Size(572, 255);
             this.trv.TabIndex = 0;
             this.trv.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.trv_AfterCheck);
             this.trv.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.trv_BeforeExpand);
@@ -107,20 +108,21 @@
             this.tabObjects.Controls.Add(this.tabTables);
             this.tabObjects.Controls.Add(this.tabViews);
             this.tabObjects.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabObjects.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabObjects.Location = new System.Drawing.Point(0, 0);
             this.tabObjects.Name = "tabObjects";
             this.tabObjects.SelectedIndex = 0;
-            this.tabObjects.Size = new System.Drawing.Size(715, 255);
+            this.tabObjects.Size = new System.Drawing.Size(515, 255);
             this.tabObjects.TabIndex = 1;
             // 
             // tabTables
             // 
             this.tabTables.AutoScroll = true;
             this.tabTables.Controls.Add(this.splitContainer2);
-            this.tabTables.Location = new System.Drawing.Point(4, 22);
+            this.tabTables.Location = new System.Drawing.Point(4, 27);
             this.tabTables.Name = "tabTables";
             this.tabTables.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTables.Size = new System.Drawing.Size(707, 229);
+            this.tabTables.Size = new System.Drawing.Size(507, 224);
             this.tabTables.TabIndex = 0;
             this.tabTables.Text = "Tables";
             this.tabTables.UseVisualStyleBackColor = true;
@@ -139,19 +141,20 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.grdTableColumns);
-            this.splitContainer2.Size = new System.Drawing.Size(701, 223);
-            this.splitContainer2.SplitterDistance = 155;
+            this.splitContainer2.Size = new System.Drawing.Size(501, 218);
+            this.splitContainer2.SplitterDistance = 150;
             this.splitContainer2.TabIndex = 6;
             // 
             // grdTables
             // 
             this.grdTables.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grdTables.EnableSort = true;
+            this.grdTables.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grdTables.Location = new System.Drawing.Point(0, 0);
             this.grdTables.Name = "grdTables";
             this.grdTables.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.grdTables.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.grdTables.Size = new System.Drawing.Size(701, 155);
+            this.grdTables.Size = new System.Drawing.Size(501, 150);
             this.grdTables.TabIndex = 1;
             this.grdTables.TabStop = true;
             this.grdTables.ToolTipText = "";
@@ -160,11 +163,12 @@
             // 
             this.grdTableColumns.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grdTableColumns.EnableSort = true;
+            this.grdTableColumns.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grdTableColumns.Location = new System.Drawing.Point(0, 0);
             this.grdTableColumns.Name = "grdTableColumns";
             this.grdTableColumns.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.grdTableColumns.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.grdTableColumns.Size = new System.Drawing.Size(701, 64);
+            this.grdTableColumns.Size = new System.Drawing.Size(501, 64);
             this.grdTableColumns.TabIndex = 2;
             this.grdTableColumns.TabStop = true;
             this.grdTableColumns.ToolTipText = "";
@@ -176,7 +180,7 @@
             this.tabViews.Location = new System.Drawing.Point(4, 22);
             this.tabViews.Name = "tabViews";
             this.tabViews.Padding = new System.Windows.Forms.Padding(3);
-            this.tabViews.Size = new System.Drawing.Size(707, 229);
+            this.tabViews.Size = new System.Drawing.Size(507, 229);
             this.tabViews.TabIndex = 1;
             this.tabViews.Text = "Views";
             this.tabViews.UseVisualStyleBackColor = true;
@@ -195,8 +199,8 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.grdViewColumns);
-            this.splitContainer3.Size = new System.Drawing.Size(701, 223);
-            this.splitContainer3.SplitterDistance = 155;
+            this.splitContainer3.Size = new System.Drawing.Size(501, 223);
+            this.splitContainer3.SplitterDistance = 154;
             this.splitContainer3.TabIndex = 7;
             // 
             // grdViews
@@ -207,7 +211,7 @@
             this.grdViews.Name = "grdViews";
             this.grdViews.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.grdViews.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.grdViews.Size = new System.Drawing.Size(701, 155);
+            this.grdViews.Size = new System.Drawing.Size(501, 154);
             this.grdViews.TabIndex = 1;
             this.grdViews.TabStop = true;
             this.grdViews.ToolTipText = "";
@@ -220,10 +224,21 @@
             this.grdViewColumns.Name = "grdViewColumns";
             this.grdViewColumns.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.grdViewColumns.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.grdViewColumns.Size = new System.Drawing.Size(701, 64);
+            this.grdViewColumns.Size = new System.Drawing.Size(501, 65);
             this.grdViewColumns.TabIndex = 2;
             this.grdViewColumns.TabStop = true;
             this.grdViewColumns.ToolTipText = "";
+            // 
+            // btnImportHibernate
+            // 
+            this.btnImportHibernate.Location = new System.Drawing.Point(1048, 105);
+            this.btnImportHibernate.Name = "btnImportHibernate";
+            this.btnImportHibernate.Size = new System.Drawing.Size(96, 23);
+            this.btnImportHibernate.TabIndex = 11;
+            this.btnImportHibernate.Text = "Import Hibernate";
+            this.toolTip1.SetToolTip(this.btnImportHibernate, "Import Hibernate Schema");
+            this.btnImportHibernate.UseVisualStyleBackColor = true;
+            this.btnImportHibernate.Click += new System.EventHandler(this.BtnImportHibernate_Click);
             // 
             // panNaming
             // 
@@ -239,8 +254,10 @@
             this.grpNaming.Controls.Add(this.chkRaisePropertyChanged);
             this.grpNaming.Controls.Add(this.groupBox2);
             this.grpNaming.Controls.Add(this.groupBox1);
+            this.grpNaming.Controls.Add(this.btnImportHibernate);
             this.grpNaming.Controls.Add(this.btnApplyNames);
             this.grpNaming.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpNaming.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpNaming.Location = new System.Drawing.Point(0, 0);
             this.grpNaming.Name = "grpNaming";
             this.grpNaming.Size = new System.Drawing.Size(1093, 135);
@@ -255,7 +272,7 @@
             this.chkRaisePropertyChanged.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRaisePropertyChanged.Location = new System.Drawing.Point(992, 19);
             this.chkRaisePropertyChanged.Name = "chkRaisePropertyChanged";
-            this.chkRaisePropertyChanged.Size = new System.Drawing.Size(141, 17);
+            this.chkRaisePropertyChanged.Size = new System.Drawing.Size(162, 17);
             this.chkRaisePropertyChanged.TabIndex = 13;
             this.chkRaisePropertyChanged.Text = "RaisePropertyChanged?";
             this.chkRaisePropertyChanged.UseVisualStyleBackColor = true;
@@ -272,6 +289,7 @@
             // 
             // ctlBusPars
             // 
+            this.ctlBusPars.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ctlBusPars.Location = new System.Drawing.Point(7, 16);
             this.ctlBusPars.Name = "ctlBusPars";
             this.ctlBusPars.Size = new System.Drawing.Size(415, 90);
@@ -289,6 +307,7 @@
             // 
             // ctlDataPars
             // 
+            this.ctlDataPars.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ctlDataPars.Location = new System.Drawing.Point(7, 16);
             this.ctlDataPars.Name = "ctlDataPars";
             this.ctlDataPars.Size = new System.Drawing.Size(415, 93);
@@ -359,5 +378,6 @@
         private SourceGrid.Grid grdViews;
         private SourceGrid.Grid grdViewColumns;
         private System.Windows.Forms.CheckBox chkRaisePropertyChanged;
+        private System.Windows.Forms.Button btnImportHibernate;
     }
 }

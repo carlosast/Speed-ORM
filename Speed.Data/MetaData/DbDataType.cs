@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Speed.Common;
+using System.Data;
 
 namespace Speed.Data.MetaData
 {

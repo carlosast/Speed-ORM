@@ -211,7 +211,6 @@ namespace Speed.UI.UserControls
                 if (!dbVws.ContainsKey(view.FullName))
                     file.Parameters.Tables.Remove(view);
             }
-        
         }
 
         private void dbConnect_VisibleChanged(object sender, EventArgs e)
