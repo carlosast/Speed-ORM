@@ -1,6 +1,0 @@
-
-- Testar Update Requey com Access
-- no controle CtlBrowser, após salvar desmarca os checkboxes
-	- também não está exibindo o SchemaName no grid. Pode ser esse o problema
-- DataClassCache
-	- usar FullTypeName ao invés de Name
