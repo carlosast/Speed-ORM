@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>Speed.SqlServer</PackageId>
+    <PackageTags>Speed;Faster;orm;sql;micro-orm</PackageTags>
+    <Title>Speed.SqlServer</Title>
+    <Description></Description>
+    <Authors>Carlos Alberto Stefani</Authors>
+    <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
+    <Version>1.0.1</Version>
+    <PackageProjectUrl>https://github.com/carlosast/Speed-ORM</PackageProjectUrl>
+    <PackageLicenseExpression />
+    <AssemblyVersion>1.0.1.1</AssemblyVersion>
+    <FileVersion>1.0.1.1</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
+    <DefineConstants />
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Speed.Data\Speed.Data.csproj" />
+  </ItemGroup>
+
+</Project>

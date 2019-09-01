@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>Speed.Oracle</PackageId>
+    <PackageTags>Speed;Faster;orm;sql;micro-orm</PackageTags>
+    <Title>Speed.Oracle</Title>
+    <Description></Description>
+    <Authors>Carlos Alberto Stefani</Authors>
+    <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
+    <Version>1.0.1</Version>
+    <RepositoryUrl></RepositoryUrl>
+    <FileVersion>1.0.1.1</FileVersion>
+    <AssemblyVersion>1.0.1.1</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+    <PackageReference Include="Oracle.ManagedDataAccess" Version="19.3.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.31" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Speed.Data\Speed.Data.csproj" />
+  </ItemGroup>
+
+</Project>
