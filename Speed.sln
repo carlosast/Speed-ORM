@@ -21,6 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speed.UI", "Speed.UI\Speed.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speed.Windows", "Speed.Windows\Speed.Windows.csproj", "{7479AF82-8966-411A-A29C-134E11759809}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Files", "_Solution Files", "{E88D5748-DA87-4E9A-8235-C4525D462387}"
+	ProjectSection(SolutionItems) = preProject
+		Speed.pfx = Speed.pfx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

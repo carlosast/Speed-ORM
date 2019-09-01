@@ -52,7 +52,6 @@
             this.tsbOpen = new System.Windows.Forms.ToolStripButton();
             this.tsbSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.tbCopyDlls = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -204,8 +203,7 @@
             this.tsbNewBrowser,
             this.tsbOpen,
             this.tsbSave,
-            this.toolStripSeparator,
-            this.tbCopyDlls});
+            this.toolStripSeparator});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(729, 25);
@@ -244,17 +242,6 @@
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
             this.toolStripSeparator.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tbCopyDlls
-            // 
-            this.tbCopyDlls.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tbCopyDlls.Image = ((System.Drawing.Image)(resources.GetObject("tbCopyDlls.Image")));
-            this.tbCopyDlls.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbCopyDlls.Name = "tbCopyDlls";
-            this.tbCopyDlls.Size = new System.Drawing.Size(64, 22);
-            this.tbCopyDlls.Text = "Copy Dll\'s";
-            this.tbCopyDlls.ToolTipText = "Copy Speed Dll\'s to Folder";
-            this.tbCopyDlls.Click += new System.EventHandler(this.tbCopyDlls_Click);
             // 
             // FormMain
             // 
@@ -308,6 +295,5 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem mnuFileRecenteFiles;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripButton tbCopyDlls;
     }
 }
