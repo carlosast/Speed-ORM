@@ -31,10 +31,10 @@ namespace Speed
             if (count == 0 && Environment.MachineName == "QUASAR")
             {
                 string fileName = null;
-                // fileName = @"..\..\..\__Testes\MyProject\MyProject.elf";
-                // fileName = @"..\..\..\Testes\TestGen.Oracle\TestOracle.elf";
-                // fileName = @"..\..\..\Testes\TestGen.MySql\TestMySql.elf";
-                fileName = @"E:\_Projects\_Systems\SpeedCluster\SpeedCluster.elf";
+                // fileName = @"..\..\..\__Testes\MyProject\MyProject.spd";
+                // fileName = @"..\..\..\Testes\TestGen.Oracle\TestOracle.spd";
+                // fileName = @"..\..\..\Testes\TestGen.MySql\TestMySql.spd";
+                fileName = @"E:\_Projects\_Systems\SpeedCluster\SpeedCluster.spd";
 
                 if (fileName != null)
                 {
@@ -236,8 +236,8 @@ namespace Speed
                 f.CheckFileExists = true;
                 f.CheckPathExists = true;
                 f.AddExtension = true;
-                f.DefaultExt = ".elf";
-                f.Filter = "Speed files (*.elf)|*.elf|All files (*.*)|*.*";
+                f.DefaultExt = ".spd";
+                f.Filter = "Speed files (*.spd)|*.spd|All files (*.*)|*.*";
                 f.FilterIndex = 0;
                 if (f.ShowDialog() == DialogResult.OK)
                 {
@@ -285,8 +285,8 @@ namespace Speed
                         f.CheckFileExists = false;
                         f.CheckPathExists = true;
                         f.AddExtension = true;
-                        f.DefaultExt = ".elf";
-                        f.Filter = "Speed files (*.elf)|*.elf|All files (*.*)|*.*";
+                        f.DefaultExt = ".spd";
+                        f.Filter = "Speed files (*.spd)|*.spd|All files (*.*)|*.*";
                         f.FilterIndex = 0;
                         if (f.ShowDialog() == DialogResult.OK)
                             browser.Save(f.FileName);
@@ -310,8 +310,8 @@ namespace Speed
                     f.CheckFileExists = false;
                     f.CheckPathExists = true;
                     f.AddExtension = true;
-                    f.DefaultExt = ".elf";
-                    f.Filter = "Speed files (*.elf)|*.elf|All files (*.*)|*.*";
+                    f.DefaultExt = ".spd";
+                    f.Filter = "Speed files (*.spd)|*.spd|All files (*.*)|*.*";
                     if (!string.IsNullOrEmpty(browser.FileName))
                     {
                         FileInfo fi = new FileInfo(browser.FileName);
