@@ -123,6 +123,10 @@ namespace Speed.UI.UserControls
                         //TODO: tratar colunas calculadas. Gerar só o GET, e não usar nos insert/update
 
                         ViewtoData();
+
+                        if (file.Parameters.Tables.Where(p => p.IsSelected).Count() == 0 && file.Parameters.Views.Where(p => p.IsSelected).Count() == 0)
+                            throw new Exception("No objects selected");
+
                         Dictionary<string, GenTableResult> result = db.Generate(file.Parameters);
 
 #if DEBUG2

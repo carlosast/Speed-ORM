@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.IO;
 using Speed.Common;
+using Speed.Data;
 
 namespace Speed
 {
@@ -19,9 +20,18 @@ namespace Speed
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             Program.ProviderType = Speed.Data.EnumDbProviderType.SqlServer;
-            Title = AppName = "Speed.ORM";  
+            Title = AppName = "Speed.ORM";
 #if !DEBUG
             Program.IsDebug = false;
+#endif
+
+#if DEBUG2
+
+            Sys.ConnectionString = "Data Source=.;Initial Catalog=GFT;Integrated Security=True;MultipleActiveResultSets=True";
+            using (var db = Sys.NewDb())
+            {
+                var pr = new Data.DbSqlServerProvider(db);
+            }
 #endif
 
             LoadConfig();

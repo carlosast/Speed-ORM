@@ -104,7 +104,15 @@ namespace Speed.Data.MetaData
                     tb2 = db.ExecuteDataTable(sql);
             }
 
-            DataRow[] rows = tb.Select("", "ORDINAL_POSITION");
+            DataRow[] rows;
+            try
+            {
+                rows = tb.Select("", "ORDINAL_POSITION");
+            }
+            catch
+            {
+                rows = tb.Select("");
+            }
 
             string tbSchemaName = null;
 

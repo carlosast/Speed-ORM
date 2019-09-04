@@ -1372,7 +1372,6 @@ namespace Speed.Data
             }
         }
 
-        /*
         internal List<string> GetSequencesGeneric()
         {
             List<string> ret = new List<string>();
@@ -1388,7 +1387,7 @@ namespace Speed.Data
         }
 
         DictionarySchemaTable<DataTable> bufferSchemaColumns;
-        internal DataTable GetSchemaColumnsGeneric(string schemaName, string tableName)
+        public DataTable GetSchemaColumnsGeneric(string schemaName, string tableName)
         {
             schemaName = Conv.Unquote(schemaName);
             tableName = Conv.Unquote(tableName);
@@ -1445,6 +1444,7 @@ namespace Speed.Data
             return bufferSchemaColumns.Find(this, schemaName, tableName);
         }
 
+        /*
         DictionarySchemaTable<List<DbReferencialConstraintInfo>> referentialConstraints;
         public DictionarySchemaTable<List<DbReferencialConstraintInfo>> ReferentialContraints
         {

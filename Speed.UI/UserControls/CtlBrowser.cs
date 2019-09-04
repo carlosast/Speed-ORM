@@ -927,6 +927,7 @@ namespace Speed.UI.UserControls
             //r++;
             int r = 0;
             grid.Rows.Insert(r);
+            grid.FixedRows = 1;
             headerView = new SourceGrid.Cells.Views.Cell();
             //headerView.Background = new DevAge.Drawing.VisualElements.BackgroundLinearGradient(Color.Gainsboro, Color.WhiteSmoke, 0);
             headerView.ForeColor = Color.FromKnownColor(KnownColor.Black);
@@ -998,7 +999,7 @@ namespace Speed.UI.UserControls
         {
             try
             {
-                TabPage page = (TabPage)grid.Parent;
+                TabPage page = (TabPage)grid.Parent.Parent.Parent;
                 tabObjects.SelectedTab = page;
             }
             catch { }

@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace Speed.Data.MetaData
 {
@@ -14,6 +15,10 @@ namespace Speed.Data.MetaData
         // // [DataMember]
         public EnumTableType TableType { get; set; }
         // // [DataMember]
+
+        public DateTime? DateModified { get; set; }
+
+
         public string FullName
         {
             get

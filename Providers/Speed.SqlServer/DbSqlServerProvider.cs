@@ -5,6 +5,7 @@ using System.Data;
 using Speed.Data;
 using System.Data.SqlClient;
 using Speed.Data.MetaData;
+using System.Linq;
 
 namespace Speed.Data
 {
@@ -19,15 +20,6 @@ namespace Speed.Data
         public string ParameterSymbol { get { return "@"; } }
         public string ParameterSymbolVar { get { return ParameterSymbol; } }
 
-        public IDbProvider CreateProvider(Database db)
-        {
-            return new DbSqlServerProvider(db);
-        }
-
-        public DbSqlServerProvider()
-        {
-        }
-
         public DbSqlServerProvider(Database db)
         {
             this.db = db;
@@ -38,15 +30,7 @@ namespace Speed.Data
             db = null;
         }
 
-        public Type DbType
-        {
-            get
-            {
-                return null;
-                throw new NotImplementedException();
-                return typeof(SqlDbType);
-            }
-        }
+        public Type DbType { get { return typeof(SqlDbType); } }
 
         [ThreadStatic]
         static Dictionary<int, Enum> dbTypes;
@@ -54,20 +38,9 @@ namespace Speed.Data
         {
             get
             {
-                return null;
-                throw new NotImplementedException();
                 if (dbTypes == null)
                     dbTypes = DbUtil.GetTypes<SqlDbType>();
                 return dbTypes;
-            }
-        }
-
-        Dictionary<string, string> ReservedWords
-        {
-            get
-            {
-                return null;
-                throw new NotImplementedException();
             }
         }
 
@@ -134,19 +107,14 @@ namespace Speed.Data
             return new SqlCommand(commandText);
         }
 
-        //public System.Data.Common.DbDataAdapter CreateDataAdapter(string selectCommand, DbConnection cn)
-        //{
-        //    return new SqlDataAdapter(selectCommand, (SqlConnection)cn);
-        //}
-
-        //public System.Data.Common.DbDataAdapter CreateDataAdapter(System.Data.Common.DbCommand cmd)
-        //{
-        //    return new SqlDataAdapter((SqlCommand)cmd);
-        //}
-
-        public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value)
+        public System.Data.Common.DbDataAdapter CreateDataAdapter(string selectCommand, DbConnection cn)
         {
-            throw new NotImplementedException();
+            return new SqlDataAdapter(selectCommand, (SqlConnection)cn);
+        }
+
+        public System.Data.Common.DbDataAdapter CreateDataAdapter(System.Data.Common.DbCommand cmd)
+        {
+            return new SqlDataAdapter((SqlCommand)cmd);
         }
 
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, string dataType, object value)
@@ -158,6 +126,12 @@ namespace Speed.Data
         {
             var par = ((SqlCommand)cmd).Parameters.AddWithValue(parameterName, value);
             par.Size = size;
+            return par;
+        }
+
+        public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value)
+        {
+            var par = ((SqlCommand)cmd).Parameters.AddWithValue(parameterName, value);
             return par;
         }
 
@@ -208,14 +182,8 @@ namespace Speed.Data
         {
             if (string.IsNullOrEmpty(name))
                 return name;
-            if (name.Contains(" ") && name.IndexOf('[') == -1 || ReservedWords == null || ReservedWords.Count == 0 || ReservedWords.ContainsKey(name))
-            {
-                if (!name.StartsWith("["))
-                    name = "[" + name;
-                if (!name.EndsWith("]"))
-                    name = name + "]";
-                return name;
-            }
+            if (name.Contains(" ") && name.IndexOf('[') == -1 || ReservedWords.ContainsKey(name))
+                return "[" + name + "]";
             else
                 return name;
         }
@@ -227,7 +195,7 @@ namespace Speed.Data
 
         public string SetTop(string sql, long count)
         {
-            var pos = sql.IndexOf("select", StringComparison.OrdinalIgnoreCase);
+            var pos = sql.IndexOf("select", StringComparison.InvariantCultureIgnoreCase);
             if (pos > -1)
             {
                 sql = sql.Remove(pos, "select".Length);
@@ -273,7 +241,7 @@ namespace Speed.Data
    where k.type_desc = 'PRIMARY_KEY_CONSTRAINT'
  order by TABLE_SCHEMA, TABLE_NAME, k.type_desc, ORDINAL_POSITION;
 ";
-                bufferPKs = new DictionarySchemaTable<List<string>>(StringComparer.OrdinalIgnoreCase);
+                bufferPKs = new DictionarySchemaTable<List<string>>(StringComparer.InvariantCultureIgnoreCase);
                 string lastName = null;
                 using (var dr = db.ExecuteReader(sql))
                 {
@@ -320,7 +288,7 @@ namespace Speed.Data
                 "SELECT o.name, c.name FROM syscolumns c, sysobjects o WHERE c.id = o.id AND (c.status & 128) = 128;",
                 //tableName, !string.IsNullOrEmpty(schemaName) ? "schema_name(o.uid) = '" + db.Provider.GetObjectName(schemaName) : "");
 
-                bufferIdentity = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
+                bufferIdentity = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase));
                 using (var dr = db.ExecuteReader(sql))
                 {
                     while (dr.Read())
@@ -342,7 +310,7 @@ namespace Speed.Data
                 "select SCHEMA_NAME(o.uid) 'SchemaName', object_name(c.id) 'TableName', c.name 'ColumnName' from syscolumns c inner join sysobjects o on c.id = o.id where iscomputed = 1",
                 //tableName, !string.IsNullOrEmpty(schemaName) ? "schema_name(o.uid) = '" + db.Provider.GetObjectName(schemaName) : "");
 
-                bufferCalculatedColumns = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase));
+                bufferCalculatedColumns = new Dictionary<string, List<string>>(StringComparer.InvariantCultureIgnoreCase));
                 using (var dr = db.ExecuteReader(sql))
                 {
                     while (dr.Read())
@@ -370,27 +338,65 @@ namespace Speed.Data
         {
             //var tables = db.GetAllTables(tableSchema, tableType);
             string sql;
-            if (string.IsNullOrEmpty(tableSchema) && tableType == null)
-                sql = "select * from information_schema.tables order by table_name;";
-            else if (!string.IsNullOrEmpty(tableSchema) && tableType == null)
-                sql = "select * from information_schema.tables where table_schema = '" + tableSchema + "' order by table_name;";
-            else if (string.IsNullOrEmpty(tableSchema) && tableType != null)
-                sql = "select * from information_schema.tables where table_type = '" + (tableType.Value == EnumTableType.Table ? "BASE TABLE" : "") + "' order by table_name;";
-            else // if (!string.IsNullOrEmpty(tableSchema) && tableType != null)
-                sql = "select * from information_schema.tables where table_schema = '" + tableSchema + "' and table_type = '" + (tableType.Value == EnumTableType.Table ? "BASE TABLE" : "") + "' order by table_name;";
 
             List<TableInfo> tables = new List<TableInfo>();
-            using (var dr = db.ExecuteReader(sql))
+
+            try
             {
-                while (dr.Read())
+                sql = "select * from (select DB_NAME() table_catalog, schema_name(schema_id) schema_name, name table_name, type table_type, modify_date from sys.objects where type in ('U', 'V')) T ";
+                var w = new List<string>();
+                if (string.IsNullOrEmpty(tableSchema))
+                    w.Add("schema_name = '" + tableSchema);
+                if (tableType == EnumTableType.Table)
+                    w.Add("table_type = 'U'");
+                else if (tableType == EnumTableType.Table)
+                    w.Add("table_type = 'V'");
+
+                if (w.Any())
                 {
-                    TableInfo tb = new TableInfo();
-                    tb.TableSchema = (string)dr["TABLE_SCHEMA"];
-                    tb.TableCatalog = (string)dr["TABLE_CATALOG"];
-                    tb.TableName = (string)dr["TABLE_NAME"];
-                    tb.TableType = (string)dr["TABLE_TYPE"] == "BASE TABLE" ? EnumTableType.Table : EnumTableType.View;
-                    if (tb.TableName.ToLower() != "sysdiagrams")
-                        tables.Add(tb);
+                    sql += string.Join(" AND ", w);
+                }
+
+                using (var dr = db.ExecuteReader(sql))
+                {
+                    while (dr.Read())
+                    {
+                        TableInfo tb = new TableInfo();
+                        tb.TableCatalog = dr.GetString(0) as string;
+                        tb.TableSchema = dr.GetString(1) as string;
+                        tb.TableName = dr.GetString(2);
+                        tb.TableType = dr.GetString(3) == "U" ? EnumTableType.Table : EnumTableType.View;
+                        if (!dr.IsDBNull(4))
+                            tb.DateModified = dr.GetDateTime(4);
+                        if (tb.TableName.ToLower() != "sysdiagrams")
+                            tables.Add(tb);
+                    }
+                }
+            }
+            catch
+            {
+                //var tables = db.GetAllTables(tableSchema, tableType);
+                if (string.IsNullOrEmpty(tableSchema) && tableType == null)
+                    sql = "select * from information_schema.tables order by table_name;";
+                else if (!string.IsNullOrEmpty(tableSchema) && tableType == null)
+                    sql = "select * from information_schema.tables where table_schema = '" + tableSchema + "' order by table_name;";
+                else if (string.IsNullOrEmpty(tableSchema) && tableType != null)
+                    sql = "select * from information_schema.tables where table_type = '" + (tableType.Value == EnumTableType.Table ? "BASE TABLE" : "") + "' order by table_name;";
+                else // if (!string.IsNullOrEmpty(tableSchema) && tableType != null)
+                    sql = "select * from information_schema.tables where table_schema = '" + tableSchema + "' and table_type = '" + (tableType.Value == EnumTableType.Table ? "BASE TABLE" : "") + "' order by table_name;";
+
+                using (var dr = db.ExecuteReader(sql))
+                {
+                    while (dr.Read())
+                    {
+                        TableInfo tb = new TableInfo();
+                        tb.TableSchema = (string)dr["TABLE_SCHEMA"];
+                        tb.TableCatalog = (string)dr["TABLE_CATALOG"];
+                        tb.TableName = (string)dr["TABLE_NAME"];
+                        tb.TableType = (string)dr["TABLE_TYPE"] == "BASE TABLE" ? EnumTableType.Table : EnumTableType.View;
+                        if (tb.TableName.ToLower() != "sysdiagrams")
+                            tables.Add(tb);
+                    }
                 }
             }
 
@@ -400,13 +406,7 @@ namespace Speed.Data
         Dictionary<string, DataTable> bufferSchemaColumns;
         public DataTable GetSchemaColumns(string schemaName, string tableName)
         {
-            var commandText = SetTop(string.Format("select * from {0}.{1}", GetObjectName(schemaName), GetObjectName(tableName)), 0);
-            return GetSchemaColumns(commandText);
-        }
-
-        public DataTable GetSchemaColumns(string commandText)
-        {
-            return db.ExecuteDataTable(commandText);
+            return db.GetSchemaColumnsGeneric(schemaName, tableName);
         }
 
         public List<DbReferencialConstraintInfo> GetParentRelations(string schemaName, string tableName)
@@ -417,9 +417,7 @@ namespace Speed.Data
 
         public DataTable GetDataTypes()
         {
-            return null;
-            throw new NotImplementedException();
-            //return db.Connection.GetSchema("DataTypes");
+            return db.Connection.GetSchema("DataTypes");
         }
 
         public List<DbSequenceInfo> GetSequences()
@@ -445,16 +443,16 @@ namespace Speed.Data
             }
         }
 
-        //static Dictionary<string, string> reservedWords;
-        //public Dictionary<string, string> ReservedWords
-        //{
-        //    get
-        //    {
-        //        if (reservedWords == null)
-        //            reservedWords = db.GetReservedWordsGeneric();
-        //        return reservedWords;
-        //    }
-        //}
+        static Dictionary<string, string> reservedWords;
+        public Dictionary<string, string> ReservedWords
+        {
+            get
+            {
+                if (reservedWords == null)
+                    reservedWords = db.GetReservedWordsGeneric();
+                return reservedWords;
+            }
+        }
 
         private static Dictionary<string, DbDataType> dataTypes;
         /// <summary>
@@ -464,20 +462,9 @@ namespace Speed.Data
         {
             get
             {
-                return null;
-                throw new NotImplementedException();
-                //if (dataTypes == null)
-                //    dataTypes = db.GetDataTypesGeneric();
-                //return dataTypes;
-            }
-        }
-
-        Dictionary<string, string> IDbProvider.ReservedWords
-        {
-            get
-            {
-                return null;
-                throw new NotImplementedException();
+                if (dataTypes == null)
+                    dataTypes = db.GetDataTypesGeneric();
+                return dataTypes;
             }
         }
 
@@ -554,28 +541,15 @@ END;';
             return db.ExecuteInt64("select {0}.nextval from dual", sequenceName);
         }
 
-        public DbDataAdapter CreateDataAdapter(string selectCommand, DbConnection cn)
+        public IDbProvider CreateProvider(Database db)
         {
-            return new SqlDataAdapter(selectCommand, (SqlConnection)cn);
-        }
-
-        public DbDataAdapter CreateDataAdapter(DbCommand cmd)
-        {
-            return new SqlDataAdapter((SqlCommand)cmd);
+            return new DbSqlServerProvider(db);
         }
 
         public bool AddUsings(DbColumnInfo col, Dictionary<string, string> usings)
         {
-
-            //if (col.DataTypeDotNet == "SqlHierarchyId")
-            //{
-            //    if (!usings.ContainsKey("using Microsoft.SqlServer.Types;"))
-            //        usings.Add("using Microsoft.SqlServer.Types;", typeof(Microsoft.SqlServer.Types.SqlHierarchyId).Assembly.Location);
-            //    return true;
-            //}
             return false;
         }
-
     }
 
 }
