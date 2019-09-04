@@ -235,6 +235,14 @@ from
             return par;
         }
 
+        public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value)
+        {
+            OracleParameter par = new OracleParameter(parameterName, value);
+            par.Direction = ParameterDirection.Input;
+            cmd.Parameters.Add(par);
+            return par;
+        }
+
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value, int size)
         {
             OracleParameter par = new OracleParameter(parameterName, value);
@@ -646,11 +654,6 @@ ORDER BY
         public IDbProvider CreateProvider(Database db)
         {
             return new DbOracleProvider(db);
-        }
-
-        public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value)
-        {
-            throw new NotImplementedException();
         }
 
         public DataTable GetSchemaColumns(string commandText)
