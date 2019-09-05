@@ -11,6 +11,8 @@
     <RepositoryUrl></RepositoryUrl>
     <FileVersion>1.0.1.1</FileVersion>
     <AssemblyVersion>1.0.1.1</AssemblyVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">

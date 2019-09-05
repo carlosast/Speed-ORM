@@ -15,8 +15,37 @@ namespace Speed.Common
 
         public static Assembly LoadAssembly(string assName)
         {
+            Assembly asm = null;
+
             var path = Path.Combine(Sys.AppDirectory, assName);
-            return Assembly.LoadFrom(path);
+            try
+            {
+                return Assembly.LoadFile(path);
+            }
+            catch
+            {
+                asm = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(p => p.GetName().Name.Equals(assName, StringComparison.OrdinalIgnoreCase));
+                if (asm != null)
+                    return asm;
+
+                try
+                {
+                    asm = Assembly.Load(assName);
+                }
+                catch { }
+
+                if (asm == null)
+                {
+                    try
+                    {
+                        asm = Assembly.Load(Path.GetFileNameWithoutExtension(assName));
+                    }
+                    catch { }
+                }
+
+            }
+
+            return asm;
 
             //var loader = new AssemblyLoader();
             //return loader.LoadFromAssemblyPath(path);

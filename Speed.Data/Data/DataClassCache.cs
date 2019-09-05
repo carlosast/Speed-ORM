@@ -7,6 +7,7 @@ using System.IO;
 using Speed.Data.MetaData;
 using Speed.Data.Generation;
 using Speed.Common;
+using Speed.IO;
 
 namespace Speed.Data
 {
@@ -200,7 +201,7 @@ namespace Speed.Data
 
                     foreach (var type in types)
                     {
-                        cache[type] = (DataClass)assCache.CreateInstance("DataClass" + type.Name);
+                        addToCache(type, (DataClass)assCache.CreateInstance("DataClass" + type.Name));
                     }
 
                     return;
@@ -352,15 +353,29 @@ namespace Speed.Data
             string time = tc.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="types"></param>
+        /// <param name="db"></param>
+        /// <param name="lastModified">Última data de table ou view aterado na base</param>
+        /// <returns></returns>
         string GetDirectory(List<Type> types, Database db, string lastModified)
         {
-            string hash = Cryptography.Hash(lastModified + "-" + string.Join(",", types.OrderBy(p => p.Name).Select(p => p.Name)));
-            string dir = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Speed",
-                Speed.IO.FileTools.ToValidPath((Cryptography.Hash(types[0].Assembly.Location + db.ProviderType + db.Connection.ConnectionString).Replace("=", "")
-                    .Replace("/", "")
-                    .Replace("\\", ""))));
-            dir = Path.Combine(dir, db.ProviderType.ToString());
+            string nspace = types.First().Namespace;
+            string ntypes = string.Join(",", types.OrderBy(p => p.FullName).Select(p => p.FullName));
+
+            string hashName = FileTools.ToValidPath(Cryptography.Hash(
+                    lastModified + "-"
+                    + ntypes
+                    + types[0].Assembly.Location
+                    + db.ProviderType
+                    + db.Connection.ConnectionString)
+                .Replace("=", "").Replace("/", "").Replace("\\", ""));
+
+            string dirBase = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+            string dir = Path.Combine( dirBase, "Speed", db.ProviderType.ToString(), nspace, hashName);
             return dir;
         }
 

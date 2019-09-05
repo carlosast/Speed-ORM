@@ -669,11 +669,7 @@ ORDER BY
         {
             string sql =
 @"
-SELECT ORA_HASH(
-       (SELECT LISTAGG(to_char(last_ddl_time, 'DDMMYYHH:MM'), ' ') WITHIN GROUP (ORDER BY o.object_type || '|' || o.object_name) AS description 
-        FROM user_objects o GROUP BY 0)
-       ) FROM DUAL
-";
+select to_char(max(last_ddl_time), 'DDMMYYHH:MM:SS') last_ddl_time from user_objects where object_type in ('TABLE', 'VIEW')";
             return db.ExecuteString(sql);
         }
 

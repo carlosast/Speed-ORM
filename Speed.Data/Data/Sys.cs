@@ -21,12 +21,20 @@ namespace Speed.Data
 
         static Sys()
         {
-            AppDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            var ass = Assembly.GetEntryAssembly() ?? (Assembly.GetCallingAssembly() ?? Assembly.GetExecutingAssembly());
+            AppDirectory = Path.GetDirectoryName(ass.Location);
         }
 
         public static Database NewDb()
         {
             Database db = new Database(ProviderType, ConnectionString, CommandTimeout);
+            db.Open();
+            return db;
+        }
+
+        public static Database NewDb(EnumDbProviderType providerType, string connectionString)
+        {
+            Database db = new Database(providerType, connectionString, CommandTimeout);
             db.Open();
             return db;
         }
