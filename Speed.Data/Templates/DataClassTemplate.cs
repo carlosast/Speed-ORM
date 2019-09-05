@@ -14,6 +14,7 @@ using System.Data;
 using System.Data.Common;
 using System.Text;
 using Speed;
+using Speed.Common;
 using Speed.Data;
 ";
 

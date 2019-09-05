@@ -65,6 +65,12 @@ namespace Speed.Data
 
         bool AddUsings(DbColumnInfo col, Dictionary<string, string> usings);
 
+        /// <summary>
+        /// Returns a hash of table and view change dates
+        /// </summary>
+        /// <returns></returns>
+        string GetLastModified();
+
     }
 
 }

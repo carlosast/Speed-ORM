@@ -665,6 +665,17 @@ ORDER BY
         {
             return false;
         }
+        public string GetLastModified()
+        {
+            string sql =
+@"
+SELECT ORA_HASH(
+       (SELECT LISTAGG(to_char(last_ddl_time, 'DDMMYYHH:MM'), ' ') WITHIN GROUP (ORDER BY o.object_type || '|' || o.object_name) AS description 
+        FROM user_objects o GROUP BY 0)
+       ) FROM DUAL
+";
+            return db.ExecuteString(sql);
+        }
 
     }
 

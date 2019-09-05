@@ -1544,7 +1544,9 @@ namespace Speed.Data.Generation
             cp.GenerateExecutable = false;
 
             if (fileDll == null)
+            {
                 cp.GenerateInMemory = true;
+            }
             else
             {
                 cp.GenerateInMemory = false;
@@ -1564,24 +1566,9 @@ namespace Speed.Data.Generation
             // assemblies de uma classe
             cp.ReferencedAssemblies.Add(typeOfOneClass.Assembly.Location);
 
-            //foreach (var asm in Assembly.GetEntryAssembly().GetReferencedAssemblies())
-            //    cp.ReferencedAssemblies.Add(asm.Name + ".dll");
-
-            //cp.ReferencedAssemblies.Add("Microsoft.SqlServer.Types.dll");
-
-
             var location = db.Connection.GetType().Assembly.Location;
             if (cp.ReferencedAssemblies.ToList<string>().FirstOrDefault(p => Path.GetFileName(p).EqualsICIC(Path.GetFileName(location))) == null)
                 cp.ReferencedAssemblies.Add(location);
-
-            //if (db.ProviderType == EnumDbProviderType.MySql || db.ProviderType == EnumDbProviderType.MariaDB)
-            //    cp.ReferencedAssemblies.Add("MySql.Data.dll");
-            //else if (db.ProviderType == EnumDbProviderType.Firebird)
-            //    cp.ReferencedAssemblies.Add("FirebirdSql.Data.FirebirdClient.dll");
-            //else if (db.ProviderType == EnumDbProviderType.PostgreSQL)
-            //    cp.ReferencedAssemblies.Add("Npgsql.dll");
-            //else if (db.ProviderType == EnumDbProviderType.Oracle)
-            //    cp.ReferencedAssemblies.Add("Oracle.ManagedDataAccess.dll");
 
             // otherUsings
             if (otherUsings != null)

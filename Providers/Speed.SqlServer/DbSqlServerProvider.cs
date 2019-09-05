@@ -550,6 +550,19 @@ END;';
         {
             return false;
         }
+
+        public string GetLastModified()
+        {
+            string sql =
+@"
+Declare @val Varchar(MAX) 
+Select @val = COALESCE(@val + ', ' + convert(varchar(20), modify_date, 22), '') 
+        From sys.objects where type in ('U', 'V')
+		order by type COLLATE DATABASE_DEFAULT + '|' + name COLLATE DATABASE_DEFAULT;
+select CONVERT(NVARCHAR(32),HASHBYTES('MD5', @val), 2)
+";
+            return db.ExecuteString(sql);
+        }
     }
 
 }

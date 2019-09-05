@@ -18,7 +18,7 @@ namespace Speed.Data
 
         public static string GetTableName(Type type)
         {
-            var  ca = type.GetCustomAttributesEx<DbTableAttribute>(false);
+            var ca = type.GetCustomAttributesEx<DbTableAttribute>(false);
             if (ca.Length > 0 && ca[0].TableName == null)
                 ca[0].TableName = type.Name;
             else if (ca.Length == 0)
@@ -110,7 +110,14 @@ namespace Speed.Data
         public static Dictionary<string, PropertyInfo> GetMapColumns(Type type)
         {
             Dictionary<string, PropertyInfo> columns = new Dictionary<string, PropertyInfo>(StringComparer.OrdinalIgnoreCase);
-            PropertyInfo[] pis = type.GetProperties();
+            var pis = type.GetProperties().ToList<PropertyInfo>();
+
+            //if (type.(typeof(Record)))
+            //{
+            var pir = typeof(Record).GetProperties().ToDictionary(p => p.Name);
+            pis.RemoveAll(p => pir.ContainsKey(p.Name));
+            //}
+
             foreach (PropertyInfo pi in pis)
             {
                 Type t = pi.PropertyType;
@@ -167,7 +174,7 @@ namespace Speed.Data
 
         private static string removeBrackets(this string value)
         {
-            if (string.IsNullOrEmpty(value ))
+            if (string.IsNullOrEmpty(value))
                 return null;
             if (value.IndexOf('[') > -1)
                 value = value.Substring(1, value.Length - 1);

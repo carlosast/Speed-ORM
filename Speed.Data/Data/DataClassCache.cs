@@ -181,6 +181,36 @@ namespace Speed.Data
             if (types.Count == 0)
                 return;
 
+            string lastModified = db.Provider.GetLastModified();
+
+            string dir = GetDirectory(types, db, lastModified);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
+            string fileCode = Path.Combine(dir, "Speed.Code.cs");
+            string fileDll = Path.Combine(dir, "Speed.Compiled.dll");
+
+            if (File.Exists(fileDll))
+            {
+                try
+                {
+                    var assCache = Assembly.LoadFile(fileDll);
+
+                    var typesDataClass = assCache.GetExportedTypes();
+
+                    foreach (var type in types)
+                    {
+                        cache[type] = (DataClass)assCache.CreateInstance("DataClass" + type.Name);
+                    }
+
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                }
+            }
+
             TimerCount tc = new TimerCount("TestSelect");
 
             Dictionary<Type, dataInfo> dataInfos = new Dictionary<Type, dataInfo>();
@@ -244,18 +274,6 @@ namespace Speed.Data
             {
                 try
                 {
-                    string dir = Path.Combine(
-                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Speed",
-                        Speed.IO.FileTools.ToValidPath((Cryptography.Hash(types[0].Assembly.Location + db.ProviderType + db.Connection.ConnectionString).Replace("=", "")
-                            .Replace("/", "")
-                            .Replace("\\", ""))));
-
-                    // gera 1 diretório para o provider atual
-                    dir = Path.Combine(dir, db.ProviderType.ToString());
-
-                    string fileCode = Path.Combine(dir, "Speed.Code.cs");
-                    string fileDll = Path.Combine(dir, "Speed.Compiled.dll");
-
                     if (!Directory.Exists(dir))
                     {
                         Directory.CreateDirectory(dir);
@@ -268,7 +286,6 @@ namespace Speed.Data
                             {
                                 try
                                 {
-                                    // ass = Assembly.Load(File.ReadAllBytes(fileDll));
                                     ass = Assembly.LoadFile(fileDll);
                                     hasCache = true;
                                 }
@@ -299,7 +316,7 @@ namespace Speed.Data
             {
                 // compila na memória
                 if (!singleClass)
-                    ass = CodeGenerator.Compile(db, types[0], code, "All Classes", null, otherUsings);
+                    ass = CodeGenerator.Compile(db, types[0], code, "All Classes", fileDll, otherUsings);
                 else
                     ass = CodeGenerator.Compile(db, types[0], code, types[0].FullName, null, otherUsings);
             }
@@ -333,6 +350,18 @@ namespace Speed.Data
                 }
             }
             string time = tc.ToString();
+        }
+
+        string GetDirectory(List<Type> types, Database db, string lastModified)
+        {
+            string hash = Cryptography.Hash(lastModified + "-" + string.Join(",", types.OrderBy(p => p.Name).Select(p => p.Name)));
+            string dir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Speed",
+                Speed.IO.FileTools.ToValidPath((Cryptography.Hash(types[0].Assembly.Location + db.ProviderType + db.Connection.ConnectionString).Replace("=", "")
+                    .Replace("/", "")
+                    .Replace("\\", ""))));
+            dir = Path.Combine(dir, db.ProviderType.ToString());
+            return dir;
         }
 
         void addToCache(Type type, DataClass dc)
