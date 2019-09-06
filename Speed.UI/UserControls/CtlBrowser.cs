@@ -127,7 +127,7 @@ namespace Speed.UI.UserControls
 
                 foreach (var table in pars.Tables)
                 {
-                    if (table.IsSelected)
+                    if (!options.OnlySelected || table.IsSelected)
                     {
                         ApplyName(options, table);
                     }
@@ -135,7 +135,7 @@ namespace Speed.UI.UserControls
 
                 foreach (var table in pars.Views)
                 {
-                    if (table.IsSelected)
+                    if (!options.OnlySelected || table.IsSelected)
                     {
                         ApplyName(options, table);
                     }

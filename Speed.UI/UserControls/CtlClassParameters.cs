@@ -46,10 +46,10 @@ namespace Speed.UI.UserControls
         private void CtlClassParameters_Load(object sender, EventArgs e)
         {
             cboNameCase.Add("(Original Name)", EnumNameCase.None);
-            cboNameCase.Add("Camel", EnumNameCase.Camel);
-            cboNameCase.Add("Lower", EnumNameCase.Lower);
-            cboNameCase.Add("Pascal", EnumNameCase.Pascal);
-            cboNameCase.Add("Upper", EnumNameCase.Upper);
+            cboNameCase.Add("camelCase", EnumNameCase.Camel);
+            cboNameCase.Add("lowercase", EnumNameCase.Lower);
+            cboNameCase.Add("PascalCase", EnumNameCase.Pascal);
+            cboNameCase.Add("UPPERCASE", EnumNameCase.Upper);
             cboNameCase.SelectByValue(EnumNameCase.Pascal);
         }
 

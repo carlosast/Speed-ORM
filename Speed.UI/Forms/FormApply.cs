@@ -37,9 +37,20 @@ namespace Speed.UI.Forms
             using (var f = new FormApply())
             {
                 if (f.ShowDialog(owner) == DialogResult.OK)
-                    return new ApplyOptions { DataClass = f.chkDataClass.Checked, BusinessClass = f.chkBusinessClass.Checked, Enum= f.chkEnum.Checked, Unnamed = f.chkUnnamed.Checked };
+                {
+                    return new ApplyOptions
+                    {
+                        DataClass = f.chkDataClass.Checked,
+                        BusinessClass = f.chkBusinessClass.Checked,
+                        Enum = f.chkEnum.Checked,
+                        Unnamed = f.chkUnnamed.Checked,
+                        OnlySelected = f.chkOnlySelectedObjects.Checked
+                    };
+                }
                 else
+                {
                     return null;
+                }
             }
         }
 
@@ -49,6 +60,7 @@ namespace Speed.UI.Forms
             public bool BusinessClass;
             public bool Enum;
             public bool Unnamed;
+            public bool OnlySelected;
 
             public bool ApplyDataClass(string name)
             {
@@ -58,7 +70,7 @@ namespace Speed.UI.Forms
                     return string.IsNullOrWhiteSpace(name);
                 return true;
             }
-            
+
             public bool ApplyBusinessClass(string name)
             {
                 if (!BusinessClass)
@@ -67,7 +79,7 @@ namespace Speed.UI.Forms
                     return string.IsNullOrWhiteSpace(name);
                 return true;
             }
-            
+
             public bool ApplyEnum(string name)
             {
                 if (!Enum)

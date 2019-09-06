@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkEnum = new System.Windows.Forms.CheckBox();
             this.chkBusinessClass = new System.Windows.Forms.CheckBox();
             this.chkDataClass = new System.Windows.Forms.CheckBox();
             this.chkUnnamed = new System.Windows.Forms.CheckBox();
             this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.chkEnum = new System.Windows.Forms.CheckBox();
+            this.chkOnlySelectedObjects = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,6 +50,19 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Apply names to";
+            // 
+            // chkEnum
+            // 
+            this.chkEnum.AutoSize = true;
+            this.chkEnum.Checked = true;
+            this.chkEnum.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkEnum.Location = new System.Drawing.Point(239, 29);
+            this.chkEnum.Name = "chkEnum";
+            this.chkEnum.Size = new System.Drawing.Size(58, 17);
+            this.chkEnum.TabIndex = 0;
+            this.chkEnum.Text = "Enums";
+            this.chkEnum.UseVisualStyleBackColor = true;
+            this.chkEnum.CheckedChanged += new System.EventHandler(this.chkApply_CheckedChanged);
             // 
             // chkBusinessClass
             // 
@@ -83,9 +97,9 @@
             this.chkUnnamed.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUnnamed.Location = new System.Drawing.Point(12, 90);
             this.chkUnnamed.Name = "chkUnnamed";
-            this.chkUnnamed.Size = new System.Drawing.Size(189, 17);
+            this.chkUnnamed.Size = new System.Drawing.Size(170, 17);
             this.chkUnnamed.TabIndex = 1;
-            this.chkUnnamed.Text = "Apply only to objects with no name";
+            this.chkUnnamed.Text = "Apply to unnamed objects only";
             this.chkUnnamed.UseVisualStyleBackColor = true;
             // 
             // btnApply
@@ -109,18 +123,17 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // chkEnum
+            // chkOnlySelectedObjects
             // 
-            this.chkEnum.AutoSize = true;
-            this.chkEnum.Checked = true;
-            this.chkEnum.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkEnum.Location = new System.Drawing.Point(239, 29);
-            this.chkEnum.Name = "chkEnum";
-            this.chkEnum.Size = new System.Drawing.Size(96, 17);
-            this.chkEnum.TabIndex = 0;
-            this.chkEnum.Text = "Business Class";
-            this.chkEnum.UseVisualStyleBackColor = true;
-            this.chkEnum.CheckedChanged += new System.EventHandler(this.chkApply_CheckedChanged);
+            this.chkOnlySelectedObjects.AutoSize = true;
+            this.chkOnlySelectedObjects.Checked = true;
+            this.chkOnlySelectedObjects.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkOnlySelectedObjects.Location = new System.Drawing.Point(262, 90);
+            this.chkOnlySelectedObjects.Name = "chkOnlySelectedObjects";
+            this.chkOnlySelectedObjects.Size = new System.Drawing.Size(166, 17);
+            this.chkOnlySelectedObjects.TabIndex = 1;
+            this.chkOnlySelectedObjects.Text = "Apply to selected objects only";
+            this.chkOnlySelectedObjects.UseVisualStyleBackColor = true;
             // 
             // FormApply
             // 
@@ -129,6 +142,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(463, 118);
+            this.Controls.Add(this.chkOnlySelectedObjects);
             this.Controls.Add(this.chkUnnamed);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnApply);
@@ -154,5 +168,6 @@
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.CheckBox chkEnum;
+        private System.Windows.Forms.CheckBox chkOnlySelectedObjects;
     }
 }
