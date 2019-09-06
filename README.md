@@ -29,129 +29,133 @@ NMySql: <https://www.nuget.org/packages/Speed.ORM.MySql/>
 
 5 – Como usar?
 
-class Program
+`class Program`
 
-{
+`{`
 
-static void Main(string[] args)
+>   `static void Main(string[] args)`
 
-{
+>   `{`
 
-Sys.ConnectionString = "Data Source=localhost;Initial
-Catalog=AdventureWorks;Integrated Security=True;MultipleActiveResultSets=True";
+>   `Sys.ConnectionString = "Data Source=localhost;Initial
+>   Catalog=AdventureWorks;Integrated
+>   Security=True;MultipleActiveResultSets=True";`
 
-Sys.ProviderType = EnumDbProviderType.SqlServer;
+>   `Sys.ProviderType = EnumDbProviderType.SqlServer;`
 
-// ====== SELECT ======
+>   `// ====== SELECT ======`
 
-// Selecionar todos os regsistros
+>   `// Selecionar todos os regsistros`
 
-var recs = BL_Product.Select();
+>   `var recs = BL_Product.Select();`
 
-// Selecionar pela PK
+>   `// Selecionar pela PK`
 
-var recs1 = BL_Product.SelectByPk(1);
+>   `var recs1 = BL_Product.SelectByPk(1);`
 
-// Selecionar produtos que contenham "Mountain" e MakeFlag seja true
+>   `// Selecionar produtos que contenham "Mountain" e MakeFlag seja true`
 
-var recsf = BL_Product.Select(new Product { Name = "Mountain" , MakeFlag =
-true}, EnumDbFilter.AndLike);
+>   `var recsf = BL_Product.Select(new Product { Name = "Mountain" , MakeFlag =
+>   true}, EnumDbFilter.AndLike);`
 
-// Selecionar produtos que contenham "Mountain" e MakeFlag seja true
+>   `// Selecionar produtos que contenham "Mountain" e MakeFlag seja true`
 
-var recsm = BL_Product.Select(new Product { Name = "Mountain", MakeFlag = true
-}, EnumDbFilter.AndLike);
+>   `var recsm = BL_Product.Select(new Product { Name = "Mountain", MakeFlag =
+>   true }, EnumDbFilter.AndLike);`
 
-// Selecionar produtos por um filtro mais complexo
+>   `// Selecionar produtos por um filtro mais complexo`
 
-// OBS: no where uso os nomes das colunas da tabela e não o nome das
-propriedades
+>   `// OBS: no where uso os nomes das colunas da tabela e não o nome das
+>   propriedades`
 
-string where = "Name like '%Chainring%' and Color = 'Silver' and ReorderPoint \>
-100 order by Name";
+>   `string where = "Name like '%Chainring%' and Color = 'Silver' and
+>   ReorderPoint \> 100 order by Name";`
 
-var recsd = BL_Product.Select(where);
+>   `var recsd = BL_Product.Select(where);`
 
-// ====== Update ======
+>   `// ====== Update ======`
 
-var rec1 = BL_Product.SelectByPk(1);
+>   `var rec1 = BL_Product.SelectByPk(1);`
 
-recs1.ReorderPoint = 200;
+>   `recs1.ReorderPoint = 200;`
 
-// faz update e não recarrega a classe. É o default, para performance
+>   `// faz update e não recarrega a classe. É o default, para performance`
 
-BL_Product.Update(rec1);
+>   `BL_Product.Update(rec1);`
 
-// faz update e recarrega a classe.
+>   `// faz update e recarrega a classe.`
 
-BL_Product.Update(rec1, EnumSaveMode.Requery);
+>   `BL_Product.Update(rec1, EnumSaveMode.Requery);`
 
-// ====== Insert ======
+>   `// ====== Insert ======`
 
-var reco = new Product
+>   `var reco = new Product`
 
-{
+>   `{`
 
-// setar as propriedades
+>   `// setar as propriedades`
 
-};
+>   `};`
 
-// faz insert e não recarrega a classe. É o default, para performance
+>   `// faz insert e não recarrega a classe. É o default, para performance`
 
-BL_Product.Insert(rec1);
+>   `BL_Product.Insert(rec1);`
 
-// faz insert e recarrega a classe.
+>   `// faz insert e recarrega a classe.`
 
-BL_Product.Update(rec1, EnumSaveMode.Requery);
+>   `BL_Product.Insert(rec1, EnumSaveMode.Requery);`
 
-// ====== Delete ======
+>   `// ====== Delete ======`
 
-// Deleta um registro
+>   `// Deleta um registro`
 
-BL_Product.Delete(rec1);
+>   `BL_Product.Delete(rec1);`
 
-// Exclui pela pk
+>   `// Exclui pela pk`
 
-BL_Product.DeleteByPk(100);
+>   `BL_Product.DeleteByPk(100);`
 
-// ====== Transaction ======
+>   `// ====== Transaction ======`
 
-using (var db = Sys.NewDb())
+>   `using (var db = Sys.NewDb())`
 
-{
+>   `{`
 
-db.BeginTransaction();
+>   `db.BeginTransaction();`
 
-// quando usar transações, sempre passa como primeiro parâmetro o objeto
-Database, senão o Speed abrirá outra conexão
+>   `// quando usar transações, sempre passa como primeiro parâmetro o objeto
+>   Database, senão o Speed abrirá outra conexão`
 
-var rec2 = BL_Product.SelectByPk(db, 316);
+>   `var rec2 = BL_Product.SelectByPk(db, 316);`
 
-rec2.ReorderPoint = 200;
+>   `rec2.ReorderPoint = 200;`
 
-BL_Product.Update(db, rec2);
+>   `BL_Product.Update(db, rec2);`
 
-db.Commit();
+>   `db.Commit();`
 
-}
+>   `}`
 
-// ====== Transaction com RunTran ======
+>   `// ====== Transaction com RunTran ======`
 
-Sys.RunInTran((db) =\> // se não der erro comita, se der erro dá rollback
+>   `Sys.RunInTran((db) => // se não der erro comita, se der erro dá rollback`
 
-{
+>   `{`
 
-var rec2 = BL_Product.SelectByPk(db, 316);
+>   `var rec2 = BL_Product.SelectByPk(db, 316);`
 
-rec2.ReorderPoint = 200;
+>   `rec2.ReorderPoint = 200;`
 
-BL_Product.Update(db, rec2);
+>   `BL_Product.Update(db, rec2);`
 
-});
+>   `});`
 
-}
+>   `}`
+
+`}`
 
 **Baixar projeto exemplo:**
+<https://github.com/carlosast/Speed-ORM/blob/master/Docs/MyApp.zip?raw=true>
 
 Introdução
 ==========
@@ -659,11 +663,11 @@ nome do cliente
 
 -   **Abrir uma connection com o banco sem uso da classe Sys**:
 
-    ![](media/d30ba2f0f90ace04e7fdb25ae76f6d8d.png)
+![](media/d30ba2f0f90ace04e7fdb25ae76f6d8d.png)
 
-    -   **Fazendo um Select sem usar a BL:**
+-   **Fazendo um Select sem usar a BL:**
 
-        -   var customers = db.Select\<Customer\>();
+    -   var customers = db.Select\<Customer\>();
 
         -   **Executando um comando no banco de dados:**
 
