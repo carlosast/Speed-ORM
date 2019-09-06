@@ -151,6 +151,8 @@ BL_Product.Update(db, rec2);
 
 }
 
+**Baixar projeto exemplo:**
+
 Introdução
 ==========
 
@@ -653,9 +655,9 @@ nome do cliente
 
 -   **Abrir uma connection com o banco Usando Sys:**
 
-    ![](media/758d6534e6ffc0701daa9efa69b54496.png)
+![](media/758d6534e6ffc0701daa9efa69b54496.png)
 
-    -   **Abrir uma connection com o banco sem uso da classe Sys**:
+-   **Abrir uma connection com o banco sem uso da classe Sys**:
 
     ![](media/d30ba2f0f90ace04e7fdb25ae76f6d8d.png)
 
