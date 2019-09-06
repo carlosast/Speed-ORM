@@ -1,3 +1,6 @@
+**Download do programa Speed (ClickOnce):**
+<https://github.com/carlosast/Speed-ORM/raw/master/publish/setup.exe>
+
 **Speed.ORM - Born to be fast**
 
 Introdução
@@ -379,18 +382,17 @@ desejar
             All Files”, que aparecerão pastas e arquivos que não fazem parte da
             solution, como mostrado na figura abaixo
 
-    ![](media/306a336bde16ddf1f134773004bdb40c.png)
+![](media/306a336bde16ddf1f134773004bdb40c.png)
 
-    -   Clique com o botão direito do mouse sobre a pasta “Data” e selecione
-        “Include in Project”. Repita este procedimento para a pasta “BL”.
-        Posteriormente, quando se gerar código para novos objetos, o
-        desenvolvedor terá que fazer o include para os 4 arquivos individuais
-        para cada objeto.
+-   Clique com o botão direito do mouse sobre a pasta “Data” e selecione
+    “Include in Project”. Repita este procedimento para a pasta “BL”.
+    Posteriormente, quando se gerar código para novos objetos, o desenvolvedor
+    terá que fazer o include para os 4 arquivos individuais para cada objeto.
 
-        -   Estou planejando fazer um **Add-in**, para automatizar todo este
-            processo no Visual Studio. É por isto que, na Solution Speed,
-            coloquei as telas do projeto Speed numa DLL separada (Speed.UI),
-            porque vou compartilhá-la com o projeto de Add-in
+    -   Estou planejando fazer um **Add-in**, para automatizar todo este
+        processo no Visual Studio. É por isto que, na Solution Speed, coloquei
+        as telas do projeto Speed numa DLL separada (Speed.UI), porque vou
+        compartilhá-la com o projeto de Add-in
 
         -   Passos finais:
 
@@ -490,15 +492,14 @@ nome do cliente
 
 -   ConnectionString: Coloque no arquivo App.config, ou Web.config:
 
-    ![](media/a9ff4afae1dd795ead3f5987c0b82609.png)
+![](media/a9ff4afae1dd795ead3f5987c0b82609.png)
 
-    -   Usando a classe Sys (no namespace Speed.Data) para acessar o banco de
-        dados.  
-        A classe Sys possui propriedades e métodos para trabalhar com o banco de
-        dados. Apenas que não é obrigatório o uso desta classe, mas facilita
-        bastante. Numa aplicação “Windows Forms” podemos inicializa-la no método
-        “Main” e numa aplicação “Web” pode ser no método “Application_Start” do
-        Global.asx:
+-   Usando a classe Sys (no namespace Speed.Data) para acessar o banco de dados.  
+    A classe Sys possui propriedades e métodos para trabalhar com o banco de
+    dados. Apenas que não é obrigatório o uso desta classe, mas facilita
+    bastante. Numa aplicação “Windows Forms” podemos inicializa-la no método
+    “Main” e numa aplicação “Web” pode ser no método “Application_Start” do
+    Global.asx:
 
     ![](media/3c11195d7e77ad202289f18b1e258043.png)
 
@@ -508,9 +509,9 @@ nome do cliente
 
     -   **Abrir uma connection com o banco sem uso da classe Sys**:
 
-        ![](media/d30ba2f0f90ace04e7fdb25ae76f6d8d.png)
+    ![](media/d30ba2f0f90ace04e7fdb25ae76f6d8d.png)
 
-        -   **Fazendo um Select sem usar a BL:**
+    -   **Fazendo um Select sem usar a BL:**
 
         -   var customers = db.Select\<Customer\>();
 
