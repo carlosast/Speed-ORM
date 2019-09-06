@@ -276,7 +276,7 @@ namespace Speed.Data.Generation
                     else if (propTypeName == "Int64")
                         methodName = "GetInt64(dr, [ColumnName])";
                     else if (propTypeName == "TimeSpan")
-                        methodName = "GetTimeSpan(dr, [ColumnName])";
+                        methodName = "GetTimeSpan(db, dr, [ColumnName])";
                     else if (propTypeName == "Char[]")
                         methodName = "GetChars(dr, [ColumnName])";
                     else if (propTypeName == "Single")
@@ -886,7 +886,7 @@ namespace Speed.Data.Generation
                     else if (prop == "double")
                         methodName = "GetDouble(dr, [ColumnName])";
                     else if (prop == "timespan")
-                        methodName = "GetTimeSpan(dr, [ColumnName])";
+                        methodName = "GetTimeSpan(db, dr, [ColumnName])";
                     else if (prop == "char[]")
                         methodName = "GetChars(dr, [ColumnName])";
                     else if (prop == "single")
@@ -1363,11 +1363,11 @@ namespace Speed.Data.Generation
         /// 
         /// </summary>
         /// <param name="typeOfOneClass"></param>
-        /// <param name="coce"></param>
+        /// <param name="code"></param>
         /// <param name="id"></param>
         /// <param name="fileDll">Caminho completo onde será salva a dll. se não for fornecido, a dll será gravada na memória</param>
         /// <returns></returns>
-        public static Assembly Compile(Database db, Type typeOfOneClass, string coce, string id, string fileDll = null, Dictionary<string, string> otherUsings = null)
+        public static Assembly Compile(Database db, Type typeOfOneClass, string code, string id, string fileDll = null, Dictionary<string, string> otherUsings = null)
         {
             Assembly assembly = null;
             //CompilerResults cr;
@@ -1468,7 +1468,7 @@ namespace Speed.Data.Generation
             var compilation = CSharpCompilation.Create("Speed-" + Guid.NewGuid())
                 .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, false, null, null, null, null, OptimizationLevel.Release))
                 .AddReferences(mdReferences)
-                .AddSyntaxTrees(CSharpSyntaxTree.ParseText(coce));
+                .AddSyntaxTrees(CSharpSyntaxTree.ParseText(code));
 
             StringBuilder errText = new StringBuilder();
 
@@ -1519,7 +1519,7 @@ namespace Speed.Data.Generation
             else
             {
 #if DEBUG
-                Database.Code.Add(coce);
+                Database.Code.Add(code);
 #endif
             }
             //return cr.CompiledAssembly;

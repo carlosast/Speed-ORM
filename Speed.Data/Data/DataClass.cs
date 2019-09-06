@@ -478,19 +478,10 @@ namespace Speed.Data
             return reader.IsDBNull(ordinal) ? (Byte?)null : reader.GetByte(ordinal);
         }
 
-        /*
-       public TimeSpan GetTimeSpan(DbDataReader reader, int ordinal)
+       public TimeSpan? GetTimeSpan(Database db, DbDataReader reader, int ordinal)
        {
-           if (reader is System.Data.SqlClient.SqlDataReader)
-           {
-               return ((SqlDataReader)reader).GetTimeSpan(ordinal);
-           }
-           else
-           {
-               throw new Exception("The DataReader is not a SqlDataReader");
-           }
+            return reader.IsDBNull(ordinal) ? (TimeSpan?)null : db.Provider.GetTimeSpan(reader, ordinal);
        }
-       */
 
         public char[] GetChars(DbDataReader reader, int ordinal)
         {

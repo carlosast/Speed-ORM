@@ -1,7 +1,155 @@
+**Speed.ORM - Born to be fast**
+
 **Download do programa Speed (ClickOnce):**
 <https://github.com/carlosast/Speed-ORM/raw/master/publish/setup.exe>
 
-**Speed.ORM - Born to be fast**
+![](media/4fa6b2eac1bc8b34edbb818ecf0fc18c.png)
+
+![](media/27e49ce81ce34cd758bf06a8bf04c38a.png)
+
+Como usar:
+==========
+
+1 - Entre os parâmetros Tipo de Base de dados, de string de conexão, namespaces
+de Entity e Bussiness Layer e os diretórios dos projetos
+
+2 – Clique no botão “Conect/Refresh”
+
+3 – Na aba “Objetc Browser” selecione as tabelas e views que deseja gerar as
+classes
+
+4 – Procure no nuget por “Speed.ORM” e instale em todos os projetos o Package
+parta a base de dados selecionada:
+
+Oracle: <https://www.nuget.org/packages/Speed.ORM.Oracle/>
+
+Sql Serer: <https://www.nuget.org/packages/Speed.ORM.SqlServer/>
+
+NMySql: <https://www.nuget.org/packages/Speed.ORM.MySql/>
+
+5 – Como usar?
+
+class Program
+
+{
+
+static void Main(string[] args)
+
+{
+
+Sys.ConnectionString = "Data Source=localhost;Initial
+Catalog=AdventureWorks;Integrated Security=True;MultipleActiveResultSets=True";
+
+Sys.ProviderType = EnumDbProviderType.SqlServer;
+
+// ====== SELECT ======
+
+// Selecionar todos os regsistros
+
+var recs = BL_Product.Select();
+
+// Selecionar pela PK
+
+var recs1 = BL_Product.SelectByPk(1);
+
+// Selecionar produtos que contenham "Mountain" e MakeFlag seja true
+
+var recsf = BL_Product.Select(new Product { Name = "Mountain" , MakeFlag =
+true}, EnumDbFilter.AndLike);
+
+// Selecionar produtos que contenham "Mountain" e MakeFlag seja true
+
+var recsm = BL_Product.Select(new Product { Name = "Mountain", MakeFlag = true
+}, EnumDbFilter.AndLike);
+
+// Selecionar produtos por um filtro mais complexo
+
+// OBS: no where uso os nomes das colunas da tabela e não o nome das
+propriedades
+
+string where = "Name like '%Chainring%' and Color = 'Silver' and ReorderPoint \>
+100 order by Name";
+
+var recsd = BL_Product.Select(where);
+
+// ====== Update ======
+
+var rec1 = BL_Product.SelectByPk(1);
+
+recs1.ReorderPoint = 200;
+
+// faz update e não recarrega a classe. É o default, para performance
+
+BL_Product.Update(rec1);
+
+// faz update e recarrega a classe.
+
+BL_Product.Update(rec1, EnumSaveMode.Requery);
+
+// ====== Insert ======
+
+var reco = new Product
+
+{
+
+// setar as propriedades
+
+};
+
+// faz insert e não recarrega a classe. É o default, para performance
+
+BL_Product.Insert(rec1);
+
+// faz insert e recarrega a classe.
+
+BL_Product.Update(rec1, EnumSaveMode.Requery);
+
+// ====== Delete ======
+
+// Deleta um registro
+
+BL_Product.Delete(rec1);
+
+// Exclui pela pk
+
+BL_Product.DeleteByPk(100);
+
+// ====== Transaction ======
+
+using (var db = Sys.NewDb())
+
+{
+
+db.BeginTransaction();
+
+// quando usar transações, sempre passa como primeiro parâmetro o objeto
+Database, senão o Speed abrirá outra conexão
+
+var rec2 = BL_Product.SelectByPk(db, 316);
+
+rec2.ReorderPoint = 200;
+
+BL_Product.Update(db, rec2);
+
+db.Commit();
+
+}
+
+// ====== Transaction com RunTran ======
+
+Sys.RunInTran((db) =\> // se não der erro comita, se der erro dá rollback
+
+{
+
+var rec2 = BL_Product.SelectByPk(db, 316);
+
+rec2.ReorderPoint = 200;
+
+BL_Product.Update(db, rec2);
+
+});
+
+}
 
 Introdução
 ==========
@@ -501,9 +649,9 @@ nome do cliente
     “Main” e numa aplicação “Web” pode ser no método “Application_Start” do
     Global.asx:
 
-    ![](media/3c11195d7e77ad202289f18b1e258043.png)
+![](media/3c11195d7e77ad202289f18b1e258043.png)
 
-    -   **Abrir uma connection com o banco Usando Sys:**
+-   **Abrir uma connection com o banco Usando Sys:**
 
     ![](media/758d6534e6ffc0701daa9efa69b54496.png)
 

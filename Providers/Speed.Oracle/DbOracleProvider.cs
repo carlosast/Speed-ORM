@@ -673,6 +673,11 @@ select to_char(max(last_ddl_time), 'DDMMYYHH:MM:SS') last_ddl_time from user_obj
             return db.ExecuteString(sql);
         }
 
+        public TimeSpan GetTimeSpan(DbDataReader reader, int ordinal)
+        {
+            return ((OracleDataReader)reader).GetTimeSpan(ordinal);
+        }
+
     }
 
 }

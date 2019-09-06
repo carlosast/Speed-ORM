@@ -1,19 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>Speed.SqlServer</PackageId>
+    <PackageId>Speed.ORM.SqlServer</PackageId>
     <PackageTags>Speed;Faster;orm;sql;micro-orm;Sql Server</PackageTags>
     <Title>Speed.SqlServer</Title>
-    <Description></Description>
+    <Description>High performance database access library.
+Use the Speed application to generate data classes:
+https://github.com/carlosast/Speed-ORM</Description>
     <Authors>Carlos Alberto Stefani</Authors>
     <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
-    <Version>1.0.1</Version>
+    <Version>1.0.1.4</Version>
     <PackageProjectUrl>https://github.com/carlosast/Speed-ORM</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <AssemblyVersion>1.0.1.1</AssemblyVersion>
-    <FileVersion>1.0.1.1</FileVersion>
+    <AssemblyVersion>1.0.1.4</AssemblyVersion>
+    <FileVersion>1.0.1.4</FileVersion>
     <Company>Carlos Alberto Stefanis</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Product>Speed.SqlServer</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">

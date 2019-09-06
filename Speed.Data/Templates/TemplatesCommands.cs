@@ -126,7 +126,7 @@ WHERE Row____Number BETWEEN {0} AND {1};
             {
                 if (dr.Read())
                 {
-                    readRecord(dr, ref value);
+                    readRecord(db, dr, ref value);
                     [!POCO]value.RecordStatus = RecordStatus.Existing;
                     [!POCO]if (concurrency)
                     [!POCO]    value.RecordOriginal = value.CloneT();
@@ -172,7 +172,7 @@ WHERE Row____Number BETWEEN {0} AND {1};
             {
                 if (dr.Read())
                 {
-                    readRecord(dr, ref value);
+                    readRecord(db, dr, ref value);
                     [!POCO]value.RecordStatus = RecordStatus.Existing;
                     [!POCO]if (concurrency)
                     [!POCO]    value.RecordOriginal = value.CloneT();
@@ -234,7 +234,7 @@ WHERE Row____Number BETWEEN {0} AND {1};
             {
                 if (dr.Read())
                 {
-                    readRecord(dr, ref value);
+                    readRecord(db, dr, ref value);
                     [!POCO]value.RecordStatus = RecordStatus.Existing;
                     [!POCO]if (concurrency)
                     [!POCO]    value.RecordOriginal = value.CloneT();
@@ -272,7 +272,7 @@ WHERE Row____Number BETWEEN {0} AND {1};
                 {
                     if (dr.Read())
                     {
-                        readRecord(dr, ref value);
+                        readRecord(db, dr, ref value);
                         [!POCO]value.RecordStatus = RecordStatus.Existing;
                         [!POCO]if (concurrency)
                         [!POCO]    value.RecordOriginal = value.CloneT();
@@ -298,7 +298,7 @@ WHERE Row____Number BETWEEN {0} AND {1};
             {
                 if (dr.Read())
                 {
-                    readRecord(dr, ref value);
+                    readRecord(db, dr, ref value);
                     [!POCO]value.RecordStatus = RecordStatus.Existing;
                     [!POCO]if (concurrency)
                     [!POCO]    value.RecordOriginal = value.CloneT();
@@ -347,7 +347,7 @@ WHERE Row____Number BETWEEN {0} AND {1};
             {
                 if (dr.Read())
                 {
-                    readRecord(dr, ref value);
+                    readRecord(db, dr, ref value);
                     [!POCO]value.RecordStatus = RecordStatus.Existing;
                     [!POCO]if (concurrency)
                     [!POCO]    value.RecordOriginal = value.CloneT();
@@ -386,7 +386,7 @@ WHERE Row____Number BETWEEN {0} AND {1};
                 {
                     if (dr.Read())
                     {
-                        readRecord(dr, ref value);
+                        readRecord(db, dr, ref value);
                         [!POCO]value.RecordStatus = RecordStatus.Existing;
                         [!POCO]if (concurrency)
                         [!POCO]    value.RecordOriginal = value.CloneT();
@@ -423,7 +423,7 @@ WHERE Row____Number BETWEEN {0} AND {1};
             {
                 if (dr.Read())
                 {
-                    readRecord(dr, ref value);
+                    readRecord(db, dr, ref value);
                     [!POCO]value.RecordStatus = RecordStatus.Existing;
                     [!POCO]if (concurrency)
                     [!POCO]    value.RecordOriginal = value.CloneT();
@@ -457,7 +457,7 @@ WHERE Row____Number BETWEEN {0} AND {1};
             {
                 if (dr.Read())
                 {
-                    readRecord(dr, ref value);
+                    readRecord(db, dr, ref value);
                     [!POCO]value.RecordStatus = RecordStatus.Existing;
                     [!POCO]if (concurrency)
                     [!POCO]    value.RecordOriginal = value.CloneT();
@@ -499,11 +499,11 @@ WHERE Row____Number BETWEEN {0} AND {1};
             {
                 if (dr.Read())
                 {
-                    readRecord(dr, ref value);
+                    readRecord(db, dr, ref value);
                     [!POCO]if (value.RecordStatus == RecordStatus.New)
                     [!POCO]{
                     [!POCO]    [TypeName] old2 = new [TypeName]();
-                    [!POCO]    readRecord(dr, ref old2);
+                    [!POCO]    readRecord(db, dr, ref old2);
                     [!POCO]    value.RecordOriginal = old2;
                     [!POCO]}
                     [!POCO]else
@@ -541,7 +541,7 @@ WHERE Row____Number BETWEEN {0} AND {1};
             {
                 if (dr.Read())
                 {
-                    readRecord(dr, ref value);
+                    readRecord(db, dr, ref value);
                     [!POCO]value.RecordStatus = RecordStatus.Existing;
                     [!POCO]if (concurrency)
                     [!POCO]    value.RecordOriginal = value.CloneT();
@@ -578,7 +578,7 @@ WHERE Row____Number BETWEEN {0} AND {1};
             {
                 if (dr.Read())
                 {
-                    readRecord(dr, ref value);
+                    readRecord(db, dr, ref value);
                     [!POCO]value.RecordStatus = RecordStatus.Existing;
                     [!POCO]if (concurrency)
                     [!POCO]    value.RecordOriginal = value.CloneT();
@@ -620,7 +620,7 @@ WHERE Row____Number BETWEEN {0} AND {1};
             {
                 if (dr.Read())
                 {
-                    readRecord(dr, ref value);
+                    readRecord(db, dr, ref value);
                     [!POCO]value.RecordStatus = RecordStatus.Existing;
                     [!POCO]if (concurrency)
                     [!POCO]    value.RecordOriginal = value.CloneT();

@@ -71,6 +71,8 @@ namespace Speed.Data
         /// <returns></returns>
         string GetLastModified();
 
+        TimeSpan GetTimeSpan(DbDataReader reader, int ordinal);
+
     }
 
 }

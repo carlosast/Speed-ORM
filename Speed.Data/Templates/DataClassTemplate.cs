@@ -30,13 +30,13 @@ public partial class [ClassName] : DataClass
 //        return new [TypeName]();
 //    }
 
-    private void readRecord(DbDataReader dr, ref [TypeName] value)
+    private void readRecord(Database db, DbDataReader dr, ref [TypeName] value)
     {
         [!POCO]value.RecordStatus = RecordStatus.Existing;
 [SetColumns]
     }
 
-    private void readRecordSql(DbDataReader dr, List<string> names, ref [TypeName] value)
+    private void readRecordSql(Database db, DbDataReader dr, List<string> names, ref [TypeName] value)
     {
         [!POCO]value.RecordStatus = RecordStatus.Existing;
 [SetColumnsSql]
@@ -50,7 +50,7 @@ public partial class [ClassName] : DataClass
             while (dr.Read())
             {
                 [TypeName] value = new [TypeName]();
-                readRecord(dr, ref value);
+                readRecord(db, dr, ref value);
                 [!POCO]if (concurrency)
                 [!POCO]    value.RecordOriginal = value.CloneT();
                 list.Add(value);
@@ -67,7 +67,7 @@ public partial class [ClassName] : DataClass
             while (dr.Read())
             {
                 [TypeName] value = new [TypeName]();
-                readRecord(dr, ref value);
+                readRecord(db, dr, ref value);
                 [!POCO]if (concurrency)
                 [!POCO]    value.RecordOriginal = value.CloneT();
                 list.Add(value);
@@ -85,7 +85,7 @@ public partial class [ClassName] : DataClass
             if (dr.Read())
             {
                 value = new [TypeName]();
-                readRecord(dr, ref value);
+                readRecord(db, dr, ref value);
                 [!POCO]if (concurrency)
                 [!POCO]    value.RecordOriginal = value.CloneT();
             }
@@ -102,7 +102,7 @@ public partial class [ClassName] : DataClass
             if (dr.Read())
             {
                 value = new [TypeName]();
-                readRecord(dr, ref value);
+                readRecord(db, dr, ref value);
             }
             return value;
         }
@@ -120,7 +120,7 @@ public partial class [ClassName] : DataClass
             while (dr.Read())
             {
                 [TypeName] value = new [TypeName]();
-                readRecordSql(dr, names, ref value);
+                readRecordSql(db, dr, names, ref value);
                 [!POCO]if (concurrency)
                 [!POCO]    value.RecordOriginal = value.CloneT();
                 list.Add(value);
@@ -238,7 +238,7 @@ public partial class [ClassName] : DataClass
             {
                 if (dr.Read())
                 {
-                    readRecord(dr, ref value2);
+                    readRecord(db, dr, ref value2);
                     [!POCO]if (concurrency)
                     [!POCO]    value2.RecordOriginal = value2.CloneT();
                     return value2;
@@ -454,7 +454,7 @@ public partial class [ClassName] : DataClass
                 while (dr.Read())
                 {
                     [TypeName] value = new [TypeName]();
-                    readRecord(dr, ref value);
+                    readRecord(db, dr, ref value);
                     [!POCO]if (concurrency)
                     [!POCO]    value.RecordOriginal = value.CloneT();
                     list.Add(value);
@@ -556,7 +556,7 @@ public partial class [ClassName] : DataClass
                 while (dr.Read())
                 {
                     [TypeName] value = new [TypeName]();
-                    readRecord(dr, ref value);
+                    readRecord(db, dr, ref value);
                     [!POCO]if (concurrency)
                     [!POCO]    value.RecordOriginal = value.CloneT();
                     list.Add(value);
@@ -666,7 +666,7 @@ public partial class [ClassName] : DataClass
                 if (dr.Read())
                 {
                     ret = new [TypeName]();
-                    readRecord(dr, ref ret);
+                    readRecord(db, dr, ref ret);
                     [!POCO]if (concurrency)
                     [!POCO]    ret.RecordOriginal = ret.CloneT();
                 }

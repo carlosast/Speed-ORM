@@ -559,6 +559,12 @@ select CONVERT(NVARCHAR(20), MAX(modify_date), 20) From sys.objects where type i
 ";
             return db.ExecuteString(sql);
         }
+
+        public TimeSpan GetTimeSpan(DbDataReader reader, int ordinal)
+        {
+            return ((SqlDataReader)reader).GetTimeSpan(ordinal);
+        }
+
     }
 
 }

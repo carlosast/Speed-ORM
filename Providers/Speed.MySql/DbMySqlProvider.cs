@@ -393,6 +393,12 @@ select TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME,          TABLE_TYPE from informa
         {
             return null;
         }
+
+        public TimeSpan GetTimeSpan(DbDataReader reader, int ordinal)
+        {
+            return ((MySqlDataReader)reader).GetTimeSpan(ordinal);
+        }
+
     }
 
 }
