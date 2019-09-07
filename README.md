@@ -7,155 +7,13 @@
 
 ![](media/27e49ce81ce34cd758bf06a8bf04c38a.png)
 
-Como usar:
-==========
+Como usar
+=========
 
-1 - Entre os parâmetros Tipo de Base de dados, de string de conexão, namespaces
-de Entity e Bussiness Layer e os diretórios dos projetos
+Se não deseja perder tempo e ter classes para acessar toda sua base de dados em
+poucos minutos clique no link abaixo para ter uma introdução rápida do uso:
 
-2 – Clique no botão “Conect/Refresh”
-
-3 – Na aba “Objetc Browser” selecione as tabelas e views que deseja gerar as
-classes
-
-4 – Procure no nuget por “Speed.ORM” e instale em todos os projetos o Package
-parta a base de dados selecionada:
-
-Oracle: <https://www.nuget.org/packages/Speed.ORM.Oracle/>
-
-Sql Serer: <https://www.nuget.org/packages/Speed.ORM.SqlServer/>
-
-NMySql: <https://www.nuget.org/packages/Speed.ORM.MySql/>
-
-5 – Como usar?
-
-`class Program`
-
-`{`
-
->   `static void Main(string[] args)`
-
->   `{`
-
->   `Sys.ConnectionString = "Data Source=localhost;Initial
->   Catalog=AdventureWorks;Integrated
->   Security=True;MultipleActiveResultSets=True";`
-
->   `Sys.ProviderType = EnumDbProviderType.SqlServer;`
-
->   `// ====== SELECT ======`
-
->   `// Selecionar todos os regsistros`
-
->   `var recs = BL_Product.Select();`
-
->   `// Selecionar pela PK`
-
->   `var recs1 = BL_Product.SelectByPk(1);`
-
->   `// Selecionar produtos que contenham "Mountain" e MakeFlag seja true`
-
->   `var recsf = BL_Product.Select(new Product { Name = "Mountain" , MakeFlag =
->   true}, EnumDbFilter.AndLike);`
-
->   `// Selecionar produtos que contenham "Mountain" e MakeFlag seja true`
-
->   `var recsm = BL_Product.Select(new Product { Name = "Mountain", MakeFlag =
->   true }, EnumDbFilter.AndLike);`
-
->   `// Selecionar produtos por um filtro mais complexo`
-
->   `// OBS: no where uso os nomes das colunas da tabela e não o nome das
->   propriedades`
-
->   `string where = "Name like '%Chainring%' and Color = 'Silver' and
->   ReorderPoint \> 100 order by Name";`
-
->   `var recsd = BL_Product.Select(where);`
-
->   `// ====== Update ======`
-
->   `var rec1 = BL_Product.SelectByPk(1);`
-
->   `recs1.ReorderPoint = 200;`
-
->   `// faz update e não recarrega a classe. É o default, para performance`
-
->   `BL_Product.Update(rec1);`
-
->   `// faz update e recarrega a classe.`
-
->   `BL_Product.Update(rec1, EnumSaveMode.Requery);`
-
->   `// ====== Insert ======`
-
->   `var reco = new Product`
-
->   `{`
-
->   `// setar as propriedades`
-
->   `};`
-
->   `// faz insert e não recarrega a classe. É o default, para performance`
-
->   `BL_Product.Insert(rec1);`
-
->   `// faz insert e recarrega a classe.`
-
->   `BL_Product.Insert(rec1, EnumSaveMode.Requery);`
-
->   `// ====== Delete ======`
-
->   `// Deleta um registro`
-
->   `BL_Product.Delete(rec1);`
-
->   `// Exclui pela pk`
-
->   `BL_Product.DeleteByPk(100);`
-
->   `// ====== Transaction ======`
-
->   `using (var db = Sys.NewDb())`
-
->   `{`
-
->   `db.BeginTransaction();`
-
->   `// quando usar transações, sempre passa como primeiro parâmetro o objeto
->   Database, senão o Speed abrirá outra conexão`
-
->   `var rec2 = BL_Product.SelectByPk(db, 316);`
-
->   `rec2.ReorderPoint = 200;`
-
->   `BL_Product.Update(db, rec2);`
-
->   `db.Commit();`
-
->   `}`
-
->   `// ====== Transaction com RunTran ======`
-
->   `Sys.RunInTran((db) => // se não der erro comita, se der erro dá rollback`
-
->   `{`
-
->   `var rec2 = BL_Product.SelectByPk(db, 316);`
-
->   `rec2.ReorderPoint = 200;`
-
->   `BL_Product.Update(db, rec2);`
-
->   `});`
-
->   `}`
-
-`}`
-
-**Baixar projeto exemplo:**
-<https://github.com/carlosast/Speed-ORM/blob/master/Docs/MyApp.zip?raw=true>
+<https://github.com/carlosast/Speed-ORM/blob/master/resumo.md>
 
 Introdução
 ==========
@@ -251,17 +109,15 @@ A biblioteca Speed é composta de 1 DLL principal "Speed.Data":
 
 -   Conv: a classe mais usada em Speed. Possui métodos de conversões
 
-    -   Cryptography: Criptografia
+-   Cryptography: Criptografia
 
-    -   DataTimer\<T\>: É uma classe de um cache simples, em memória. Um seu
-        constructor se define uma function que carregará os valores, e um
-        Timeout. Assim, pode ler o valor da propriedade Value. Se estourou o
-        Timeout, DataTimer recarrega os valores, senão retorna o valor da
-        memória
+-   DataTimer\<T\>: É uma classe de um cache simples, em memória. Um seu
+    constructor se define uma function que carregará os valores, e um Timeout.
+    Assim, pode ler o valor da propriedade Value. Se estourou o Timeout,
+    DataTimer recarrega os valores, senão retorna o valor da memória
 
-    -   CloneCompiler: Gera uma proxy compilado em memória para fazer clone de
-        classes (properties e fields). Milhares de vezes mais rápido que
-        reflection
+-   CloneCompiler: Gera uma proxy compilado em memória para fazer clone de
+    classes (properties e fields). Milhares de vezes mais rápido que reflection
 
 -   ETC
 
@@ -679,17 +535,17 @@ nome do cliente
 
     -   **Usando Transaction:**
 
-    ![](media/597f42522b6ad5a9e534d9f898f87230.png)
+![](media/597f42522b6ad5a9e534d9f898f87230.png)
 
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        >     
-    >   **Repare que no final do bloco using existe o Commit. Se, ao
-        >   sair do bloco using, não for aplicado um Commit, será dado um
-        >   Rollback automaticamente**  
-        >   
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    >     
+>   **Repare que no final do bloco using existe o Commit. Se, ao
+    >   sair do bloco using, não for aplicado um Commit, será dado um
+    >   Rollback automaticamente**  
+    >   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    -   **Retornando o valor de um campo “IDENTITY”:**
+-   **Retornando o valor de um campo “IDENTITY”:**
 
     -   O Speed pode ler o valor de um campo **IDENTITY** automaticamente. Por
         padrão ele não o faz, justamente considerando a performance. Se você não
@@ -697,7 +553,7 @@ nome do cliente
         Mas se precisar, nos método “Insert”, “ ou “Update”, passe o valor
         “EnumSaveMode.Requery” para o parâmetro “EnumSaveMode saveMode”
 
-    ![](media/69e898d9f7c88a3dfcc2029d5eaf9715.png)
+![](media/69e898d9f7c88a3dfcc2029d5eaf9715.png)
 
 -   **Retornando um DataTable**
 

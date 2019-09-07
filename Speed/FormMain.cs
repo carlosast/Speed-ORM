@@ -55,7 +55,7 @@ namespace Speed
             mnuFile_Click(null, null);
 
             // abre o último arquivo
-#if DEBUG
+#if DEBUG2
             if (mnuFileRecenteFiles.DropDownItems.Count > 0)
                 mnuFileRecenteFilesItem_Click(mnuFileRecenteFiles.DropDownItems[0], null);
 #endif

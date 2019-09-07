@@ -1360,36 +1360,18 @@ namespace Speed.Data.Generation
 
 #if NETSTANDARD2_0
         /// <summary>
-        /// 
+        /// Compile generated code
         /// </summary>
         /// <param name="typeOfOneClass"></param>
         /// <param name="code"></param>
         /// <param name="id"></param>
-        /// <param name="fileDll">Caminho completo onde será salva a dll. se não for fornecido, a dll será gravada na memória</param>
+        /// <param name="fileDll">Caminho completo onde será salva a dll. se não for fornecido, a dll será gerada na memória</param>
         /// <returns></returns>
         public static Assembly Compile(Database db, Type typeOfOneClass, string code, string id, string fileDll = null, Dictionary<string, string> otherUsings = null)
         {
             Assembly assembly = null;
-            //CompilerResults cr;
-            //CodeDomProvider provider = new CSharpCodeProvider();
-            //CompilerParameters cp = new CompilerParameters();
-            //cp.GenerateExecutable = false;
-
-            //if (fileDll == null)
-            //    cp.GenerateInMemory = true;
-            //else
-            //{
-            //    cp.GenerateInMemory = false;
-            //    cp.OutputAssembly = fileDll;
-            //}
 
             var references = new List<string>();
-
-            //#if DEBUG
-            //            cp.IncludeDebugInformation = true;
-            //#else
-            //            cp.IncludeDebugInformation = false;
-            //#endif
 
             TypeExt.LoadAssemblies<Database>(assemblies);
             TypeExt.LoadAssemblies(db.Provider.GetType(), assemblies);
@@ -1421,9 +1403,7 @@ namespace Speed.Data.Generation
                     asmCompModel = assemblies.FirstOrDefault(p => p.Contains("System.Data"));
                 if (asmCompModel != null)
                 {
-                    //var files = Directory.GetFiles(Path.GetDirectoryName(asmCompModel), "System.ComponentModel*.dll");
                     var files = Directory.GetFiles(Path.GetDirectoryName(asmCompModel), "System.*.dll").ToList();
-                    //files.AddRange( = Directory.GetFiles(Path.GetDirectoryName(asmCompModel), "System.*.dll").ToList();
                     foreach (var asmPath in files)
                     {
                         if (!assemblies.Contains(asmPath))
@@ -1435,15 +1415,12 @@ namespace Speed.Data.Generation
 
             // assemblies default
             foreach (var asm in assemblies)
-                // TODO: MetadataReference.CreateFromFile aceita o path, não o using
+            {
                 references.Add(asm);
-            //cp.ReferencedAssemblies.Add(asm);
+            }
 
             // assemblies de uma classe
             references.Add(typeOfOneClass.GetTypeInfo().Assembly.Location);
-            //references.Add(typeof(System.Object).GetTypeInfo().Assembly.Location);
-            //references.Add(typeof(System.Runtime.AssemblyTargetedPatchBandAttribute).GetTypeInfo().Assembly.Location);
-            //references.Add(typeof(System.ComponentModel.DataAnnotations.DataType).GetTypeInfo().Assembly.Location);
 
             //cp.ReferencedAssemblies.Add("Microsoft.SqlServer.Types.dll");
 
@@ -1458,8 +1435,6 @@ namespace Speed.Data.Generation
                     if (references.Contains(pair.Key, StringComparer.OrdinalIgnoreCase))
                         references.Add(pair.Value);
             }
-
-            // http://stackoverflow.com/questions/37526165/compiling-and-running-code-at-runtime-in-net-core-1-0
 
             var dotnetPath = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location) + @"\";
 
@@ -1484,8 +1459,6 @@ namespace Speed.Data.Generation
 
                     foreach (Diagnostic diagnostic in failures)
                     {
-                        //Console.Error.WriteLine("{0}: {1}", diagnostic.Id, diagnostic.GetMessage());
-                        //errText.AppendLine(string.Format("Error: {0}\r\nFileName: {1}\r\nErrorNumber: {2}\r\nLine: {3}\r\nColumn: {4}\r\n\r\n", error.ErrorText, error.FileName, error.ErrorNumber, error.Line, error.Column));
                         errText.AppendFormat("{0}: {1}\r\n", diagnostic.Id, diagnostic.GetMessage());
                     }
                 }
@@ -1500,14 +1473,6 @@ namespace Speed.Data.Generation
                         ms.Seek(0, SeekOrigin.Begin);
                         File.WriteAllBytes(fileDll, ms.ToArray());
                     }
-
-                    //var context = new AssemblyLoader();
-                    //assembly = context.LoadFromStream(ms, null);
-
-                    //var context = new AssemblyLoader();
-                    //var buffer = new byte[ms.Length];
-                    //ms.Read(buffer, 0, buffer.Length);
-                    //assembly = Assembly.Load(buffer);
                 }
             }
 
@@ -1522,19 +1487,18 @@ namespace Speed.Data.Generation
                 Database.Code.Add(code);
 #endif
             }
-            //return cr.CompiledAssembly;
             return assembly;
         }
 #endif
 
 #if NET40
         /// <summary>
-        /// 
+        /// Compile generated code
         /// </summary>
         /// <param name="typeOfOneClass"></param>
         /// <param name="code"></param>
         /// <param name="id"></param>
-        /// <param name="fileDll">Caminho completo onde será salva a dll. se não for fornecido, a dll será gravada na memória</param>
+        /// <param name="fileDll">Caminho completo onde será salva a dll. se não for fornecido, a dll será gerada na memória</param>
         /// <returns></returns>
         public static Assembly Compile(Database db, Type typeOfOneClass, string code, string id, string fileDll = null, Dictionary<string, string> otherUsings = null)
         {

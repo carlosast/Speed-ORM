@@ -249,6 +249,7 @@ namespace Speed.Data
 #else
             string code = string.Join("\r\n", b.ToString().Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Where(line => !string.IsNullOrWhiteSpace(line) && !line.Trim().StartsWith("//")).Select(line => line.Trim()));
 #endif
+            b.Clear();
 
             Assembly ass = null;
 
