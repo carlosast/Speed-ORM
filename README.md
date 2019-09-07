@@ -1,9 +1,16 @@
-**Speed.ORM - Born to be fast**
+# **Speed.ORM - Born to be fast**
+
+
 
 **Download do programa Speed (ClickOnce):**
+
 <https://github.com/carlosast/Speed-ORM/raw/master/publish/setup.exe>
 
+
+
 ![](media/4fa6b2eac1bc8b34edbb818ecf0fc18c.png)
+
+
 
 ![](media/27e49ce81ce34cd758bf06a8bf04c38a.png)
 
@@ -13,7 +20,11 @@ Como usar
 Se não deseja perder tempo e ter classes para acessar toda sua base de dados em
 poucos minutos clique no link abaixo para ter uma introdução rápida do uso:
 
-<https://github.com/carlosast/Speed-ORM/blob/master/resumo.md>
+https://github.com/carlosast/Speed-ORM/blob/master/Resumo.md
+
+
+
+
 
 Introdução
 ==========
