@@ -9,8 +9,8 @@ Baixe o programa Speed (ClickOnce):
 
 <https://github.com/carlosast/Speed-ORM/raw/master/publish/setup.exe>
 
-Baixar projeto exemplo: 
-========================
+Baixar projeto exemplo:
+=======================
 
 <https://github.com/carlosast/Speed-ORM/blob/master/Docs/MyApp.zip?raw=true>
 
@@ -56,142 +56,187 @@ NMySql: <https://www.nuget.org/packages/Speed.ORM.MySql/>
 5 – Como usar?
 ==============
 
-`class Program`
-
-`{`
-
 >   `static void Main(string[] args)`
 
 >   `{`
 
->   **//** `====== `**Setar a conexão default do Speed** `======`
+>   ```
+>   > //** `======`**Setar a conexão default do Speed** `======`
+>   
+>   // Setando a *conexão* default, não será necessário passar uma Database para os
+>   métodos do Speed, que será aberta e fechada, automaticamente, uma Database
+>   
+>   > `Sys.ConnectionString = "Data Source=localhost;Initial
+>   > Catalog=AdventureWorks;Integrated
+>   > Security=True;MultipleActiveResultSets=True";`
+>   > `Sys.ProviderType = EnumDbProviderType.SqlServer;
+>   ```
+>
+>   
 
-// Setando a conexão default, não será necessário passar uma Database para os
-métodos do Speed que será aberta e fechada, automaticamente, uma Database
+>   ```
+>   > // ====== Abrir uma conexão ======`
+>   
+>   using (var db = Sys.NewDb())
+>   
+>   {
+>   
+>   . . .
+>   
+>   }
+>   ```
+>
+>   
 
-// Cada método da bussiness possui ao menos 2 sobrecargas; uma sem um parâmetro
-database e outra com o parâmetro Database
+>   ```
+>   > // ====== SELECT ======`
+>   
+>   > `// Selecionar todos os regsistros`
+>   
+>   > `var recs = BL_Product.Select();`
+>   
+>   > `// Selecionar pela PK`
+>   
+>   > `var recs1 = BL_Product.SelectByPk(1);`
+>   
+>   > `// Selecionar produtos que contenham "Mountain" e MakeFlag seja true`
+>   
+>   > `var recsm = BL_Product.Select(new Product { Name = "Mountain", MakeFlag =
+>   > true }, EnumDbFilter.AndLike);`
+>   
+>   > `// Selecionar produtos por um filtro mais complexo`
+>   
+>   > `// OBS: no where uso os nomes das colunas da tabela e não o nome das
+>   > propriedades`
+>   
+>   > `string where = "Name like '%Chainring%' and Color = 'Silver' and
+>   > ReorderPoint \> 100 order by Name";`
+>   
+>   > `var recsd = BL_Product.Select(where);`
+>   ```
+>
+>   
 
->   `Sys.ConnectionString = "Data Source=localhost;Initial
->   Catalog=AdventureWorks;Integrated
->   Security=True;MultipleActiveResultSets=True";`
+>   ```
+>   > // ====== Update ======`
+>   
+>   > `var rec1 = BL_Product.SelectByPk(1);`
+>   
+>   > `recs1.ReorderPoint = 200;`
+>   
+>   > `// faz update e não recarrega a classe. É o default, para performance`
+>   
+>   > `BL_Product.Update(rec1);`
+>   
+>   > `// faz update e recarrega a classe.`
+>   
+>   > `BL_Product.Update(rec1, EnumSaveMode.Requery);`
+>   ```
+>
+>   
 
->   `Sys.ProviderType = EnumDbProviderType.SqlServer;`
+>   
 
->   `// ====== Abrir uma conexão ======`
+>   ```
+>   > // ====== Insert ======`
+>   
+>   > `var reco = new Product`
+>   
+>   > `{`
+>   
+>   > `// setar as propriedades`
+>   
+>   > `};`
+>   
+>   > `// faz insert e não recarrega a classe. É o default, para performance`
+>   
+>   > `BL_Product.Insert(rec1);`
+>   
+>   > `// faz insert e recarrega a classe.`
+>   
+>   > `BL_Product.Insert(rec1, EnumSaveMode.Requery);
+>   ```
+>
+>   
 
-using (var db = Sys.NewDb())
+>   
 
-{
+>   ```
+>   > // ====== Delete ======`
+>   
+>   > `// Deleta um registro`
+>   
+>   > `BL_Product.Delete(rec1);`
+>   
+>   > `// Exclui pela pk`
+>   
+>   > `BL_Product.DeleteByPk(100);
+>   ```
+>
+>   
 
-. . .
+>   
 
-}
+>   ```
+>   > // ====== Transaction ======`
+>   
+>   > `using (var db = Sys.NewDb())`
+>   
+>   > `{`
+>   
+>   > `		db.BeginTransaction();`
+>   
+>   > `		// quando usar transações, sempre passe como primeiro parâmetro o objeto
+>   > 		Database, senão o Speed abrirá outra conexão`
+>   
+>   > `		var rec2 = BL_Product.SelectByPk(db, 316);`
+>   
+>   > ​	`	rec2.ReorderPoint = 200;`
+>   
+>   > `		BL_Product.Update(db, rec2);`
+>   
+>   > ​	`	db.Commit();`
+>   
+>   > `}
+>   ```
+>
+>   
 
->   `// ====== SELECT ======`
+>   ```
+>   > // ====== Transaction com RunInTran ======`
+>   
+>   > `Sys.RunInTran((db) => // se não der erro comita, se der erro dá rollback`
+>   
+>   > `{`
+>   
+>   > `		var rec2 = BL_Product.SelectByPk(db, 316);`
+>   
+>   > `		rec2.ReorderPoint = 200;`
+>   
+>   > `		BL_Product.Update(db, rec2);`
+>   
+>   > `});
+>   ```
+>
+>   `
 
->   `// Selecionar todos os regsistros`
+>   ```
+>   // ====== Transaction com TransactionScope ======
+>   
+>   using (var tr = new TransactionScope())
+>   
+>   {
+>   
+>   var rec2 = BL_Product.SelectByPk(316);
+>   
+>   rec2.ReorderPoint = 200;
+>   
+>   BL_Product.Update(rec2);
+>   
+>   }
+>   
+>   > `}
+>   ```
+>
+>   
 
->   `var recs = BL_Product.Select();`
-
->   `// Selecionar pela PK`
-
->   `var recs1 = BL_Product.SelectByPk(1);`
-
->   `// Selecionar produtos que contenham "Mountain" e MakeFlag seja true`
-
->   `var recsm = BL_Product.Select(new Product { Name = "Mountain", MakeFlag =
->   true }, EnumDbFilter.AndLike);`
-
->   `// Selecionar produtos por um filtro mais complexo`
-
->   `// OBS: no where uso os nomes das colunas da tabela e não o nome das
->   propriedades`
-
->   `string where = "Name like '%Chainring%' and Color = 'Silver' and
->   ReorderPoint \> 100 order by Name";`
-
->   `var recsd = BL_Product.Select(where);`
-
->   `// ====== Update ======`
-
->   `var rec1 = BL_Product.SelectByPk(1);`
-
->   `recs1.ReorderPoint = 200;`
-
->   `// faz update e não recarrega a classe. É o default, para performance`
-
->   `BL_Product.Update(rec1);`
-
->   `// faz update e recarrega a classe.`
-
->   `BL_Product.Update(rec1, EnumSaveMode.Requery);`
-
->   `// ====== Insert ======`
-
->   `var reco = new Product`
-
->   `{`
-
->   `// setar as propriedades`
-
->   `};`
-
->   `// faz insert e não recarrega a classe. É o default, para performance`
-
->   `BL_Product.Insert(rec1);`
-
->   `// faz insert e recarrega a classe.`
-
->   `BL_Product.Insert(rec1, EnumSaveMode.Requery);`
-
->   `// ====== Delete ======`
-
->   `// Deleta um registro`
-
->   `BL_Product.Delete(rec1);`
-
->   `// Exclui pela pk`
-
->   `BL_Product.DeleteByPk(100);`
-
->   `// ====== Transaction ======`
-
->   `using (var db = Sys.NewDb())`
-
->   `{`
-
->   `db.BeginTransaction();`
-
->   `// quando usar transações, sempre passe como primeiro parâmetro o objeto
->   Database, senão o Speed abrirá outra conexão`
-
->   `var rec2 = BL_Product.SelectByPk(db, 316);`
-
->   `rec2.ReorderPoint = 200;`
-
->   `BL_Product.Update(db, rec2);`
-
->   `db.Commit();`
-
->   `}`
-
->   `// ====== Transaction com RunInTran ======`
-
->   `Sys.RunInTran((db) => // se não der erro comita, se der erro dá rollback`
-
->   `{`
-
->   `var rec2 = BL_Product.SelectByPk(db, 316);`
-
->   `rec2.ReorderPoint = 200;`
-
->   `BL_Product.Update(db, rec2);`
-
->   `});`
-
->   `}`
-
-}
-
-`}`
