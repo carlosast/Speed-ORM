@@ -27,27 +27,7 @@ namespace Speed
                 this.Icon = Properties.Resources.APP;
                 imlIcons.Images.Add("Gear", Speed.UI.Properties.Resources.Gear);
             }
-#if DEBUG2
-            if (count == 0 && Environment.MachineName == "QUASAR")
-            {
-                string fileName = null;
-                // fileName = @"..\..\..\__Testes\MyProject\MyProject.spd";
-                // fileName = @"..\..\..\Testes\TestGen.Oracle\TestOracle.spd";
-                // fileName = @"..\..\..\Testes\TestGen.MySql\TestMySql.spd";
-                fileName = @"E:\_Projects\_Systems\SpeedCluster\SpeedCluster.spd";
 
-                if (fileName != null)
-                {
-                    FileInfo fi = new FileInfo(fileName);
-                    if (fi.Exists)
-                    {
-                        var gen = new Speed.UI.UserControls.CtlGenerator(fi.FullName);
-                        AddChildControl(gen, fi.Name, "Gear", fi.FullName);
-                        //AddChildControl<Speed.UI.UserControls.CtlGenerator>("Generator", "Gear");
-                    }
-                }
-            }
-#endif
             btnClose.Tag = btnClose.ForeColor;
             btnClose.MouseEnter += (o, ev) => btnClose.ForeColor = Color.Black;
             btnClose.MouseLeave += (o, ev) => btnClose.ForeColor = (Color)btnClose.Tag;
@@ -96,7 +76,7 @@ namespace Speed
             CopyDlls();
         }
 
-#region mnuFile
+        #region mnuFile
 
         private void mnuFile_Click(object sender, EventArgs e)
         {
@@ -139,9 +119,9 @@ namespace Speed
             Program.RunSafe(this, () => Application.Exit());
         }
 
-#endregion mnuFile
+        #endregion mnuFile
 
-#region mnuHelp
+        #region mnuHelp
 
         private void mnuHelpAbout_Click(object sender, EventArgs e)
         {
@@ -157,9 +137,9 @@ namespace Speed
             Program.RunSafe(this, () => Process.Start("http://speed.codeplex.com/documentation"));
         }
 
-#endregion mnuHelp
+        #endregion mnuHelp
 
-#region Methods
+        #region Methods
 
         public DialogResult AddChildModal<T>() where T : Form, new()
         {
@@ -394,7 +374,7 @@ Microsoft.SqlServer.Types.dll
             }
         }
 
-#endregion Methods
+        #endregion Methods
 
     }
 
