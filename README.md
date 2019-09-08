@@ -1,14 +1,14 @@
 Speed.ORM - Born to be fast
 ===========================
 
-​ **O que é o Speed ORM?**
+ **O que é o Speed ORM?**
 
 O Speed é uma plataforma de ORM desenvolvida para ser simples de utilizar e de
 alta performance.
 
 É composta de 3 grandes componentes
 
-​
+
 
 1.  **Programa Speed:** Este programa, um Windows Forms, permite conectar numa
     base de dados e gerar classes Entity e Bussiness num clique de um botão. Em
@@ -20,11 +20,12 @@ alta performance.
 
 3.  **Bibliotecas de Providers:** São DLLs específicas para cada base de dados.
 
-4.  Ex: Speed.Data.SqlServer.dll é utilizada para fazer a interface entre a base
-    de dados e a classe Database
+    4.  Ex: Speed.Data.SqlServer.dll é utilizada para fazer a interface entre a base
+        de dados e a classe Database
 
-5.  É muito simples criar uma interface para uma base base de dados ainda não
-    suportada.
+    2.  É muito simples criar uma interface para uma base base de dados ainda não
+        suportada.
+
 
 **Download do programa Speed (ClickOnce):**
 
@@ -39,6 +40,8 @@ fazer funcionar no github. Se alguém tiver uma sugestão será benvinda.
 
 ![](media/27e49ce81ce34cd758bf06a8bf04c38a.png)
 
+
+
 Como usar
 =========
 
@@ -49,7 +52,7 @@ poucos minutos clique no link abaixo para ter uma introdução rápida do uso:
 
 ### Exemplo resumido de uso do código gerado:
 
-​ Depois das classes geradas, o uso é muito simples:
+ Depois das classes geradas, o uso é muito simples:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Inicializa os parâmetros defaults do Speed
@@ -150,18 +153,18 @@ para acesso à base de dados.
 1 - História
 ============
 
-​ Trabalho como especialista em performance de aplicações e bancos de dados há
+ Trabalho como especialista em performance de aplicações e bancos de dados há
 mais de 15 anos. Através das análises, detectei que um dos problemas era como
 framework de ORM que estava sendo usado ou mesmo como foram desenvolvidas as
 camadas de dados e de negócios, usando procedures e ADO.NET.
 
-​ Usando o Entity Framework como ORM, tente fazer um loop para inserir 10000000
+ Usando o Entity Framework como ORM, tente fazer um loop para inserir 10000000
 de registros: ele usa vários gigabytes de memória, e se o computador não tiver
 memória pra isso, vai travar. Além disso, apesar do Entity Framework possuir
 vários recursos interessantes, tal como o LINQ TO SQL, não é adequado para um
 sistema que precise ser rápido e escalável. O mesmo vale pra o NHibernate
 
-​ Por outro lado, há os puristas, que acreditam que todo o sistema, inclusive as
+ Por outro lado, há os puristas, que acreditam que todo o sistema, inclusive as
 rotinas de CRUD, devam ser feitos com procedures. Que têm o discurso que é mais
 rápido, e é assim que tem que ser feito. Não sou contra o uso de Stored
 Procedures, mas sim no seu uso apenas quando é necessário. Por exemplo, tem
@@ -256,7 +259,9 @@ Créditos
 
 Especialista em performance de Sistemas e Bancos de Dados gigantes
 
--   Contato: carlosast\@msn.com
+-   Contato: carlosast@msn.com
+
+
 
 Colaboração
 -----------
