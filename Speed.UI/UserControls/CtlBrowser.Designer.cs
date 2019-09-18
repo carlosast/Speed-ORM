@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.trv = new Speed.UI.UserControls.TreeView2();
             this.tabObjects = new System.Windows.Forms.TabControl();
             this.tabTables = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -45,11 +46,10 @@
             this.grpNaming = new System.Windows.Forms.GroupBox();
             this.chkRaisePropertyChanged = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnApplyNames = new System.Windows.Forms.Button();
-            this.trv = new Speed.UI.UserControls.TreeView2();
             this.ctlBusPars = new Speed.UI.UserControls.CtlClassParameters();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ctlDataPars = new Speed.UI.UserControls.CtlClassParameters();
+            this.btnApplyNames = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -88,6 +88,20 @@
             this.splitContainer1.SplitterDistance = 572;
             this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // trv
+            // 
+            this.trv.CheckBoxes = true;
+            this.trv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trv.HandleMultiSelection = false;
+            this.trv.Location = new System.Drawing.Point(0, 0);
+            this.trv.Name = "trv";
+            this.trv.ShowNodeToolTips = true;
+            this.trv.Size = new System.Drawing.Size(572, 255);
+            this.trv.TabIndex = 0;
+            this.trv.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.trv_AfterCheck);
+            this.trv.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.trv_BeforeExpand);
+            this.trv.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trv_AfterSelect);
             // 
             // tabObjects
             // 
@@ -193,6 +207,7 @@
             // 
             this.grdViews.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grdViews.EnableSort = true;
+            this.grdViews.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grdViews.Location = new System.Drawing.Point(0, 0);
             this.grdViews.Name = "grdViews";
             this.grdViews.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
@@ -206,6 +221,7 @@
             // 
             this.grdViewColumns.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grdViewColumns.EnableSort = true;
+            this.grdViewColumns.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.grdViewColumns.Location = new System.Drawing.Point(0, 0);
             this.grdViewColumns.Name = "grdViewColumns";
             this.grdViewColumns.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
@@ -273,6 +289,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Business Classes Parameters";
             // 
+            // ctlBusPars
+            // 
+            this.ctlBusPars.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctlBusPars.Location = new System.Drawing.Point(7, 16);
+            this.ctlBusPars.Name = "ctlBusPars";
+            this.ctlBusPars.Size = new System.Drawing.Size(415, 90);
+            this.ctlBusPars.TabIndex = 0;
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.ctlDataPars);
@@ -283,6 +307,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Data Classes Parameters";
             // 
+            // ctlDataPars
+            // 
+            this.ctlDataPars.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctlDataPars.Location = new System.Drawing.Point(7, 16);
+            this.ctlDataPars.Name = "ctlDataPars";
+            this.ctlDataPars.Size = new System.Drawing.Size(415, 93);
+            this.ctlDataPars.TabIndex = 0;
+            // 
             // btnApplyNames
             // 
             this.btnApplyNames.Location = new System.Drawing.Point(897, 106);
@@ -292,36 +324,6 @@
             this.btnApplyNames.Text = "Apply Names";
             this.btnApplyNames.UseVisualStyleBackColor = true;
             this.btnApplyNames.Click += new System.EventHandler(this.btnApplyNames_Click);
-            // 
-            // trv
-            // 
-            this.trv.CheckBoxes = true;
-            this.trv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trv.HandleMultiSelection = false;
-            this.trv.Location = new System.Drawing.Point(0, 0);
-            this.trv.Name = "trv";
-            this.trv.ShowNodeToolTips = true;
-            this.trv.Size = new System.Drawing.Size(572, 255);
-            this.trv.TabIndex = 0;
-            this.trv.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.trv_AfterCheck);
-            this.trv.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.trv_BeforeExpand);
-            this.trv.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trv_AfterSelect);
-            // 
-            // ctlBusPars
-            // 
-            this.ctlBusPars.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctlBusPars.Location = new System.Drawing.Point(7, 16);
-            this.ctlBusPars.Name = "ctlBusPars";
-            this.ctlBusPars.Size = new System.Drawing.Size(415, 90);
-            this.ctlBusPars.TabIndex = 0;
-            // 
-            // ctlDataPars
-            // 
-            this.ctlDataPars.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctlDataPars.Location = new System.Drawing.Point(7, 16);
-            this.ctlDataPars.Name = "ctlDataPars";
-            this.ctlDataPars.Size = new System.Drawing.Size(415, 93);
-            this.ctlDataPars.TabIndex = 0;
             // 
             // CtlBrowser
             // 

@@ -669,7 +669,7 @@ ORDER BY
         {
             string sql =
 @"
-select to_char(max(last_ddl_time), 'DDMMYYHH:MM:SS') last_ddl_time from user_objects where object_type in ('TABLE', 'VIEW')";
+select to_char(max(last_ddl_time), 'YYYY-MM-DD HH24:MI:SS') last_ddl_time from user_objects where object_type in ('TABLE', 'VIEW')";
             return db.ExecuteString(sql);
         }
 

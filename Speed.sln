@@ -44,6 +44,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyApp.BLL", "Testes\MyApp\M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyApp", "Testes\MyApp\MyApp\MyApp.csproj", "{AA18D77E-E620-47E9-8C46-69ABD632E3CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetDates", "SetDates\SetDates.csproj", "{B167BBF4-223C-4864-8594-823B18217007}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -302,6 +304,24 @@ Global
 		{AA18D77E-E620-47E9-8C46-69ABD632E3CA}.Release|x64.Build.0 = Release|Any CPU
 		{AA18D77E-E620-47E9-8C46-69ABD632E3CA}.Release|x86.ActiveCfg = Release|Any CPU
 		{AA18D77E-E620-47E9-8C46-69ABD632E3CA}.Release|x86.Build.0 = Release|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Debug|x64.Build.0 = Debug|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Debug|x86.Build.0 = Debug|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Internal|Any CPU.ActiveCfg = Debug|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Internal|Any CPU.Build.0 = Debug|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Internal|x64.ActiveCfg = Debug|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Internal|x64.Build.0 = Debug|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Internal|x86.ActiveCfg = Debug|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Internal|x86.Build.0 = Debug|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Release|x64.ActiveCfg = Release|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Release|x64.Build.0 = Release|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Release|x86.ActiveCfg = Release|Any CPU
+		{B167BBF4-223C-4864-8594-823B18217007}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

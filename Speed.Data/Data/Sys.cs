@@ -4,6 +4,7 @@ using System.Reflection;
 using System.IO;
 using System.Threading.Tasks;
 using Speed.Common;
+using System.Diagnostics;
 
 namespace Speed.Data
 {
@@ -251,6 +252,23 @@ namespace Speed.Data
         public static void ToConsole(Exception ex, string message)
         {
             ToConsole(message + "\r\n" + Conv.GetErrorMessage(ex, true));
+        }
+
+        public static void Trace(string message)
+        {
+#if DEBUG && NET40
+            string source = "Translogic";
+            if (!EventLog.SourceExists(source))
+            {
+                EventLog.CreateEventSource(source, source);
+            }
+
+            EventLog.WriteEntry(source, message, EventLogEntryType.Information);
+#endif
+        }
+        public static void Trace(Exception ex, string message = null)
+        {
+            Trace(message + " " + ex.Message + " " + Conv.GetErrorMessage(ex, true));
         }
 
     }

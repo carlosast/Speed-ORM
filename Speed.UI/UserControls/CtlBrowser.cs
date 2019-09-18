@@ -107,7 +107,8 @@ namespace Speed.UI.UserControls
         public void ApplyNames(Forms.FormApply.ApplyOptions options = null)
         {
             if (options == null)
-                options = new Forms.FormApply.ApplyOptions { BusinessClass = true, DataClass = true, Enum = true, Unnamed = true };
+                return;
+
             //@"Confirms the application of names to classes and enums?
             //The current names will be overwritten"))
 
@@ -124,6 +125,8 @@ namespace Speed.UI.UserControls
 
                 var crtl = this.ActiveControl;
                 btnApplyNames.Focus();
+
+
 
                 foreach (var table in pars.Tables)
                 {
@@ -213,10 +216,10 @@ namespace Speed.UI.UserControls
                 SelectTab(grid);
             }
 
-            if (e.Node is NodeTables || e.Node is NodeTable)
-                tabObjects.SelectedIndex = 0;
-            else if (e.Node is NodeViews || e.Node is NodeView)
+            if (e.Node is NodeViews || e.Node is NodeView)
                 tabObjects.SelectedIndex = 1;
+            else if (e.Node is NodeTables || e.Node is NodeTable)
+                tabObjects.SelectedIndex = 0;
 
             isNodeSelecting = false;
         }
