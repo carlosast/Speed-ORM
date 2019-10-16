@@ -45,6 +45,9 @@ namespace Speed.Common
 
             }
 
+            if (asm == null)
+                throw new Exception("Assembly not found: " + assName);
+
             return asm;
 
             //var loader = new AssemblyLoader();
@@ -57,15 +60,50 @@ namespace Speed.Common
             try
             {
                 var asm = LoadAssembly(assName);
-                Type type = asm.GetExportedTypes().FirstOrDefault(p => TypeExt.IsClass(p) && typeof(IDbProvider).IsAssignableFrom(p));
-                return (IDbProvider)Activator.CreateInstance(type, db);
+
+                //Type type = asm.GetExportedTypes().FirstOrDefault(p => TypeExt.IsClass(p) && typeof(IDbProvider).IsAssignableFrom(p));
+                Type type = null;
+                Exception exg = null;
+
+                foreach (Type _type in asm.GetExportedTypes())
+                {
+                    try
+                    {
+                        if (TypeExt.IsClass(_type) && typeof(IDbProvider).IsAssignableFrom(_type))
+                        {
+                            type = _type;
+                            break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        exg = ex;
+                    }
+                }
+
+                if (type != null)
+                {
+                    IDbProvider prov = null;
+                    try
+                    {
+                        return (IDbProvider)Activator.CreateInstance(type, db);
+                    }
+                    catch (Exception ex)
+                    {
+                        exg = new Exception("Erro on create " + type.Name);
+                    }
+                }
+                if (exg != null)
+                    throw new Exception("Erro on loading assembly " + assName, exg);
+                else
+                    throw new Exception("Erro on loading assembly " + assName);
+
             }
             catch (Exception ex)
             {
                 throw new Exception("Error loading assembly: " + assName, ex);
             }
         }
-
     }
 
     //public sealed class AssemblyLoader : AssemblyLoadContext

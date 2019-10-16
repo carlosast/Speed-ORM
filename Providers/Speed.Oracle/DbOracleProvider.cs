@@ -62,7 +62,14 @@ from
 
         static DbOracleProvider()
         {
-            var asm = CheckDdll("Oracle.ManagedDataAccess.dll");
+            try
+            {
+                var asm = CheckDdll("Oracle.ManagedDataAccess.dll");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error loading Oracle.ManagedDataAccess.dll", ex);
+            }
             //if (asm != null)
             //    AppDomain.CurrentDomain.Load(asm);
         }

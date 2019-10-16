@@ -533,12 +533,12 @@ END;';
 
         public int ExecuteSequenceInt32(string sequenceName)
         {
-            return db.ExecuteInt32("select {0}.nextval from dual", sequenceName);
+            throw new NotSupportedException();
         }
 
         public long ExecuteSequenceInt64(string sequenceName)
         {
-            return db.ExecuteInt64("select {0}.nextval from dual", sequenceName);
+            throw new NotSupportedException();
         }
 
         public IDbProvider CreateProvider(Database db)

@@ -179,7 +179,7 @@ namespace Speed.Data
                     var table = DataReflectionUtil.GetTableName(type);
                     if (table != null)
                     {
-                        throw new Exception("Table not compiled: " + table + "Compiled tables: " + string.Join(", ", cache.Keys.Select(p => p.Name).OrderBy(p => p)));
+                        throw new Exception("Table not compiled: " + table + "\r\nErrors\r\n\r\n: " + string.Join(", ", Database.Errors));
                     }
                     else
                     {
@@ -210,46 +210,42 @@ namespace Speed.Data
             Sys.Trace("db.Provider.GetLastModified()");
 
             string lastModified = db.Provider.GetLastModified();
-
-            Sys.Trace("GetDirectory");
-
             string dir = GetDirectory(types, db, lastModified);
-
-            Sys.Trace("GetDirectory: " + dir);
-
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
-
-            Sys.Trace("dir criado");
-
             string fileCode = Path.Combine(dir, "Speed.Code.cs");
             string fileDll = Path.Combine(dir, "Speed.Compiled.dll");
 
-            Sys.Trace("Dir: " + dir);
-            Sys.Trace("fileDll: " + fileDll);
 
-            if (File.Exists(fileDll))
+            if (lastModified != null)
             {
-                Sys.Trace("fileDll Exists");
-                try
+                if (!Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+
+                Sys.Trace("GetDirectory: " + dir);
+                Sys.Trace("fileDll: " + fileDll);
+
+                if (File.Exists(fileDll))
                 {
-                    var assCache = Assembly.LoadFile(fileDll);
-
-                    var typesDataClass = assCache.GetExportedTypes();
-
-                    foreach (var type in types)
+                    Sys.Trace("fileDll Exists");
+                    try
                     {
-                        addToCache(type, (DataClass)assCache.CreateInstance("DataClass" + type.Name));
-                    }
+                        var assCache = Assembly.LoadFile(fileDll);
 
-                    Sys.Trace("fileDll carregada do cache");
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    Sys.Trace(ex, "Erro ao carregar do cache");
-                    //throw;
-                    // deu erro? continua e recompila
+                        var typesDataClass = assCache.GetExportedTypes();
+
+                        foreach (var type in types)
+                        {
+                            addToCache(type, (DataClass)assCache.CreateInstance("DataClass" + type.Name));
+                        }
+
+                        Sys.Trace("fileDll carregada do cache");
+                        return;
+                    }
+                    catch (Exception ex)
+                    {
+                        Sys.Trace(ex, "Erro ao carregar do cache");
+                        //throw;
+                        // deu erro? continua e recompila
+                    }
                 }
             }
 
@@ -405,7 +401,10 @@ namespace Speed.Data
                     Type objType = ass.GetType(info.ClassName);
 
                     if (objType == null)
-                        throw new Exception("Not found in the database: " + type.Name + " - " + info.TableName);
+                    {
+                        Database.Errors.Add("Not found in the database: " + type.Name + " - " + info.TableName);
+                        continue;
+                    }
 
                     DataClass dc = (DataClass)Activator.CreateInstance(objType);
                     if (dc == null)

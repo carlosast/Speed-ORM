@@ -44,6 +44,17 @@ namespace Speed.Data
         public static bool DllCache = false;
         public static int DllCacheMinutes = 60;
 
+        internal static List<string> Errors = new List<string>();
+
+        /// <summary>
+        /// Get compilation errors
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetErrors()
+        {
+            return Errors;
+        }
+
         IDbProvider provider;
         EnumDbProviderType providerType;
         private bool usingTransaction; // indica que uma transação está pendente
@@ -1417,7 +1428,7 @@ namespace Speed.Data
             return bufferSchemaColumns.Find(this, schemaName, tableName);
         }
 
-        internal DataTable GetSchemaColumnsGeneric2(string schemaName, string tableName)
+        public DataTable GetSchemaColumnsGeneric2(string schemaName, string tableName)
         {
             if (bufferSchemaColumns == null)
             {

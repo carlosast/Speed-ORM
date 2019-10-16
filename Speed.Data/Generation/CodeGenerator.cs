@@ -176,7 +176,9 @@ namespace Speed.Data.Generation
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + db.Provider.GetObjectName(schemaName, tableNameReal) + "\r\n\r\n" + ex.Message + "\r\n\r\n" + ex.StackTrace);
+                string msg = "Error: " + db.Provider.GetObjectName(schemaName, tableNameReal) + "\r\n\r\n" + ex.Message + "\r\n\r\n" + ex.StackTrace;
+                Database.Errors.Add(msg);
+                Debug.WriteLine(msg);
                 infos = null;
                 table = null;
                 return null;
@@ -1558,9 +1560,37 @@ namespace Speed.Data.Generation
                 Database.Code.Add(code);
 #endif
             }
+
+            if (fileDll != null)
+            {
+                DeleteDirectories(fileDll);
+            }
+
             return cr.CompiledAssembly;
         }
 #endif
+
+        private static void DeleteDirectories(string fileDll)
+        {
+            try
+            {
+                var dirDll = Path.GetDirectoryName(fileDll);
+                var dirSpeed = Path.GetDirectoryName(dirDll);
+                var dirs = Directory.GetDirectories(dirSpeed);
+                foreach (var dir in dirs)
+                {
+                    if (!dir.EqualsICIC(dirDll))
+                    {
+                       IO.FileTools.DirectoryDeleteSafe(dir);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
     }
 
 }
