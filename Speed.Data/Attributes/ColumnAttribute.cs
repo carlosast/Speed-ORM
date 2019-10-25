@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Speed.Data
@@ -62,6 +63,11 @@ namespace Speed.Data
         public DbColumnAttribute(string columnName)
         {
             this.ColumnName = columnName;
+        }
+
+        public override string ToString()
+        {
+            return string.Join(" - ", this.GetType().GetProperties().Select(p => p.Name + "." + p.GetValue(this, null)).ToArray());
         }
 
     }

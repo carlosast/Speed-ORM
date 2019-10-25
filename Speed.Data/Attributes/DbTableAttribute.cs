@@ -40,5 +40,10 @@ namespace Speed.Data
             this.SequenceColumn = sequenceColumn;
         }
 
+        public override string ToString()
+        {
+            return $"{SchemaName}.{TableName}.{SequenceName}.{SequenceColumn}";
+        }
+
     }
 }

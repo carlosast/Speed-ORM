@@ -50,7 +50,7 @@ namespace Speed.Data
         /// Get compilation errors
         /// </summary>
         /// <returns></returns>
-        public List<string> GetErrors()
+        public static List<string> GetErrors()
         {
             return Errors;
         }

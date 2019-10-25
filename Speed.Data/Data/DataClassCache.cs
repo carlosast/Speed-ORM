@@ -71,7 +71,7 @@ namespace Speed.Data
             return refTypes[typeName].Assembly.CreateInstance(refTypes[typeName].FullName);
         }
 
-        public void RegisterAssemblyAndCompile(Database db, Assembly assembly, Type type = null)
+        public void RegisterAssemblyAndCompile(Database db, Assembly assembly, Type type = null, bool recompile = false)
         {
             // TODO:
             //if (!string.IsNullOrWhiteSpace(Sys.DllCheck))
@@ -84,12 +84,12 @@ namespace Speed.Data
             //}
             // se passar tipo nulo, ou se for DbTable, compila tudo
             if (type == null || type.GetCustomAttributes(typeof(DbTableAttribute), false) != null)
-                RegisterAssemblyAndCompile(db, assembly, false);
+                RegisterAssemblyAndCompile(db, assembly, recompile);
             else
-                RegisterAndCompileType(db, type, false);
+                RegisterAndCompileType(db, type, recompile);
         }
 
-        public void RegisterAssemblyAndCompile(Database db, Assembly assembly, bool refresh)
+        public void RegisterAssemblyAndCompile(Database db, Assembly assembly, bool recompile)
         {
             Sys.Trace("RegisterAssemblyAndCompile");
             List<Type> types = new List<Type>();
@@ -106,9 +106,9 @@ namespace Speed.Data
                 if (assRegistered.Contains(name))
                 {
                     if (assTypes[name].Count == 0)
-                        refresh = true;
+                        recompile = true;
 
-                    if (!refresh)
+                    if (!recompile)
                     {
                         Sys.Trace("!refresh");
                         return;
@@ -140,7 +140,7 @@ namespace Speed.Data
             records = records.OrderBy(p => p.Name).ToList();
 #endif
                 types = types.OrderBy(p => p.Name).ToList();
-                GenerateDataClasses(db, types, false);
+                GenerateDataClasses(db, types, false, recompile);
             }
             //throw new Exception(tc.ToString());
         }
@@ -172,8 +172,16 @@ namespace Speed.Data
             }
             else
             {
-                RegisterAssemblyAndCompile(db, type.Assembly, type);
+                RegisterAssemblyAndCompile(db, type.Assembly, type, false);
                 var ch = cache.GetValue(type);
+
+                if (ch == null)
+                {
+                    RegisterAssemblyAndCompile(db, type.Assembly, type, true);
+                }
+
+                ch = cache.GetValue(type);
+
                 if (ch == null)
                 {
                     var table = DataReflectionUtil.GetTableName(type);
@@ -199,7 +207,7 @@ namespace Speed.Data
             public string TableName;
         }
 
-        private void GenerateDataClasses(Database db, List<Type> types, bool singleClass = false)
+        private void GenerateDataClasses(Database db, List<Type> types, bool singleClass = false, bool recompile = false)
         {
             Sys.Trace("GenerateDataClasses. types.Count = " + types.Count);
             if (types.Count == 0)
@@ -215,7 +223,7 @@ namespace Speed.Data
             string fileDll = Path.Combine(dir, "Speed.Compiled.dll");
 
 
-            if (lastModified != null)
+            if (!recompile && lastModified != null)
             {
                 if (!Directory.Exists(dir))
                     Directory.CreateDirectory(dir);
@@ -429,11 +437,18 @@ namespace Speed.Data
             try
             {
                 string nspace = types.First().Namespace;
-                string ntypes = string.Join(",", types.OrderBy(p => p.FullName).Select(p => p.FullName));
+                var tnames = new StringBuilder();
+                foreach (var type in types)
+                {
+                    tnames.Append(type.FullName + " - " +  DataReflectionUtil.GetSchemaName(type) + " - " + DataReflectionUtil.GetTableName(type));
+                    var tcols = Cryptography.Hash(string.Join(",", DataReflectionUtil.GetColumns(type).Where(p => p.Value != null).Select(q => q.Value.ToString())));
+                    tnames.Append(" -> " + tcols);
+                    tnames.AppendLine(Cryptography.Hash(string.Join("," , type.GetProperties().Select(p => p.ToString()))));
+                }
 
                 string hashName = FileTools.ToValidPath(Cryptography.Hash(
                         lastModified + "-"
-                        + ntypes
+                        + tnames.ToString()
                         + types[0].Assembly.Location
                         + db.ProviderType
                         + db.Connection.ConnectionString)
