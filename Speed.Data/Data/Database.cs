@@ -3629,6 +3629,10 @@ namespace Speed.Data
             getCache<T>().Validate(record);
         }
 
+        public override string ToString()
+        {
+            return connectionString;
+        }
     }
 
     #region DbSqlInfoMessage

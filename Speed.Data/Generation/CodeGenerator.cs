@@ -1473,6 +1473,16 @@ namespace Speed.Data.Generation
                     if (fileDll != null)
                     {
                         ms.Seek(0, SeekOrigin.Begin);
+
+                        try
+                        {
+                            File.Delete(fileDll);
+                        }
+                        catch
+                        {
+                            fileDll = Path.Combine(Path.GetDirectoryName(fileDll), $"Speed.Compiled.{DateTime.Now.Ticks}.dll");
+                        }
+
                         File.WriteAllBytes(fileDll, ms.ToArray());
                     }
                 }
@@ -1515,6 +1525,15 @@ namespace Speed.Data.Generation
             }
             else
             {
+                try
+                {
+                    File.Delete(fileDll);
+                }
+                catch
+                {
+                    fileDll = Path.Combine(Path.GetDirectoryName(fileDll), $"Speed.Compiled.{DateTime.Now.Ticks}.dll");
+                }
+
                 cp.GenerateInMemory = false;
                 cp.OutputAssembly = fileDll;
             }
