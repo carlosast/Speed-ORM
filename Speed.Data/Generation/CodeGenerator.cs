@@ -223,7 +223,7 @@ namespace Speed.Data.Generation
             infos = table.Columns;
 
 #if DEBUG
-            if (type.Name.Equals("Perfil"))
+            if (type.Name.Equals("VwSisLog"))
                 type.ToString();
 #endif
 
@@ -566,6 +566,7 @@ namespace Speed.Data.Generation
                 cmdInsert = TemplatesCommands.INSERT;
                 cmdInsertRequery = TemplatesCommands.INSERT_REQUERY_ORACLE;
                 cmdUpdateRequery = TemplatesCommands.UPDATE_REQUERY_ORACLE;
+                cmdSelectPage = TemplatesCommands.SELECT_PAGE_ORACLE;
             }
             else if (db.ProviderType == EnumDbProviderType.PostgreSQL)
             {
@@ -693,7 +694,7 @@ namespace Speed.Data.Generation
             text = text.Replace("[UpdateColumns]", Q(db, updateColumns));
             text = text.Replace("[SortDefault]", Q(db, !string.IsNullOrWhiteSpace(pkColumns) ? pkColumns : "1"));
 
-#if DEBUG2
+#if DEBUG
             // Descomentar somente se for necessário. Impacta muito a performance
             try
             {

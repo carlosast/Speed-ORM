@@ -8,6 +8,7 @@ using Speed.Data.MetaData;
 using Speed.Data.Generation;
 using Speed.Common;
 using Speed.IO;
+using System.Diagnostics;
 
 namespace Speed.Data
 {
@@ -178,9 +179,8 @@ namespace Speed.Data
                 if (ch == null)
                 {
                     RegisterAssemblyAndCompile(db, type.Assembly, type, true);
+                    ch = cache.GetValue(type);
                 }
-
-                ch = cache.GetValue(type);
 
                 if (ch == null)
                 {
@@ -274,14 +274,17 @@ namespace Speed.Data
                     var infos = new Dictionary<string, DbColumnInfo>();
                     string className;
                     string tableName;
-                    if (type.Name == "Parameter")
+                    if (type.Name == "VwSisLog")
                         type.ToString();
                     string text = CodeGenerator.GenerateDataClassCode(db, type, out className, out tableName,
                         out table, out infos, otherUsings);
-                    codes.Add(text);
+                    if (text != null)
+                    {
+                        codes.Add(text);
 
-                    dataInfo di = new dataInfo { Table = table, Infos = infos, TableName = tableName, ClassName = className };
-                    dataInfos.Add(type, di);
+                        dataInfo di = new dataInfo { Table = table, Infos = infos, TableName = tableName, ClassName = className };
+                        dataInfos.Add(type, di);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -438,18 +441,27 @@ namespace Speed.Data
             {
                 string nspace = types.First().Namespace;
                 var tnames = new StringBuilder();
+
+                var fullName = this.GetType().Assembly.Location;
+                tnames.Append(fullName);
+                tnames.Append(getFileTime(fullName));
+
                 foreach (var type in types)
                 {
-                    tnames.Append(type.FullName + " - " +  DataReflectionUtil.GetSchemaName(type) + " - " + DataReflectionUtil.GetTableName(type));
+                    tnames.Append(type.FullName + " - " + DataReflectionUtil.GetSchemaName(type) + " - " + DataReflectionUtil.GetTableName(type));
                     var tcols = Cryptography.Hash(string.Join(",", DataReflectionUtil.GetColumns(type).Where(p => p.Value != null).Select(q => q.Value.ToString())));
                     tnames.Append(" -> " + tcols);
-                    tnames.AppendLine(Cryptography.Hash(string.Join("," , type.GetProperties().Select(p => p.ToString()))));
+                    tnames.AppendLine(Cryptography.Hash(string.Join(",", type.GetProperties().Select(p => p.ToString()))));
+                }
+
+                if (!Debugger.IsAttached)
+                {
+                    tnames.Append(getFileTime(types[0].Assembly.Location));
                 }
 
                 string hashName = FileTools.ToValidPath(Cryptography.Hash(
                         lastModified + "-"
                         + tnames.ToString()
-                        + types[0].Assembly.Location
                         + db.ProviderType
                         + db.Connection.ConnectionString)
                     .Replace("=", "").Replace("/", "").Replace("\\", ""));
@@ -463,6 +475,20 @@ namespace Speed.Data
             {
                 Sys.Trace(ex, "Erro em GetDirectory");
                 throw;
+            }
+        }
+
+        DateTime? getFileTime(string path)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(path) && File.Exists(path))
+                    return File.GetLastWriteTime(path);
+                return null;
+            }
+            catch
+            {
+                return null;
             }
         }
 

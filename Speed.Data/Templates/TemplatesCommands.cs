@@ -41,6 +41,19 @@ WHERE Row____Number BETWEEN {0} AND {1};
 
         internal static string SELECT_PAGE_MY_SQL = @"SELECT [Columns] FROM [TableName] {2} {3} LIMIT {0},{1}";
 
+        internal static string SELECT_PAGE_ORACLE =
+@"
+select *
+ from (
+select /*+ first_rows({0}) */
+  [Columns],
+  row_number() 
+  over (order by {2}) rn
+ from [TableName])
+where rn between {0} and {1}
+order by {2} 
+";
+
         #endregion SELECT_PAGE
 
         /*
