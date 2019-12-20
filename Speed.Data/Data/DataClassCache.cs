@@ -222,7 +222,6 @@ namespace Speed.Data
             string fileCode = Path.Combine(dir, "Speed.Code.cs");
             string fileDll = Path.Combine(dir, "Speed.Compiled.dll");
 
-
             if (!recompile && lastModified != null)
             {
                 if (!Directory.Exists(dir))
@@ -316,7 +315,7 @@ namespace Speed.Data
 
             Assembly ass = null;
 
-#if DEBUG2
+#if DEBUG
             //Descomentar somente se for necessário. Impacta muito a performance
             try
             {

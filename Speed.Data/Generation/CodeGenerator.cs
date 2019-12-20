@@ -1529,6 +1529,11 @@ namespace Speed.Data.Generation
                 try
                 {
                     File.Delete(fileDll);
+
+#if DEBUG2
+                    fileDll = Path.Combine(Path.GetDirectoryName(fileDll), $"Speed.Compiled.{DateTime.Now.Ticks}.dll");
+#endif
+
                 }
                 catch
                 {

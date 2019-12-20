@@ -49,10 +49,10 @@ select /*+ first_rows({0}) */
   [Columns],
   row_number() 
   over (order by {2}) rn
- from [TableName])
+ from [TableName] {3})
 where rn between {0} and {1}
-order by {2} 
 ";
+        // order by {2} 
 
         #endregion SELECT_PAGE
 
