@@ -501,10 +501,10 @@ namespace Speed.Data
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public List<T> SelectPage<T>(int start, int pageSize = 20, string sort = null)
+        public List<T> SelectPage<T>(int start, int pageSize = 20, string sort = null, int commandTimeout = 30)
         {
             DataClass dc = getCache<T>();
-            return (List<T>)dc.SelectPage(this, start, pageSize, sort);
+            return (List<T>)dc.SelectPage(this, start, pageSize, sort, commandTimeout);
         }
 
         /// <summary>
@@ -514,21 +514,21 @@ namespace Speed.Data
         /// <typeparam name="T"></typeparam>
         /// <param name="concurrency">Concurrency</param>
         /// <returns></returns>
-        public List<T> SelectPage<T>(int start, int pageSize = 20, string sort = null, bool concurrency = false)
+        public List<T> SelectPage<T>(int start, int pageSize = 20, string sort = null, int commandTimeout = 30, bool concurrency = false)
         {
             DataClass dc = getCache<T>();
-            return (List<T>)dc.SelectPage(this, start, pageSize, sort, concurrency);
+            return (List<T>)dc.SelectPage(this, start, pageSize, sort, commandTimeout, concurrency);
         }
 
-        public List<T> SelectPage<T>(string where, int start, int pageSize = 20, string sort = null)
+        public List<T> SelectPage<T>(string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30)
         {
             DataClass dc = getCache<T>();
-            return (List<T>)dc.SelectPage(this, where, start, pageSize, sort);
+            return (List<T>)dc.SelectPage(this, where, start, pageSize, sort, commandTimeout);
         }
 
-        public List<T> SelectPage<T>(string where, int start, int pageSize = 20, string sort = null, params object[] args)
+        public List<T> SelectPage<T>(string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, params object[] args)
         {
-            return SelectPage<T>(string.Format(where, args), start, pageSize, sort, false);
+            return SelectPage<T>(string.Format(where, args), start, pageSize, sort, commandTimeout, false);
         }
 
         /// <summary>
@@ -538,28 +538,28 @@ namespace Speed.Data
         /// <param name="where"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public List<T> SelectPageF<T>(string where, int start, int pageSize = 20, string sort = null, params object[] args)
+        public List<T> SelectPageF<T>(string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, params object[] args)
         {
             DataClass dc = getCache<T>();
-            return (List<T>)dc.SelectPage(this, string.Format(where, args), start, pageSize, sort);
+            return (List<T>)dc.SelectPage(this, string.Format(where, args), start, pageSize, sort, commandTimeout);
         }
 
-        public List<T> SelectPage<T>(string where, int start, int pageSize = 20, string sort = null, bool concurrency = false)
+        public List<T> SelectPage<T>(string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, bool concurrency = false)
         {
             DataClass dc = getCache<T>();
-            return (List<T>)dc.SelectPage(this, where, start, pageSize, sort, concurrency);
+            return (List<T>)dc.SelectPage(this, where, start, pageSize, sort, commandTimeout, concurrency);
         }
 
-        public List<T> SelectPage<T>(string where, int start, int pageSize, string sort = null, params Parameter[] parameters)
+        public List<T> SelectPage<T>(string where, int start, int pageSize, string sort = null, int commandTimeout = 30, params Parameter[] parameters)
         {
             DataClass dc = getCache<T>();
-            return (List<T>)dc.SelectPage(this, where, start, pageSize, sort, parameters);
+            return (List<T>)dc.SelectPage(this, where, start, pageSize, sort, commandTimeout, parameters);
         }
 
-        public List<T> SelectPage<T>(string where, int start, int pageSize = 20, string sort = null, bool concurrency = false, params Parameter[] parameters)
+        public List<T> SelectPage<T>(string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, bool concurrency = false, params Parameter[] parameters)
         {
             DataClass dc = getCache<T>();
-            return (List<T>)dc.SelectPage(this, where, start, pageSize, sort, concurrency, parameters);
+            return (List<T>)dc.SelectPage(this, where, start, pageSize, sort, commandTimeout, concurrency, parameters);
         }
 
         public List<T> SelectPage<T>(T filter, int start, int pageSize = 20, string sort = null, EnumDbFilter mode = EnumDbFilter.AndEqual, int commandTimeout = 30, bool concurrency = false, params Parameter[] parameters)

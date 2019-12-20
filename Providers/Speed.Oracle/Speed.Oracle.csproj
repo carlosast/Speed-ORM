@@ -9,17 +9,17 @@ Use the Speed application to generate data classes:
 https://github.com/carlosast/Speed-ORM</Description>
     <Authors>Carlos Alberto Stefani</Authors>
     <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
-    <Version>1.0.1.16</Version>
+    <Version>1.0.1.17</Version>
     <RepositoryUrl></RepositoryUrl>
-    <FileVersion>1.0.1.16</FileVersion>
-    <AssemblyVersion>1.0.1.16</AssemblyVersion>
+    <FileVersion>1.0.1.17</FileVersion>
+    <AssemblyVersion>1.0.1.17</AssemblyVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-    <PackageReference Include="Oracle.ManagedDataAccess" Version="19.3.1" />
+    <PackageReference Include="Oracle.ManagedDataAccess" Version="19.6.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">

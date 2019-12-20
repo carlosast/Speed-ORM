@@ -121,44 +121,44 @@ namespace Speed.Data
                 return db.Select<T>(where, parameters);
         }
 
-        public static List<T> SelectPage(Database db, int start, int pageSize = 20, string sort = null)
+        public static List<T> SelectPage(Database db, int start, int pageSize = 20, string sort = null, int commandTimeout = 30)
         {
-            return db.SelectPage<T>(start, pageSize, sort);
+            return db.SelectPage<T>(start, pageSize, sort, commandTimeout);
         }
-        public static List<T> SelectPage(int start, int pageSize = 20, string sort = null)
+        public static List<T> SelectPage(int start, int pageSize = 20, string sort = null, int commandTimeout = 30)
         {
             using (var db = Sys.NewDb())
-                return db.SelectPage<T>(start, pageSize, sort);
+                return db.SelectPage<T>(start, pageSize, sort, commandTimeout);
         }
 
-        public static List<T> SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null)
+        public static List<T> SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30)
         {
-            return db.SelectPage<T>(where, start, pageSize, sort);
+            return db.SelectPage<T>(where, start, pageSize, sort, commandTimeout);
         }
-        public static List<T> SelectPage(string where, int start, int pageSize = 20, string sort = null)
+        public static List<T> SelectPage(string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30)
         {
             using (var db = Sys.NewDb())
-                return db.SelectPage<T>(where, start, pageSize, sort);
+                return db.SelectPage<T>(where, start, pageSize, sort, commandTimeout);
         }
 
-        public static List<T> SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, params object[] args)
+        public static List<T> SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, params object[] args)
         {
-            return db.SelectPage<T>(where, start, pageSize, sort, args);
+            return db.SelectPage<T>(where, start, pageSize, sort, commandTimeout, args);
         }
-        public static List<T> SelectPage(string where, int start, int pageSize = 20, string sort = null, params object[] args)
+        public static List<T> SelectPage(string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, params object[] args)
         {
             using (var db = Sys.NewDb())
-                return db.SelectPage<T>(where, start, pageSize, sort, args);
+                return db.SelectPage<T>(where, start, pageSize, sort, commandTimeout, args);
         }
 
-        public static List<T> SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, params Parameter[] parameters)
+        public static List<T> SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, params Parameter[] parameters)
         {
-            return db.SelectPage<T>(where, start, pageSize, sort, parameters);
+            return db.SelectPage<T>(where, start, pageSize, sort, commandTimeout, parameters);
         }
-        public static List<T> SelectPage(string where, int start, int pageSize = 20, string sort = null, params Parameter[] parameters)
+        public static List<T> SelectPage(string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, params Parameter[] parameters)
         {
             using (var db = Sys.NewDb())
-                return db.SelectPage<T>(where, start, pageSize, sort, parameters);
+                return db.SelectPage<T>(where, start, pageSize, sort, commandTimeout, parameters);
         }
 
         public static List<T> SelectPage(Database db, T filter, int start, int pageSize = 20, string sort = null, EnumDbFilter mode = EnumDbFilter.AndEqual, int commandTimeout = 30, bool concurrency = false, params Parameter[] parameters)

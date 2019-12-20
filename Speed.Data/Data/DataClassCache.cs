@@ -315,7 +315,7 @@ namespace Speed.Data
 
             Assembly ass = null;
 
-#if DEBUG
+#if DEBUG2
             //Descomentar somente se for necessário. Impacta muito a performance
             try
             {

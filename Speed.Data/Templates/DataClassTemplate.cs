@@ -42,9 +42,9 @@ public partial class [ClassName] : DataClass
 [SetColumnsSql]
     }
 
-    private List<[TypeName]> readReader(Database db, string sql, bool concurrency)
+    private List<[TypeName]> readReader(Database db, string sql, bool concurrency, int commandTimeout = 30)
     {
-        using (DbDataReader dr = db.ExecuteReader(sql))
+        using (DbDataReader dr = db.ExecuteReader(sql, commandTimeout))
         {
             List<[TypeName]> list = new List<[TypeName]>();
             while (dr.Read())
@@ -59,9 +59,9 @@ public partial class [ClassName] : DataClass
         }
     }
 
-    private List<[TypeName]> readReader(Database db, string sql, bool concurrency, params Parameter[] parameters)
+    private List<[TypeName]> readReader(Database db, string sql, bool concurrency, int commandTimeout = 30, params Parameter[] parameters)
     {
-        using (DbDataReader dr = db.ExecuteReader(sql, parameters))
+        using (DbDataReader dr = db.ExecuteReader(sql, commandTimeout, parameters))
         {
             List<[TypeName]> list = new List<[TypeName]>();
             while (dr.Read())
@@ -148,13 +148,13 @@ public partial class [ClassName] : DataClass
     private List<[TypeName]> select(Database db, string where, params Parameter[] parameters)
     {
         string sql = '[Sql] where ' + where;
-        return readReader(db, sql, false, parameters);
+        return readReader(db, sql, false, 30, parameters);
     }
 
     private List<[TypeName]> select(Database db, string where, bool concurrency, params Parameter[] parameters)
     {
         string sql = '[Sql] where ' + where;
-        return readReader(db, sql, concurrency, parameters);
+        return readReader(db, sql, concurrency, 30, parameters);
     }
 
     private List<[TypeName]> selectTop(Database db, int top, bool concurrency)
@@ -491,43 +491,44 @@ public partial class [ClassName] : DataClass
     //    throw new NotImplementedException();
     //}
 
-    public override object SelectPage(Database db, int start, int pageSize = 20, string sort = null)
+    public override object SelectPage(Database db, int start, int pageSize = 20, string sort = null, int commandTimeout = 30)
     {
-        return selectPage(db, null, start, pageSize, sort, false, null);
+        return selectPage(db, null, start, pageSize, sort, commandTimeout, false, null);
     }
 
-    public override object SelectPage(Database db, int start, int pageSize = 20, string sort = null, bool concurrency = false)
+    public override object SelectPage(Database db, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, bool concurrency = false)
     {
-        return selectPage(db, null, start, pageSize, sort, concurrency, null);
+        return selectPage(db, null, start, pageSize, sort, commandTimeout, concurrency, null);
     }
 
-    public override object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null)
+    public override object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30)
     {
-        return selectPage(db, where, start, pageSize, sort, false, null);
+        return selectPage(db, where, start, pageSize, sort, commandTimeout, false, null);
     }
 
-    public override object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, bool concurrency = false)
+    public override object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, bool concurrency = false)
     {
-        return selectPage(db, where, start, pageSize, sort, concurrency, null);
+        return selectPage(db, where, start, pageSize, sort, commandTimeout, concurrency, null);
     }
 
-    public override object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, params Parameter[] parameters)
+    public override object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, params Parameter[] parameters)
     {
-        return selectPage(db, where, start, pageSize, sort, false, parameters);
+        return selectPage(db, where, start, pageSize, sort, commandTimeout, false, parameters);
     }
 
-    public override object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, bool concurrency = false, params Parameter[] parameters)
+    public override object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, bool concurrency = false, params Parameter[] parameters)
     {
-        return selectPage(db, where, start, pageSize, sort, concurrency, parameters);
+        return selectPage(db, where, start, pageSize, sort, commandTimeout, concurrency, parameters);
     }
 
-    private object selectPage(Database db, string where, int start, int pageSize, string sort, bool concurrency, params Parameter[] parameters)
+    private object selectPage(Database db, string where, int start, int pageSize, string sort, int commandTimeout, bool concurrency, params Parameter[] parameters)
     {
         sort = sort ?? '[SortDefault]';
         string sql =
 @'[SqlPage]';
-        sql = string.Format(sql, (start + 1), (start + pageSize), sort, (where ?? ''));
-        return readReader(db, sql, concurrency, parameters);
+        where = string.IsNullOrWhiteSpace(where) ? null : ' WHERE ' + where;
+        sql = string.Format(sql, (start + 1), (start + pageSize), sort, where);
+        return readReader(db, sql, concurrency, commandTimeout, parameters);
     }
 
     public override object SelectPage(Database db, object _filter, int start, int pageSize = 20, string sort = null, EnumDbFilter mode = EnumDbFilter.AndEqual, int commandTimeout = 30, bool concurrency = false, params Parameter[] parameters)

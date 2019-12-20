@@ -82,32 +82,32 @@ namespace Speed.Data
 
         #region SelectPage
 
-        public virtual object SelectPage(Database db, int start, int pageSize = 20, string sort = null)
+        public virtual object SelectPage(Database db, int start, int pageSize = 20, string sort = null, int commandTimeout = 30)
         {
             throw new NotImplementedException();
         }
 
-        public virtual object SelectPage(Database db, int start, int pageSize = 20, string sort = null, bool concurrency = false)
+        public virtual object SelectPage(Database db, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, bool concurrency = false)
         {
             throw new NotImplementedException();
         }
 
-        public virtual object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null)
+        public virtual object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30)
         {
             throw new NotImplementedException();
         }
 
-        public virtual object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, bool concurrency = false)
+        public virtual object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, bool concurrency = false)
         {
             throw new NotImplementedException();
         }
 
-        public virtual object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, params Parameter[] parameters)
+        public virtual object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, params Parameter[] parameters)
         {
             throw new NotImplementedException();
         }
 
-        public virtual object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, bool concurrency = false, params Parameter[] parameters)
+        public virtual object SelectPage(Database db, string where, int start, int pageSize = 20, string sort = null, int commandTimeout = 30, bool concurrency = false, params Parameter[] parameters)
         {
             throw new NotImplementedException();
         }
