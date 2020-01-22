@@ -220,7 +220,7 @@ namespace Speed.Data
             string lastModified = db.Provider.GetLastModified();
             string dir = GetDirectory(types, db, lastModified);
             string fileCode = Path.Combine(dir, "Speed.Code.cs");
-            string fileDll = Path.Combine(dir, "Speed.Compiled.dll");
+            string fileDll = Path.Combine(dir, "Speed." + types[0].Assembly.GetName().Name + ".dll");
 
             if (!recompile && lastModified != null)
             {
@@ -315,13 +315,14 @@ namespace Speed.Data
 
             Assembly ass = null;
 
-#if DEBUG2
+#if DEBUG
             //Descomentar somente se for necessário. Impacta muito a performance
             try
             {
-                if (!System.IO.Directory.Exists(@"..\..\DataClass"))
-                    System.IO.Directory.CreateDirectory(@"..\..\DataClass");
-                using (System.IO.StreamWriter w = new System.IO.StreamWriter(@"..\..\DataClass\AllClasses.cs", false))
+                string dirAc = Path.Combine(@"..\..\DataClass", types[0].Namespace);
+                if (!System.IO.Directory.Exists(dirAc))
+                    System.IO.Directory.CreateDirectory(dirAc);
+                using (System.IO.StreamWriter w = new System.IO.StreamWriter(Path.Combine(dirAc, "AllClasses.cs"), false))
                     w.Write(code);
             }
             catch { }
@@ -407,6 +408,8 @@ namespace Speed.Data
                     dataInfo info = pair.Value;
                     if (cache.ContainsKey(type))
                         cache.Remove(type);
+                    if (cacheByName.ContainsKey(type.Name))
+                        cacheByName.Remove(type.Name);
 
                     Type objType = ass.GetType(info.ClassName);
 
@@ -418,7 +421,7 @@ namespace Speed.Data
 
                     DataClass dc = (DataClass)Activator.CreateInstance(objType);
                     if (dc == null)
-                        return;
+                        continue;
                     dc.TableInfo = info.Table;
                     dc.ColumnInfos = info.Infos;
                     addToCache(type, dc);

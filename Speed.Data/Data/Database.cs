@@ -3808,3 +3808,5 @@ namespace Speed.Data
     #endregion DictionarySchemaTable
 
 }
+//O select e selectsingle dos views não estão funcionando. Ex:
+//var xw = BL_VwJob.SelectSingle(new VwJob { JobId = item.JobId });

@@ -257,13 +257,17 @@ namespace Speed.Data
         public static void Trace(string message)
         {
 #if DEBUG && NET40
-            string source = "Translogic";
-            if (!EventLog.SourceExists(source))
+            try
             {
-                EventLog.CreateEventSource(source, source);
-            }
+                string source = "Speed";
+                if (!EventLog.SourceExists(source))
+                {
+                    EventLog.CreateEventSource(source, source);
+                }
 
-            EventLog.WriteEntry(source, message, EventLogEntryType.Information);
+                EventLog.WriteEntry(source, message, EventLogEntryType.Information);
+            }
+            catch { }
 #endif
         }
         public static void Trace(Exception ex, string message = null)
