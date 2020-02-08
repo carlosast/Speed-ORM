@@ -705,7 +705,7 @@ namespace Speed.Common
         {
             if (string.IsNullOrEmpty(text))
                 return null;
-            if (text.Length > 0)
+            if (text.Length > length)
                 return text.Substring(0, Math.Min(text.Length, length));
             else
                 return text;
