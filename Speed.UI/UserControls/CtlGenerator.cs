@@ -30,7 +30,7 @@ namespace Speed.UI.UserControls
         private void CtlGenerator_Load(object sender, EventArgs e)
         {
             //this.FindForm().Icon = Speed.UI.Properties.Resources.Gear;
-
+            this.SuspendLayout();
             // pra carregar os controles dos tabs
             for (int i = tabControl1.TabCount - 1; i >= 0; i--)
                 tabControl1.SelectedIndex = i;
@@ -50,7 +50,19 @@ namespace Speed.UI.UserControls
                 try
                 {
                     DataToView();
-                    Connect(true, false);
+                    
+                    // inicialmente desabilita tudo
+                    //file.Parameters.Tables.ForEach(p => p.IsSelected = false);
+                    //file.Parameters.Views.ForEach(p => p.IsSelected = false);
+
+                    Connect(true, false, true);
+                    
+                    // se já estiver preenchida a aba de dados, seleciona a aba de tables
+                    if (!string.IsNullOrWhiteSpace(file.Parameters.DataClass.Directory) && !string.IsNullOrWhiteSpace(file.Parameters.BusinessClass.Directory))
+                    {
+                        tabControl1.SelectedIndex = 1;
+                    }
+
                     // dbConnect.Connect(false);
                 }
                 catch
@@ -65,14 +77,16 @@ namespace Speed.UI.UserControls
 
             foreach (TabPage page in tabControl1.TabPages)
                 page.AutoScroll = true;
+
+            this.ResumeLayout();
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            Connect(true, true);
+            Connect(true, false, false);
         }
 
-        private void Connect(bool loadData, bool showMessage)
+        private void Connect(bool loadData, bool showMessage, bool selectFirst)
         {
             this.Cursor = Cursors.WaitCursor;
             try
@@ -84,12 +98,11 @@ namespace Speed.UI.UserControls
                         if (loadData)
                         {
                             CheckObjects(db);
-                            browser.Fill(db, dbConnect.Connection);
+                            browser.Fill(db, dbConnect.Connection, selectFirst);
                         }
                     }
                     file.Connection = dbConnect.Connection;
                     DataToView();
-
                 }
             }
             catch (Exception ex)
@@ -113,7 +126,7 @@ namespace Speed.UI.UserControls
             {
                 browser.ApplyNames();
                 ViewtoData();
-                Connect(false, false);
+                Connect(false, false, false);
                 if (dbConnect.IsConnected && Validate())
                 {
                     using (var db = dbConnect.GetDb())

@@ -447,7 +447,8 @@ FROM pg_catalog.pg_attribute a, pg_namespace n, pg_class c
                     {
                         var type = new DbDataType();
                         type.TypeName = map.PgTypeName;
-                        type.DataType = map.DefaultClrType.FullName;
+                        // TODO: comentei isso, mas testar se funciona
+                        //type.DataType = map.DefaultClrType.FullName;
                         dataTypes.Add(type.TypeName, type);
                     }
                     //foreach (var dbType in map.DbTypes)

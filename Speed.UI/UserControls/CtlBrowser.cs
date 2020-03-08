@@ -229,7 +229,7 @@ namespace Speed.UI.UserControls
             var node = (NodeBase)e.Node;
             if (!node.IsLoaded)
             {
-                Program.RunSafeInDb(this, (db) => node.Fill(db));
+                //Program.RunSafeInDb(this, (db) => node.Fill(db));
             }
         }
 
@@ -299,16 +299,13 @@ namespace Speed.UI.UserControls
 
         #region Methods
 
-        public void Fill(Database db, ConnectionInfo ci)
+        public void Fill(Database db, ConnectionInfo ci, bool selectFirst)
         {
             isLoading = true;
-            trv.Nodes.Clear();
+            //trv.Nodes.Clear();
             string time;
 
             var tc = new TimerCount();
-
-            file.Parameters.Tables.ForEach(p => p.IsSelected = false);
-            file.Parameters.Views.ForEach(p => p.IsSelected = false);
 
             using (progress = new FormProgress())
             {
@@ -320,14 +317,18 @@ namespace Speed.UI.UserControls
                 try
                 {
                     tc.Next("NodeDatabase");
-                    nodeDb = new NodeDatabase(ci.Text);
-                    nodeDb.Fill(db);
-                    trv.Nodes.Add(nodeDb);
 
-                    trv.HandleMultiSelection = true;
+                    if (nodeDb == null)
+                    {
+                        nodeDb = new NodeDatabase(ci.Text);
+                        nodeDb.Fill(db);
+                        trv.Nodes.Add(nodeDb);
 
-                    tc.Next("ExpandAllForce");
-                    trv.ExpandAllForce(db);
+                        trv.HandleMultiSelection = true;
+
+                        tc.Next("ExpandAllForce");
+                        trv.ExpandAllForce(db);
+                    }
 
                     tc.Next("DataToView");
                     DataToView();
@@ -336,9 +337,48 @@ namespace Speed.UI.UserControls
                     tc.Next("nodeDb.Expand()");
                     nodeDb.Expand();
 
-                    nodeDb.Checked = false;
-                    nodeDb.UncheckChildren();
-                    nodeDb.Checked = false;
+                    if (selectFirst)
+                    {
+                        bool isSelected = false;
+
+                        int count = 0;
+
+                        var nodeTables = GetNode<NodeTables>();
+                        foreach (NodeBase node in nodeTables.Nodes)
+                        {
+                            count++;
+                            if (node.Checked)
+                            {
+                                isSelected = true;
+                                trv.SelectedNode = node;
+                                node.EnsureVisible();
+                                break;
+                            }
+                        }
+
+                        if (!isSelected)
+                        {
+                            var nodeViews = GetNode<NodeViews>();
+                            foreach (NodeBase node in nodeViews.Nodes)
+                            {
+                                count++;
+                                if (node.Checked)
+                                {
+                                    trv.SelectedNode = node;
+                                    node.EnsureVisible();
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (count <= 15)
+                            trv.TopNode = nodeDb;
+                    }
+
+
+                    //nodeDb.Checked = false;
+                    //nodeDb.UncheckChildren();
+                    //nodeDb.Checked = false;
 
                     time = tc.ToString();
                 }

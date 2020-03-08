@@ -203,6 +203,7 @@ namespace Speed.UI.UserControls
             base.Fill(db);
 
             this.Nodes.Add(new NodeTables());
+            this.Nodes[0].Expand();
             this.Nodes.Add(new NodeViews());
             //this.Nodes.Add(new NodeProcedures());
             //this.Nodes.Add(new NodeFunctions());
