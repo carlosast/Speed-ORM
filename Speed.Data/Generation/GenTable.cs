@@ -69,41 +69,47 @@ namespace Speed.Data.Generation
         public string EnumName { get; set; }
 
         /// <summary>
-        /// Sequence Name
+        /// Enum name
         /// </summary>
         [DataMember]
         [XmlElement(Order = 7)]
+        public string EnumAttributes { get; set; }
+
+        /// <summary>
+        /// Sequence Name
+        /// </summary>
+        [DataMember]
+        [XmlElement(Order = 8)]
         public string SequenceName { get; set; }
 
         /// <summary>
         /// Column of sequence
         /// </summary>
         [DataMember]
-        [XmlElement(Order = 8)]
+        [XmlElement(Order = 9)]
         public string SequenceColumn { get; set; }
 
         /// <summary>
         /// Id will be processed
         /// </summary>
         [DataMember]
-        [XmlElement(Order = 9)]
+        [XmlElement(Order = 10)]
         public bool IsSelected { get; set; }
 
         /// <summary>
         /// Nome da tabela
         /// </summary>
         [DataMember]
-        [XmlElement(Order = 10)]
+        [XmlElement(Order = 11)]
         public string SubDirectory { get; set; }
 
         [DataMember]
-        [XmlArray(Order = 11, ElementName = "Columns")]
+        [XmlArray(Order = 12, ElementName = "Columns")]
         public List<GenColumn> Columns { get; set; }
 
         [DataMember]
-        [XmlElement(Order = 12)]
-        public string DataAnnotation { get; set; }
-
+        [XmlElement(Order = 13)]
+        public string Attributes { get; set; }
 
 
         [XmlIgnore]

@@ -351,6 +351,13 @@ namespace [NameSpaceBL]
 [EnumColumns]    }
 ";
 
+    public const string ENUM_TEMPLATE_ATTRIBUTES =
+@"    [EnumAttributes]
+    public enum [EnumName] : [Type]
+	{
+[EnumColumns]    }
+";
+
     public const string ENUM_CLASS_TEMPLATE =
 @"using System;
 

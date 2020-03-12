@@ -34,7 +34,7 @@ namespace Speed.Data.Generation
 
         [DataMember]
         [XmlElement(Order = 6)]
-        public string DataAnnotation { get; set; }
+        public string Attributes { get; set; }
 
 
         public override string ToString()

@@ -18,6 +18,21 @@ namespace Speed.UI.UserControls
     public partial class CtlBrowser : UserControl
     {
 
+        internal static class Col
+        {
+            public const int SchemaName = 0;
+            public const int TableName = 1;
+            public const int DataClassName = 2;
+            public const int BusinessClassName = 3;
+            public const int EnumColumnName = 4;
+            public const int EnumColumnId = 5;
+            public const int EnumName = 6;
+            public const int EnumAttributes = 7;
+            public const int SequenceColumn = 8;
+            public const int SequenceName = 9;
+            public const int Attributes = 10;
+        }
+
         #region Declarations
 
         NodeDatabase nodeDb;
@@ -289,7 +304,7 @@ namespace Speed.UI.UserControls
                         col.DataType = parseString(grid, r, 3);
                         col.IsRequired = Conv.ToBoolean(((SourceGrid.Cells.Cell)grid.GetCell(r, 4)).Value);
                         col.Description = parseString(grid, r, 5);
-                        col.DataAnnotation = parseString(grid, r, 6);
+                        col.Attributes = parseString(grid, r, 6);
                     }
                 }
             });
@@ -444,12 +459,13 @@ namespace Speed.UI.UserControls
                     node.Item.EnumColumnName = table.EnumColumnName;
                     node.Item.EnumColumnId = table.EnumColumnId;
                     node.Item.EnumName = table.EnumName;
+                    node.Item.EnumAttributes = table.EnumAttributes;
                     node.Item.SequenceColumn = table.SequenceColumn;
                     node.Item.SequenceName = table.SequenceName;
                     node.Item.SchemaName = table.SchemaName;
                     node.Item.SubDirectory = table.SubDirectory;
                     node.Item.Columns = table.Columns;
-                    node.Item.DataAnnotation = table.DataAnnotation;
+                    node.Item.Attributes = table.Attributes;
 
                     dicTables.Remove(table.FullName);
                 }
@@ -474,12 +490,13 @@ namespace Speed.UI.UserControls
                     node.Item.EnumColumnName = view.EnumColumnName;
                     node.Item.EnumColumnId = view.EnumColumnId;
                     node.Item.EnumName = view.EnumName;
+                    node.Item.EnumAttributes = view.EnumAttributes;
                     node.Item.SequenceColumn = view.SequenceColumn;
                     node.Item.SequenceName = view.SequenceName;
                     node.Item.SchemaName = view.SchemaName;
                     node.Item.SubDirectory = view.SubDirectory;
                     node.Item.Columns = view.Columns;
-                    node.Item.DataAnnotation = view.DataAnnotation;
+                    node.Item.Attributes = view.Attributes;
                 }
                 else
                 {
@@ -538,16 +555,17 @@ namespace Speed.UI.UserControls
                     if (tb.TableName == "ContactType")
                         ToString();
                     int r = row.Index;
-                    tb.SchemaName = parseString(grid, r, 0);
-                    tb.TableName = parseString(grid, r, 1);
-                    tb.DataClassName = parseString(grid, r, 2);
-                    tb.BusinessClassName = parseString(grid, r, 3);
-                    tb.EnumColumnName = parseString(grid, r, 4);
-                    tb.EnumColumnId = parseString(grid, r, 5);
-                    tb.EnumName = parseString(grid, r, 6);
-                    tb.SequenceColumn = parseString(grid, r, 7);
-                    tb.SequenceName = parseString(grid, r, 8);
-                    tb.DataAnnotation = parseString(grid, r, 9);
+                    tb.SchemaName = parseString(grid, r, Col.SchemaName);
+                    tb.TableName = parseString(grid, r, Col.TableName);
+                    tb.DataClassName = parseString(grid, r, Col.DataClassName);
+                    tb.BusinessClassName = parseString(grid, r, Col.BusinessClassName);
+                    tb.EnumColumnName = parseString(grid, r, Col.EnumColumnName);
+                    tb.EnumColumnId = parseString(grid, r, Col.EnumColumnId);
+                    tb.EnumName = parseString(grid, r, Col.EnumName);
+                    tb.EnumAttributes = parseString(grid, r, Col.EnumAttributes);
+                    tb.SequenceColumn = parseString(grid, r, Col.SequenceColumn);
+                    tb.SequenceName = parseString(grid, r, Col.SequenceName);
+                    tb.Attributes = parseString(grid, r, Col.Attributes);
                     //tb.SubDirectory = parseString(grid, r, 5);
                 }
             }
@@ -570,12 +588,13 @@ namespace Speed.UI.UserControls
                         table.EnumColumnName = node.Item.EnumColumnName;
                         table.EnumColumnId = node.Item.EnumColumnId;
                         table.EnumName = node.Item.EnumName;
+                        table.EnumAttributes = node.Item.EnumAttributes;
                         table.SequenceColumn = node.Item.SequenceColumn;
                         table.SequenceName = node.Item.SequenceName;
                         table.SchemaName = node.Item.SchemaName;
                         table.SubDirectory = node.Item.SubDirectory;
                         table.Columns = node.Item.Columns;
-                        table.DataAnnotation = node.Item.DataAnnotation;
+                        table.Attributes = node.Item.Attributes;
                     }
                     else
                         node.Checked = false;
@@ -597,12 +616,13 @@ namespace Speed.UI.UserControls
                         view.EnumColumnName = node.Item.EnumColumnName;
                         view.EnumColumnId = node.Item.EnumColumnId;
                         view.EnumName = node.Item.EnumName;
+                        view.EnumAttributes = node.Item.EnumAttributes;
                         view.SequenceColumn = node.Item.SequenceColumn;
                         view.SequenceName = node.Item.SequenceName;
                         view.SchemaName = node.Item.SchemaName;
                         view.SubDirectory = node.Item.SubDirectory;
                         view.Columns = node.Item.Columns;
-                        view.DataAnnotation = node.Item.DataAnnotation;
+                        view.Attributes = node.Item.Attributes;
                     }
                     else
                         view.IsSelected = false;
@@ -667,19 +687,18 @@ namespace Speed.UI.UserControls
                         ToString();
 
                     int r = row.Index;
-                    if (tb.TableName == "AddressType")
-                        ToString();
                     tb.CheckEnum();
-                    grid[r, 0].Value = tb.SchemaName;
-                    grid[r, 1].Value = tb.TableName;
-                    grid[r, 2].Value = tb.DataClassName;
-                    grid[r, 3].Value = tb.BusinessClassName;
-                    grid[r, 4].Value = tb.EnumColumnName;
-                    grid[r, 5].Value = tb.EnumColumnId;
-                    grid[r, 6].Value = tb.EnumName;
-                    grid[r, 7].Value = tb.SequenceColumn;
-                    grid[r, 8].Value = tb.SequenceName;
-                    grid[r, 9].Value = tb.DataAnnotation;
+                    grid[r, Col.SchemaName].Value = tb.SchemaName;
+                    grid[r, Col.TableName].Value = tb.TableName;
+                    grid[r, Col.DataClassName].Value = tb.DataClassName;
+                    grid[r, Col.BusinessClassName].Value = tb.BusinessClassName;
+                    grid[r, Col.EnumColumnName].Value = tb.EnumColumnName;
+                    grid[r, Col.EnumColumnId].Value = tb.EnumColumnId;
+                    grid[r, Col.EnumName].Value = tb.EnumName;
+                    grid[r, Col.EnumAttributes ].Value = tb.EnumAttributes;
+                    grid[r, Col.SequenceColumn].Value = tb.SequenceColumn;
+                    grid[r, Col.SequenceName].Value = tb.SequenceName;
+                    grid[r, Col.Attributes].Value = tb.Attributes;
                     //grid[r, 5].Value = tb.SubDirectory;
                 }
             }
@@ -696,7 +715,7 @@ namespace Speed.UI.UserControls
             grid.Rows.Clear();
             grid.Columns.Clear();
 
-            grid.ColumnsCount = 10;
+            grid.ColumnsCount = 11;
             grid.FixedRows = 1;
             grid.FixedColumns = 2;
 
@@ -723,16 +742,17 @@ namespace Speed.UI.UserControls
             headerView.Border = DevAge.Drawing.RectangleBorder.NoBorder;
             headerView.Font = new Font(Font, FontStyle.Bold);
 
-            addHeader(grid, 0, "Schema Name", 100);
-            addHeader(grid, 1, "Table Name", 150);
-            addHeader(grid, 2, "DataClass Name", 150);
-            addHeader(grid, 3, "BusinessClass Name", 150);
-            addHeader(grid, 4, "Enum Column Name", 150);
-            addHeader(grid, 5, "Enum Column Id", 150);
-            addHeader(grid, 6, "Enum Name", 150);
-            addHeader(grid, 7, "Sequence Column", 150);
-            addHeader(grid, 8, "Sequence Name", 150);
-            addHeader(grid, 9, "DataAnnotation", 300);
+            addHeader(grid, Col.SchemaName, "Schema Name", 100);
+            addHeader(grid, Col.TableName, "Table Name", 150);
+            addHeader(grid, Col.DataClassName, "DataClass Name", 150);
+            addHeader(grid, Col.BusinessClassName, "BusinessClass Name", 150);
+            addHeader(grid, Col.EnumColumnName, "Enum Column Name", 150);
+            addHeader(grid, Col.EnumColumnId, "Enum Column Id", 150);
+            addHeader(grid, Col.EnumName, "Enum Name", 150);
+            addHeader(grid, Col.EnumAttributes, "Enum Attributes", 150);
+            addHeader(grid, Col.SequenceColumn, "Sequence Column", 150);
+            addHeader(grid, Col.SequenceName, "Sequence Name", 150);
+            addHeader(grid, Col.Attributes, "Attributes", 300);
             //addHeader(grid, 5, "Sub-directory", 150);
 
             for (int c = 0; c < grid.ColumnsCount; c++)
@@ -813,18 +833,18 @@ namespace Speed.UI.UserControls
                     gtb.Tag = tbCols;
                     node.Tag = row;
 
-                    grid[r, 0] = new SourceGrid.Cells.Cell(gtb.SchemaName);
-                    grid[r, 1] = new SourceGrid.Cells.Cell(gtb.TableName);
+                    grid[r, Col.SchemaName] = new SourceGrid.Cells.Cell(gtb.SchemaName);
+                    grid[r, Col.TableName] = new SourceGrid.Cells.Cell(gtb.TableName);
 
                     SourceGrid.Cells.Editors.EditorBase ed;
 
                     ed = SourceGrid.Cells.Editors.Factory.Create(typeof(string));
                     ed.EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
-                    grid[r, 2] = new SourceGrid.Cells.Cell(gtb.DataClassName, ed);
+                    grid[r, Col.DataClassName] = new SourceGrid.Cells.Cell(gtb.DataClassName, ed);
 
                     ed = SourceGrid.Cells.Editors.Factory.Create(typeof(string));
                     ed.EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
-                    grid[r, 3] = new SourceGrid.Cells.Cell(gtb.BusinessClassName, ed);
+                    grid[r, Col.BusinessClassName] = new SourceGrid.Cells.Cell(gtb.BusinessClassName, ed);
 
                     // EnumColumnName
                     SourceGrid.Cells.Editors.ComboBox cbEditor = new SourceGrid.Cells.Editors.ComboBox(typeof(string));
@@ -845,9 +865,7 @@ namespace Speed.UI.UserControls
                     }
                     else
                         cbEditor.EditableMode = SourceGrid.EditableMode.None;
-                    grid[r, 4] = new SourceGrid.Cells.Cell(gtb.EnumColumnName, cbEditor);
-
-                    var x = (from c in tbCols orderby c.DataTypeDotNet select c.DataTypeDotNet).Distinct().ToList();
+                    grid[r, Col.EnumColumnName] = new SourceGrid.Cells.Cell(gtb.EnumColumnName, cbEditor);
 
                     // EnumColumnId
                     cbEditor = new SourceGrid.Cells.Editors.ComboBox(typeof(string));
@@ -860,12 +878,17 @@ namespace Speed.UI.UserControls
                     }
                     else
                         cbEditor.EditableMode = SourceGrid.EditableMode.None;
-                    grid[r, 5] = new SourceGrid.Cells.Cell(gtb.EnumColumnId, cbEditor);
+                    grid[r, Col.EnumColumnId] = new SourceGrid.Cells.Cell(gtb.EnumColumnId, cbEditor);
 
                     // EnumName
                     ed = SourceGrid.Cells.Editors.Factory.Create(typeof(string));
                     ed.EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
-                    grid[r, 6] = new SourceGrid.Cells.Cell(gtb.EnumName, ed);
+                    grid[r, Col.EnumName] = new SourceGrid.Cells.Cell(gtb.EnumName, ed);
+
+                    // EnumAttributes
+                    ed = SourceGrid.Cells.Editors.Factory.Create(typeof(string));
+                    ed.EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
+                    grid[r, Col.EnumAttributes] = new SourceGrid.Cells.Cell(gtb.EnumAttributes, ed);
 
                     // SequenceColumn
                     cbEditor = new SourceGrid.Cells.Editors.ComboBox(typeof(string));
@@ -878,7 +901,7 @@ namespace Speed.UI.UserControls
                     }
                     else
                         cbEditor.EditableMode = SourceGrid.EditableMode.None;
-                    grid[r, 7] = new SourceGrid.Cells.Cell(gtb.SequenceColumn, cbEditor);
+                    grid[r, Col.SequenceColumn] = new SourceGrid.Cells.Cell(gtb.SequenceColumn, cbEditor);
 
                     // SequenceName
                     cbEditor = new SourceGrid.Cells.Editors.ComboBox(typeof(string));
@@ -890,7 +913,7 @@ namespace Speed.UI.UserControls
                     }
                     else
                         cbEditor.EditableMode = SourceGrid.EditableMode.None;
-                    grid[r, 8] = new SourceGrid.Cells.Cell(gtb.SequenceName, cbEditor);
+                    grid[r, Col.SequenceName] = new SourceGrid.Cells.Cell(gtb.SequenceName, cbEditor);
 
                     var ed2 = SourceGrid.Cells.Editors.Factory.Create(typeof(string));
                     var txt = (SourceGrid.Cells.Editors.TextBox)ed2;
@@ -900,13 +923,13 @@ namespace Speed.UI.UserControls
                     //txt.Control.ImeMode = ImeMode.Disable;
 
                     ed2.EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
-                    //if (gtb.DataAnnotation != null)
+                    //if (gtb.Attributes != null)
                     //{
-                    //    gtb.DataAnnotation =  gtb.DataAnnotation.Replace("\r\n", "\n");
-                    //    gtb.DataAnnotation = gtb.DataAnnotation.Replace("\n", "\r\n\r\n");
+                    //    gtb.Attributes =  gtb.Attributes.Replace("\r\n", "\n");
+                    //    gtb.Attributes = gtb.Attributes.Replace("\n", "\r\n\r\n");
                     //}
 
-                    grid[r, 9] = new SourceGrid.Cells.Cell(gtb.DataAnnotation, ed2);
+                    grid[r, Col.Attributes] = new SourceGrid.Cells.Cell(gtb.Attributes, ed2);
 
                     //ed = SourceGrid.Cells.Editors.Factory.Create(typeof(string));
                     //ed.EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
@@ -984,7 +1007,7 @@ namespace Speed.UI.UserControls
             addHeader(grid, 3, "DataType", 100);
             addHeader(grid, 4, "Required", 70);
             addHeader(grid, 5, "Description", 200);
-            addHeader(grid, 6, "DataAnnotation", 300);
+            addHeader(grid, 6, "Attributes", 300);
             //addHeader(grid, 5, "Sub-directory", 150);
 
             for (int c = 0; c < grid.ColumnsCount; c++)
@@ -1030,7 +1053,7 @@ namespace Speed.UI.UserControls
                 txt.Control.Multiline = true;
                 txt.Control.AcceptsReturn = true;
                 ed2.EditableMode = SourceGrid.EditableMode.Focus | SourceGrid.EditableMode.SingleClick | SourceGrid.EditableMode.AnyKey;
-                grid[r, 6] = new SourceGrid.Cells.Cell(col.DataAnnotation, ed2);
+                grid[r, 6] = new SourceGrid.Cells.Cell(col.Attributes, ed2);
             }
             grid.AutoSizeCells();
 

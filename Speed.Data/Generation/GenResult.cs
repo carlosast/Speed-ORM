@@ -38,6 +38,7 @@ namespace Speed.Data.Generation
 
         public string Enum { get; set; }
         public string EnumName { get; set; }
+        public string EnumAttributes { get; set; }
         public string EnumFileName { get; set; }
         public EnumFileChanged EnumFileNameChanged { get; set; }
         public List<string> ParentRelations = new List<string>();

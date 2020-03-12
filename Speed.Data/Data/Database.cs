@@ -2333,7 +2333,7 @@ namespace Speed.Data
                     .Replace("[PopertyName]", propertyName)
                     .Replace("[DataType]", colDataType)
                     .Replace("[DataTypeNullable]", colDataTypeNullable)
-                    .Replace("[DataAnnotation]", !string.IsNullOrWhiteSpace(gcol.DataAnnotation) ? gcol.DataAnnotation.Trim() : "")
+                    .Replace("[DataAnnotation]", !string.IsNullOrWhiteSpace(gcol.Attributes) ? gcol.Attributes.Trim() : "")
                     );
 
 
@@ -2397,7 +2397,7 @@ namespace Speed.Data
                 .Replace("[CreateColumns]", createColumns.ToString())
                 .Replace("[CreateParams]", pars)
                 .Replace("[NameSpace]", entityNameSpace)
-                .Replace("[DataAnnotation]", !string.IsNullOrWhiteSpace(item.DataAnnotation) ? item.DataAnnotation.Trim() : "");
+                .Replace("[DataAnnotation]", !string.IsNullOrWhiteSpace(item.Attributes) ? item.Attributes.Trim() : "");
 
             if (!raisePropertyChanged)
             {
@@ -2556,14 +2556,22 @@ namespace Speed.Data
                     string _type = colEnumColumnId.DataTypeDotNet.ToLower();
                     _type = _type.Replace("16", "").Replace("32", "").Replace("64", "");
 
+                    info.EnumAttributes = item.EnumAttributes;
+
                     if (string.IsNullOrEmpty(info.EnumName))
                         info.EnumName = GetName("EnumDb[ClassName]".Replace("[ClassName]", item.DataClassName), nameCase);
 
-                    info.Enum = Templates.ENUM_TEMPLATE
+                    if (!string.IsNullOrWhiteSpace(info.EnumAttributes))
+                        ToString();
+
+                    info.Enum = (string.IsNullOrWhiteSpace(info.EnumAttributes)
+                            ? Templates.ENUM_TEMPLATE
+                            : Templates.ENUM_TEMPLATE_ATTRIBUTES)
                         .Replace("[EnumName]", info.EnumName)
                         .Replace("[Type]", _type)
-                        .Replace("[EnumColumns]", b2.ToString()
-                        .Replace("[Entity]", item.DataClassName));
+                        .Replace("[EnumColumns]", b2.ToString())
+                        .Replace("[EnumAttributes]", info.EnumAttributes)
+                        .Replace("[Entity]", item.DataClassName);
                 }
             }
 
