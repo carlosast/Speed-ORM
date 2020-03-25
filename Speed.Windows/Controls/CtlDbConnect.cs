@@ -373,7 +373,7 @@ namespace Speed.Windows.Controls
             }
             catch (Exception ex)
             {
-                if (showMessage)
+                //if (showMessage)
                     ProgramBase.ShowError(ex);
                 IsConnected = false;
             }

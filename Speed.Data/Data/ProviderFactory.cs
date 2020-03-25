@@ -17,6 +17,8 @@ namespace Speed.Data
         static IDbProvider Odbc;
         static IDbProvider SqlServerCompact;
         static IDbProvider MySql;
+        static IDbProvider Access;
+        static IDbProvider Postgres;
 
         public static IDbProvider GetFactory(Database db, EnumDbProviderType providerType)
         {
@@ -33,6 +35,24 @@ namespace Speed.Data
                     if (Oracle == null)
                         Oracle = AssemblyHelper.GetProvider("Speed.Oracle.dll", db);
                     provider = Oracle;
+                    break;
+
+                case EnumDbProviderType.Access:
+                    if (Access == null)
+                        Access = AssemblyHelper.GetProvider("Speed.Access.dll", db);
+                    provider = Access;
+                    break;
+
+                case EnumDbProviderType.MySql:
+                    if (MySql == null)
+                        MySql = AssemblyHelper.GetProvider("Speed.MySql.dll", db);
+                    provider = MySql;
+                    break;
+
+                case EnumDbProviderType.PostgreSQL:
+                    if (Postgres == null)
+                        Postgres = AssemblyHelper.GetProvider("Speed.PostgreSQL.dll", db);
+                    provider = Postgres;
                     break;
 
                     //case EnumDbProviderType.SqlServerCe:

@@ -192,8 +192,11 @@
       <HintPath>..\Lib\Sql Server\Microsoft.SqlServer.Types.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Mono.Security">
-      <HintPath>..\Lib\PostgreSQL\Mono.Security.dll</HintPath>
+    <Reference Include="Mono.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.2.2.5\lib\net40\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql, Version=2.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.2.2.5\lib\net40\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="Oracle.ManagedDataAccess, Version=4.122.19.1, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
       <HintPath>..\packages\Oracle.ManagedDataAccess.19.6.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
@@ -297,9 +300,21 @@
     </FileAssociation>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Providers\Speed.Access\Speed.Access.csproj">
+      <Project>{869bf91e-5489-438f-b32c-e33c04d815d0}</Project>
+      <Name>Speed.Access</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Providers\Speed.MySql\Speed.MySql.csproj">
+      <Project>{ba8deb93-bb62-4992-88a1-f9b51c02bd55}</Project>
+      <Name>Speed.MySql</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Providers\Speed.Oracle\Speed.Oracle.csproj">
       <Project>{e0fdfb5a-f239-43ca-a709-4774fc15d7c4}</Project>
       <Name>Speed.Oracle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Providers\Speed.PostgreSQL\Speed.PostgreSQL.csproj">
+      <Project>{1eedc3f6-715a-4255-b488-7f693fee92c3}</Project>
+      <Name>Speed.PostgreSQL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Providers\Speed.SqlServer\Speed.SqlServer.csproj">
       <Project>{5a7534e2-b3cf-42ae-b6c5-17711a39850e}</Project>
