@@ -139,7 +139,6 @@ namespace Speed.UI.UserControls
 
                         if (file.Parameters.Tables.Where(p => p.IsSelected).Count() == 0 && file.Parameters.Views.Where(p => p.IsSelected).Count() == 0)
                             throw new Exception("No objects selected");
-
                         Dictionary<string, GenTableResult> result = db.Generate(file.Parameters);
 
 #if DEBUG2

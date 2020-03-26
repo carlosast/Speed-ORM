@@ -31,6 +31,9 @@ namespace Speed.Data
         /// <returns></returns>
         public static string GetDataTypeDotNet(string dataType, bool allowNull)
         {
+            if (dataType == null)
+                return null;
+
             if (dataType.StartsWith("System."))
                 dataType = dataType.Substring("System.".Length, dataType.Length - "System.".Length);
 

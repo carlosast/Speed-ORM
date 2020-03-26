@@ -133,7 +133,7 @@ namespace Speed.Data.MetaData
                                 col.IsComputed = true;
                         }
 
-                        // coloca algumas propridades adicionais
+                        // coloca algumas propriedades adicionais
                         if (tb2 != null)
                         {
                             col.DataTypeDotNet = tb2.Columns[col.ColumnName].DataType.Name;

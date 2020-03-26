@@ -229,6 +229,7 @@ namespace Speed.Data
             : this()
         {
             this.databaseName = database;
+            this.providerType = providerType;
             provider = ProviderFactory.CreateProvider(this, providerType);
             this.connectionStringBuilder = provider.CreateConnectionStringBuilder(server, database, userId, password, integratedSecurity, port, embedded);
             this.connectionString = connectionStringBuilder.ToString();
@@ -1169,6 +1170,13 @@ namespace Speed.Data
                 if (type.Contains("("))
                     type = type.Left(type.IndexOf("("));
                 var dataType = Provider.DataTypes.GetValue(type);
+                
+                if (dataType == null && type.Contains(" without"))
+                {
+                    type = type.Left(type.IndexOf(" without"));
+                    dataType = Provider.DataTypes.GetValue(type);
+                }
+
                 if (dataType != null)
                     col.DataTypeDotNet = dataType.GetDataTypeDotNet(true);
                 else
@@ -1405,7 +1413,7 @@ namespace Speed.Data
 
             if (bufferSchemaColumns == null)
             {
-                string sql = "select * from INFORMATION_SCHEMA.COLUMNS order by TABLE_SCHEMA, TABLE_NAME";
+                string sql = "select * from INFORMATION_SCHEMA.COLUMNS order by TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSITION";
                 bufferSchemaColumns = new DictionarySchemaTable<DataTable>(StringComparer.InvariantCultureIgnoreCase);
                 string lastName = null;
                 DataTable tbCur = null;

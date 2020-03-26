@@ -200,14 +200,19 @@ where rn between {0} and {1}
         #region INSERT_REQUERY_POSTGRESQL
 
         // TODO: Descobrir como executar numa única chamada os códigos do PostgreSQL, em INSERT_REQUERY_POSTGRESQL
-        internal static string INSERT_REQUERY_POSTGRESQL =
-
-@"[TypeName] value = ([TypeName])instance;
+        internal static string INSERT_REQUERY_POSTGRESQL(string identityColumn)
+        {
+            var template = @"[TypeName] value = ([TypeName])instance;
         string sql;
         string sequenceColumn = '[SequenceColumn]';
         string sequenceName =   '[SequenceName]';
 
-        if (!string.IsNullOrWhiteSpace(sequenceColumn) && !string.IsNullOrWhiteSpace(sequenceName))
+        if ('[identityColumn]' != string.Empty)
+        {
+            sql = '  insert into [TableName] ([InsertColumns]) values ([InsertParameters]);';
+            sql += 'select * from [TableName] where [identityColumn] = lastval();';
+        }
+        else if (!string.IsNullOrWhiteSpace(sequenceColumn) && !string.IsNullOrWhiteSpace(sequenceName))
         {
 
             string seq = db.ExecuteString('select ' + '[SequenceValue]');
@@ -220,24 +225,10 @@ where rn between {0} and {1}
             }
 
             sql = '[Sql] where [WhereReadSequence]'.Replace('p___sequence', seq);
-
-//            sql  =  'do returns table ([PgReturnsTable]) as\r\n';
-//            sql +=  '$$\r\n';
-//            sql +=  'declare p___sequence integer;\r\n';
-//            sql +=  'declare p___sequence integer;\r\n';
-//            sql +=  'begin\r\n';
-//            sql +=  '    p___sequence := [SequenceValue];\r\n';
-//            sql +=  '    insert into [TableName] ([InsertColumns]) values ([InsertRequeryParametersSequence]);\r\n';
-//            sql +=  '    return query [Sql] where [WhereReadSequence];\r\n';
-//            sql +=  'end;';
-//            sql +=  '$$\r\n';
         }
         else
         {
-            sql  =  'begin';
-            sql += '  insert into [TableName] ([InsertColumns]) values ([InsertParameters]);';
-            sql += '  open :cur for [Sql] where [WhereRead];';
-            sql +=  'end;';
+            sql = '  insert into [TableName] ([InsertColumns]) values ([InsertParameters]);';
         }
 
         using (DbCommand cmd = db.NewCommand(sql))
@@ -256,6 +247,10 @@ where rn between {0} and {1}
                 return 0;
             }
         }";
+
+            template = template.Replace("[identityColumn]", identityColumn);
+            return template;
+        }
 
         #endregion INSERT_REQUERY_POSTGRESQL
 

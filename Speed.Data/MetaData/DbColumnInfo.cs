@@ -138,6 +138,9 @@ namespace Speed.Data.MetaData
             if (tb.Columns.Contains("AUTOINCREMENT"))
                 this.IsIdentity = Conv.ToBoolean(row["AUTOINCREMENT"]); //--
 
+            if (tb.Columns.Contains("IS_IDENTITY"))
+                this.IsIdentity = Conv.ToBoolean(row["IS_IDENTITY"]); //--
+
             //if (db.ProviderType == EnumDbProviderType.PostgreSQL)
             //{
             //    if (!string.IsNullOrEmpty(this.ColumnDefault) && this.ColumnDefault.ToLower().Contains("nextval("))

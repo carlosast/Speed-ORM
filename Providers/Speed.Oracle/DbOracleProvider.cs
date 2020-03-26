@@ -311,7 +311,7 @@ from
 
         public string GetObjectName(string name, bool quote = true)
         {
-            name = getbjectName(name);
+            name = getObjectName(name);
             if (string.IsNullOrWhiteSpace(name))
                 return name;
             if (name.Contains(" ") && name.IndexOf('"') == -1 || ReservedWords.ContainsKey(name))
@@ -320,12 +320,11 @@ from
                 return name;
         }
 
-        string getbjectName(string name)
+        string getObjectName(string name)
         {
             name = name.RemoveChars(@"#:$/\");
             return name;
         }
-
 
         public string GetObjectName(string schemaName, string name, bool quote = true)
         {

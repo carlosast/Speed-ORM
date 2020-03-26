@@ -6,6 +6,8 @@ using Speed.Data.MetaData;
 using Npgsql;
 using NpgsqlTypes;
 using Speed.Common;
+using System.Reflection;
+using System.Linq;
 
 namespace Speed.Data
 {
@@ -201,24 +203,24 @@ namespace Speed.Data
 
         public string GetObjectName(string name, bool quote = true)
         {
-            if (name.Contains(" ") && name.IndexOf('[') == -1 || ReservedWords.ContainsKey(name))
-                name = "\"" + name + "\"";
+            name = getObjectName(name);
+            if (string.IsNullOrWhiteSpace(name))
+                return name;
+            if (name.Contains(" ") && name.IndexOf('"') == -1 || ReservedWords.ContainsKey(name))
+                return "\"" + name + "\"";
+            else
+                return name;
+        }
 
-            //quote = true;
-
-            if (quote)
-            {
-                if (!name.StartsWith("\""))
-                    name = "\"" + name;
-                if (!name.EndsWith("\""))
-                    name += "\"";
-            }
+        string getObjectName(string name)
+        {
+            name = name.RemoveChars(@"#:$/\");
             return name;
         }
 
         public string GetObjectName(string schemaName, string name, bool quote = true)
         {
-            return string.IsNullOrEmpty(schemaName) ? GetObjectName(name, quote) : string.Format("{0}.{1}", GetObjectName(schemaName, quote), GetObjectName(name, quote));
+            return string.IsNullOrEmpty(schemaName) ? GetObjectName(name) : string.Format("{0}.{1}", GetObjectName(schemaName), GetObjectName(name));
         }
 
         public string SetTop(string sql, long count)
@@ -449,7 +451,37 @@ FROM pg_catalog.pg_attribute a, pg_namespace n, pg_class c
                         type.TypeName = map.PgTypeName;
                         // TODO: comentei isso, mas testar se funciona
                         //type.DataType = map.DefaultClrType.FullName;
-                        dataTypes.Add(type.TypeName, type);
+
+                        var t = map.GetType();
+                        var props = t.GetProperties(BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.IgnoreCase);
+                        var prop = props.FirstOrDefault(p => p.Name == "DefaultClrType");
+                        //prop = t.GetProperty("DefaultValueType", BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.Instance);
+
+                        if (prop == null)
+                        {
+                            ToString();
+                        }
+                        Type ty = (Type)prop.GetValue(map, null);
+                        if (ty != null)
+                        {
+                            type.DataType = ty.FullName;
+                            dataTypes.Add(type.TypeName, type);
+                        }
+                        else if (map.ClrTypes.Length > 0)
+                        {
+                            type.DataType = map.ClrTypes[0].FullName;
+                            dataTypes.Add(type.TypeName, type);
+                        }
+                        else
+                        {
+                            ToString();
+                        }
+
+                        //if (map.ClrTypes.Length > 0)
+                        //{
+                        //    type.DataType = map.ClrTypes[0].FullName;
+                        //    dataTypes.Add(type.TypeName, type);
+                        //}
                     }
                     //foreach (var dbType in map.DbTypes)
                     //{
@@ -497,7 +529,7 @@ FROM pg_catalog.pg_attribute a, pg_namespace n, pg_class c
 
         public bool AddUsings(DbColumnInfo col, Dictionary<string, string> usings)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public string GetLastModified()
