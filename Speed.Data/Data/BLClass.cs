@@ -121,6 +121,17 @@ namespace Speed.Data
                 return db.Select<T>(where, parameters);
         }
 
+        public static List<T> SelectSql(string sql)
+        {
+            using (var db = Sys.NewDb())
+                return db.SelectSql<T>(sql);
+        }
+
+        public static List<T> SelectSql(Database db, string sql)
+        {
+            return db.SelectSql<T>(sql);
+        }
+
         public static List<T> SelectPage(Database db, int start, int pageSize = 20, string sort = null, int commandTimeout = 30)
         {
             return db.SelectPage<T>(start, pageSize, sort, commandTimeout);

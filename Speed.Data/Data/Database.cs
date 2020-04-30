@@ -699,15 +699,15 @@ namespace Speed.Data
 
         #endregion SelectSingle
 
-        public List<T> Query<T>(string sql)
+        public List<T> SelectSql<T>(string sql)
         {
-            return Query<T>(sql, false);
+            return SelectSql<T>(sql, false);
         }
 
-        public List<T> Query<T>(string sql, bool concurrency)
+        public List<T> SelectSql<T>(string sql, bool concurrency)
         {
             DataClass dc = getCache<T>();
-            return (List<T>)dc.Query(this, sql, concurrency);
+            return (List<T>)dc.SelectSql(this, sql, concurrency);
         }
 
         public T SelectByPK<T>(T instance)
@@ -1858,7 +1858,7 @@ namespace Speed.Data
 
 #if USELINQ
 
-        public IQueryable<Record> Query;
+        public IQueryable<Record> SelectSql;
         private IQueryProvider provider;
         public QueryPolicy StandardPolicy = new QueryPolicy(new ImplicitMapping(new TSqlLanguage()));
         TextWriter log;
@@ -1873,7 +1873,7 @@ namespace Speed.Data
         {
             log = File.CreateText("Linq.log");
             this.provider = new DbQueryProvider(db, StandardPolicy, log);
-            this.Query = new Query<Record>(this.provider);
+            this.SelectSql = new SelectSql<Record>(this.provider);
             islinqInit = true;
             // só pra tirar o warning de não usado
             islinqInit.ToString();
@@ -2531,7 +2531,7 @@ namespace Speed.Data
 
                 //DataTable tb = this.ExecuteDataTable(provider.SetTop("select * from " + GetObjectName(null, table.SchemaName, table.TableName), 0) + " order by " + GetObjectName(colId.ColumnName));
 
-                string sql = string.Format("select distinct {0}, {1} from {2} where not ({1} is null or {1} = '')",
+                string sql = string.Format("select distinct {0}, {1} from {2} where not ({1} is null or {1} = '') order by {0}",
                     colEnumColumnId.ColumnName, item.EnumColumnName, Provider.GetObjectName(table.SchemaName, table.TableName));
                 //string.Join(",", (from c in table.PrimaryKey select Provider.GetObjectName(c.Value.ColumnName))), item.EnumColumnName, Provider.GetObjectName(table.SchemaName, table.TableName));
                 DataTable tb = this.ExecuteDataTable(sql);
@@ -2567,7 +2567,7 @@ namespace Speed.Data
                     info.EnumAttributes = item.EnumAttributes;
 
                     if (string.IsNullOrEmpty(info.EnumName))
-                        info.EnumName = GetName("EnumDb[ClassName]".Replace("[ClassName]", item.DataClassName), nameCase);
+                        info.EnumName = GetName("EnumDb[ClassName]".Replace("[ClassName]", item.DataClassName),  EnumNameCase.None);
 
                     if (!string.IsNullOrWhiteSpace(info.EnumAttributes))
                         ToString();

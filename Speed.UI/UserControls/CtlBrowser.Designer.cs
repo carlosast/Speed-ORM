@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CtlBrowser));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.trv = new Speed.UI.UserControls.TreeView2();
             this.tabObjects = new System.Windows.Forms.TabControl();
             this.tabTables = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -46,10 +46,12 @@
             this.grpNaming = new System.Windows.Forms.GroupBox();
             this.chkRaisePropertyChanged = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.ctlBusPars = new Speed.UI.UserControls.CtlClassParameters();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.ctlDataPars = new Speed.UI.UserControls.CtlClassParameters();
             this.btnApplyNames = new System.Windows.Forms.Button();
+            this.trv = new Speed.UI.UserControls.TreeView2();
+            this.ctlBusPars = new Speed.UI.UserControls.CtlClassParameters();
+            this.ctlDataPars = new Speed.UI.UserControls.CtlClassParameters();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -84,24 +86,10 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabObjects);
-            this.splitContainer1.Size = new System.Drawing.Size(1093, 255);
+            this.splitContainer1.Size = new System.Drawing.Size(1093, 266);
             this.splitContainer1.SplitterDistance = 572;
             this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 1;
-            // 
-            // trv
-            // 
-            this.trv.CheckBoxes = true;
-            this.trv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trv.HandleMultiSelection = false;
-            this.trv.Location = new System.Drawing.Point(0, 0);
-            this.trv.Name = "trv";
-            this.trv.ShowNodeToolTips = true;
-            this.trv.Size = new System.Drawing.Size(572, 255);
-            this.trv.TabIndex = 0;
-            this.trv.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.trv_AfterCheck);
-            this.trv.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.trv_BeforeExpand);
-            this.trv.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trv_AfterSelect);
             // 
             // tabObjects
             // 
@@ -112,7 +100,7 @@
             this.tabObjects.Location = new System.Drawing.Point(0, 0);
             this.tabObjects.Name = "tabObjects";
             this.tabObjects.SelectedIndex = 0;
-            this.tabObjects.Size = new System.Drawing.Size(515, 255);
+            this.tabObjects.Size = new System.Drawing.Size(515, 266);
             this.tabObjects.TabIndex = 1;
             // 
             // tabTables
@@ -122,7 +110,7 @@
             this.tabTables.Location = new System.Drawing.Point(4, 27);
             this.tabTables.Name = "tabTables";
             this.tabTables.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTables.Size = new System.Drawing.Size(507, 224);
+            this.tabTables.Size = new System.Drawing.Size(507, 235);
             this.tabTables.TabIndex = 0;
             this.tabTables.Text = "Tables";
             this.tabTables.UseVisualStyleBackColor = true;
@@ -141,8 +129,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.grdTableColumns);
-            this.splitContainer2.Size = new System.Drawing.Size(501, 218);
-            this.splitContainer2.SplitterDistance = 150;
+            this.splitContainer2.Size = new System.Drawing.Size(501, 229);
+            this.splitContainer2.SplitterDistance = 132;
             this.splitContainer2.TabIndex = 6;
             // 
             // grdTables
@@ -154,7 +142,7 @@
             this.grdTables.Name = "grdTables";
             this.grdTables.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.grdTables.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.grdTables.Size = new System.Drawing.Size(501, 150);
+            this.grdTables.Size = new System.Drawing.Size(501, 132);
             this.grdTables.TabIndex = 1;
             this.grdTables.TabStop = true;
             this.grdTables.ToolTipText = "";
@@ -168,7 +156,7 @@
             this.grdTableColumns.Name = "grdTableColumns";
             this.grdTableColumns.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.grdTableColumns.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.grdTableColumns.Size = new System.Drawing.Size(501, 64);
+            this.grdTableColumns.Size = new System.Drawing.Size(501, 93);
             this.grdTableColumns.TabIndex = 2;
             this.grdTableColumns.TabStop = true;
             this.grdTableColumns.ToolTipText = "";
@@ -180,7 +168,7 @@
             this.tabViews.Location = new System.Drawing.Point(4, 27);
             this.tabViews.Name = "tabViews";
             this.tabViews.Padding = new System.Windows.Forms.Padding(3);
-            this.tabViews.Size = new System.Drawing.Size(507, 224);
+            this.tabViews.Size = new System.Drawing.Size(507, 235);
             this.tabViews.TabIndex = 1;
             this.tabViews.Text = "Views";
             this.tabViews.UseVisualStyleBackColor = true;
@@ -199,8 +187,8 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.grdViewColumns);
-            this.splitContainer3.Size = new System.Drawing.Size(501, 218);
-            this.splitContainer3.SplitterDistance = 150;
+            this.splitContainer3.Size = new System.Drawing.Size(501, 229);
+            this.splitContainer3.SplitterDistance = 157;
             this.splitContainer3.TabIndex = 7;
             // 
             // grdViews
@@ -212,7 +200,7 @@
             this.grdViews.Name = "grdViews";
             this.grdViews.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.grdViews.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.grdViews.Size = new System.Drawing.Size(501, 150);
+            this.grdViews.Size = new System.Drawing.Size(501, 157);
             this.grdViews.TabIndex = 1;
             this.grdViews.TabStop = true;
             this.grdViews.ToolTipText = "";
@@ -226,14 +214,14 @@
             this.grdViewColumns.Name = "grdViewColumns";
             this.grdViewColumns.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.grdViewColumns.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.grdViewColumns.Size = new System.Drawing.Size(501, 64);
+            this.grdViewColumns.Size = new System.Drawing.Size(501, 68);
             this.grdViewColumns.TabIndex = 2;
             this.grdViewColumns.TabStop = true;
             this.grdViewColumns.ToolTipText = "";
             // 
             // btnImportHibernate
             // 
-            this.btnImportHibernate.Location = new System.Drawing.Point(1048, 105);
+            this.btnImportHibernate.Location = new System.Drawing.Point(1022, 78);
             this.btnImportHibernate.Name = "btnImportHibernate";
             this.btnImportHibernate.Size = new System.Drawing.Size(130, 23);
             this.btnImportHibernate.TabIndex = 11;
@@ -246,9 +234,9 @@
             // 
             this.panNaming.Controls.Add(this.grpNaming);
             this.panNaming.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panNaming.Location = new System.Drawing.Point(0, 255);
+            this.panNaming.Location = new System.Drawing.Point(0, 266);
             this.panNaming.Name = "panNaming";
-            this.panNaming.Size = new System.Drawing.Size(1093, 135);
+            this.panNaming.Size = new System.Drawing.Size(1093, 124);
             this.panNaming.TabIndex = 1;
             // 
             // grpNaming
@@ -262,7 +250,7 @@
             this.grpNaming.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpNaming.Location = new System.Drawing.Point(0, 0);
             this.grpNaming.Name = "grpNaming";
-            this.grpNaming.Size = new System.Drawing.Size(1093, 135);
+            this.grpNaming.Size = new System.Drawing.Size(1093, 124);
             this.grpNaming.TabIndex = 0;
             this.grpNaming.TabStop = false;
             this.grpNaming.Text = "Naming";
@@ -282,48 +270,73 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.ctlBusPars);
-            this.groupBox2.Location = new System.Drawing.Point(458, 19);
+            this.groupBox2.Location = new System.Drawing.Point(458, 15);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(432, 110);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Business Classes Parameters";
             // 
-            // ctlBusPars
-            // 
-            this.ctlBusPars.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctlBusPars.Location = new System.Drawing.Point(7, 16);
-            this.ctlBusPars.Name = "ctlBusPars";
-            this.ctlBusPars.Size = new System.Drawing.Size(415, 90);
-            this.ctlBusPars.TabIndex = 0;
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.ctlDataPars);
-            this.groupBox1.Location = new System.Drawing.Point(11, 19);
+            this.groupBox1.Location = new System.Drawing.Point(11, 15);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(432, 110);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Data Classes Parameters";
             // 
-            // ctlDataPars
-            // 
-            this.ctlDataPars.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctlDataPars.Location = new System.Drawing.Point(7, 16);
-            this.ctlDataPars.Name = "ctlDataPars";
-            this.ctlDataPars.Size = new System.Drawing.Size(415, 93);
-            this.ctlDataPars.TabIndex = 0;
-            // 
             // btnApplyNames
             // 
-            this.btnApplyNames.Location = new System.Drawing.Point(897, 106);
+            this.btnApplyNames.Location = new System.Drawing.Point(897, 78);
             this.btnApplyNames.Name = "btnApplyNames";
             this.btnApplyNames.Size = new System.Drawing.Size(111, 23);
             this.btnApplyNames.TabIndex = 11;
             this.btnApplyNames.Text = "Apply Names";
             this.btnApplyNames.UseVisualStyleBackColor = true;
             this.btnApplyNames.Click += new System.EventHandler(this.btnApplyNames_Click);
+            // 
+            // trv
+            // 
+            this.trv.CheckBoxes = true;
+            this.trv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trv.HandleMultiSelection = false;
+            this.trv.HideSelection = false;
+            this.trv.ImageIndex = 0;
+            this.trv.ImageList = this.imageList1;
+            this.trv.Location = new System.Drawing.Point(0, 0);
+            this.trv.Name = "trv";
+            this.trv.SelectedImageIndex = 1;
+            this.trv.ShowNodeToolTips = true;
+            this.trv.Size = new System.Drawing.Size(572, 266);
+            this.trv.TabIndex = 0;
+            this.trv.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.trv_AfterCheck);
+            this.trv.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.trv_BeforeExpand);
+            this.trv.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trv_AfterSelect);
+            // 
+            // ctlBusPars
+            // 
+            this.ctlBusPars.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctlBusPars.Location = new System.Drawing.Point(7, 16);
+            this.ctlBusPars.Name = "ctlBusPars";
+            this.ctlBusPars.Size = new System.Drawing.Size(415, 85);
+            this.ctlBusPars.TabIndex = 0;
+            // 
+            // ctlDataPars
+            // 
+            this.ctlDataPars.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctlDataPars.Location = new System.Drawing.Point(7, 16);
+            this.ctlDataPars.Name = "ctlDataPars";
+            this.ctlDataPars.Size = new System.Drawing.Size(415, 88);
+            this.ctlDataPars.TabIndex = 0;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "blank.png");
+            this.imageList1.Images.SetKeyName(1, "arrow.png");
             // 
             // CtlBrowser
             // 
@@ -381,5 +394,6 @@
         private SourceGrid.Grid grdViewColumns;
         private System.Windows.Forms.CheckBox chkRaisePropertyChanged;
         private System.Windows.Forms.Button btnImportHibernate;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }

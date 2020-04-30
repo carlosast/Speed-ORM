@@ -9,8 +9,10 @@ namespace SetDates
     {
         static void Main(string[] args)
         {
+            string dirPkg = @"D:\Github\Speed\APP\PublishPackages";
             var files = Directory.GetFiles(@"D:\Github\Speed\APP", "*.nupkg", SearchOption.AllDirectories)
                                 .Where(p => p.Contains("Release")).ToList();
+            files.RemoveAll(p => p.StartsWith(dirPkg));
 
             DateTime now = DateTime.Now;
             foreach (var file in files)
@@ -32,7 +34,7 @@ namespace SetDates
 
                 Zip(file, dir);
 
-                File.Copy(file, Path.Combine(@"D:\Github\Speed\Packages", Path.GetFileName(file)), true);
+                File.Copy(file, Path.Combine(dirPkg, Path.GetFileName(file)), true);
 
                 if (Directory.Exists(dir))
                     Directory.Delete(dir, true);

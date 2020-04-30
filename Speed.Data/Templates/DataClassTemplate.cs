@@ -548,7 +548,16 @@ public partial class [ClassName] : DataClass
         string w = where.ToString();
         string sql =
 @'[SqlPage]';
-        sql = string.Format(sql, (start + 1), (start + pageSize), sort, (where.Length > 0 ?  ' WHERE ' + w : ''));
+        if (db.ProviderType == EnumDbProviderType.PostgreSQL)
+        {
+            if (!string.IsNullOrWhiteSpace(sort))
+                sort = ' ORDER BY ' + sort;
+            sql = string.Format(sql, start, pageSize, (where.Length > 0 ?  ' WHERE ' + w : ''), sort);
+        }
+        else
+        {
+            sql = string.Format(sql, (start + 1), (start + pageSize), sort, (where.Length > 0 ?  ' WHERE ' + w : ''));
+        }
 
             cmd.CommandText = sql;
 
@@ -716,12 +725,12 @@ public partial class [ClassName] : DataClass
         return SerializeToJson<[TypeName]>(select(db, where, concurrency));
     }
 
-    public override object Query(Database db, string sql)
+    public override object SelectSql(Database db, string sql)
     {
         return readReaderSql(db, sql, false);
     }
 
-    public override object Query(Database db, string sql, bool concurrency)
+    public override object SelectSql(Database db, string sql, bool concurrency)
     {
         return readReaderSql(db, sql, concurrency);
     }

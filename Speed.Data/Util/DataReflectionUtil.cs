@@ -183,6 +183,38 @@ namespace Speed.Data
             return value;
         }
 
+        /// <summary>
+        /// Retorna o nome da coluna na base de dados de uma propriedade da Model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public static string GetColumnName(object model, string propertyName)
+        {
+            var prop = model.GetType().GetProperty(propertyName);
+            if (prop == null)
+                return null;
+
+            var cas = prop.GetCustomAttributes(typeof(DbColumnAttribute), true);
+            if (cas.Length > 0)
+            {
+                DbColumnAttribute col = (DbColumnAttribute)cas[0];
+                return col.ColumnName;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// retorna o nome da coluna na base de dados, da primeira coluna
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static string GetFirstColumnName(object model)
+        {
+            string propertyName = model.GetType().GetProperties().First().Name;
+            return GetColumnName(model, propertyName);
+        }
 
     }
 }

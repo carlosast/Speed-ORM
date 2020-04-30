@@ -19,7 +19,7 @@ namespace Speed.Data
     {
 
         Database db;
-        public string ParameterSymbol { get { return "@"; } }
+        public string ParameterSymbol { get { return ":"; } }
         public string ParameterSymbolVar { get { return ParameterSymbol; } }
 
         public DbPostgreSqlProvider(Database db)
@@ -294,9 +294,9 @@ namespace Speed.Data
                 if (tableSchema == null && filerSchema == null)
                     sql = "select * from information_schema.tables where table_type = '" + (tableType.Value == EnumTableType.Table ? "BASE TABLE" : "") + "' order by table_name;";
                 else if (tableSchema == null)
-                    sql = "select * from information_schema.tables where " + filerSchema + " and table_type = '" + (tableType.Value == EnumTableType.Table ? "BASE TABLE" : "") + "' order by table_name;";
+                    sql = "select * from information_schema.tables where " + filerSchema + " and table_type = '" + (tableType.Value == EnumTableType.Table ? "BASE TABLE" : "VIEW") + "' order by table_name;";
                 else
-                    sql = "select * from information_schema.tables where table_schema = '" + tableSchema + (filerSchema == null ? "" : "and " + filerSchema) + "' and table_type = '" + (tableType.Value == EnumTableType.Table ? "BASE TABLE" : "") + "' order by table_name;";
+                    sql = "select * from information_schema.tables where table_schema = '" + tableSchema + (filerSchema == null ? "" : "and " + filerSchema) + "' and table_type = '" + (tableType.Value == EnumTableType.Table ? "BASE TABLE" : "VIEW") + "' order by table_name;";
             }
 
             List<TableInfo> tables = new List<TableInfo>();

@@ -84,8 +84,11 @@ namespace Speed.UI.UserControls
         //        table.BusinessClassName = ApplyNames(table.SchemaName, table.TableName);
         //}
 
-        public string ApplyNames(string schemaName, string name, bool addPrefix)
+        public string ApplyNames(string schemaName, string name, bool addPrefix, EnumNameCase? nameCase = null)
         {
+            if (nameCase == null)
+                nameCase = parameters.NameCase;
+
             ViewToData();
 
             if (!string.IsNullOrEmpty(parameters.Remove))
@@ -99,7 +102,7 @@ namespace Speed.UI.UserControls
             if (parameters.StartWithSchema && !string.IsNullOrEmpty(schemaName))
                 name = schemaName + "_" + name;
 
-            name = Database.GetName(name, parameters.NameCase);
+            name = Database.GetName(name, nameCase.Value);
 
             if (addPrefix && !string.IsNullOrEmpty(parameters.Prefix))
                 name = parameters.Prefix + name;

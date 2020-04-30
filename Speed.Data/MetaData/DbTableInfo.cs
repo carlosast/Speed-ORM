@@ -92,7 +92,7 @@ namespace Speed.Data.MetaData
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Speed: Error generating data class for the table/view '" + tableName + "'", ex);
+                    throw new Exception("Speed: Error generating data class for the table/view '" + tableName + "'. Error: " + ex.Message, ex);
                 }
             }
             else

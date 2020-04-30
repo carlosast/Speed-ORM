@@ -41,6 +41,8 @@ WHERE Row____Number BETWEEN {0} AND {1};
 
         internal static string SELECT_PAGE_MY_SQL = @"SELECT [Columns] FROM [TableName] {2} {3} LIMIT {0},{1}";
 
+        internal static string SELECT_PAGE_POSTGRESQL = @"SELECT [Columns] FROM [TableName] {2} {3} OFFSET {0} LIMIT {1}";
+
         internal static string SELECT_PAGE_ORACLE =
 @"
 select *

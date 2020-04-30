@@ -40,7 +40,7 @@
             // txtRemove
             // 
             this.txtRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRemove.Location = new System.Drawing.Point(226, 27);
+            this.txtRemove.Location = new System.Drawing.Point(226, 20);
             this.txtRemove.Multiline = true;
             this.txtRemove.Name = "txtRemove";
             this.txtRemove.Size = new System.Drawing.Size(184, 60);
@@ -48,14 +48,14 @@
             // 
             // txtPrefix
             // 
-            this.txtPrefix.Location = new System.Drawing.Point(103, 39);
+            this.txtPrefix.Location = new System.Drawing.Point(103, 32);
             this.txtPrefix.Name = "txtPrefix";
             this.txtPrefix.Size = new System.Drawing.Size(100, 20);
             this.txtPrefix.TabIndex = 18;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(289, 9);
+            this.label1.Location = new System.Drawing.Point(289, 2);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 20);
             this.label1.TabIndex = 12;
@@ -64,7 +64,7 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(14, 39);
+            this.label2.Location = new System.Drawing.Point(14, 32);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 20);
             this.label2.TabIndex = 13;
@@ -73,7 +73,7 @@
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(14, 9);
+            this.label7.Location = new System.Drawing.Point(14, 2);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(77, 20);
             this.label7.TabIndex = 14;
@@ -84,7 +84,7 @@
             // 
             this.cboNameCase.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboNameCase.FormattingEnabled = true;
-            this.cboNameCase.Location = new System.Drawing.Point(103, 12);
+            this.cboNameCase.Location = new System.Drawing.Point(103, 5);
             this.cboNameCase.Name = "cboNameCase";
             this.cboNameCase.Size = new System.Drawing.Size(99, 21);
             this.cboNameCase.TabIndex = 16;
@@ -93,7 +93,7 @@
             // chkStartWithSchema
             // 
             this.chkStartWithSchema.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chkStartWithSchema.Location = new System.Drawing.Point(14, 65);
+            this.chkStartWithSchema.Location = new System.Drawing.Point(14, 58);
             this.chkStartWithSchema.Name = "chkStartWithSchema";
             this.chkStartWithSchema.Size = new System.Drawing.Size(188, 17);
             this.chkStartWithSchema.TabIndex = 15;
@@ -112,7 +112,7 @@
             this.Controls.Add(this.cboNameCase);
             this.Controls.Add(this.chkStartWithSchema);
             this.Name = "CtlClassParameters";
-            this.Size = new System.Drawing.Size(418, 95);
+            this.Size = new System.Drawing.Size(418, 85);
             this.Load += new System.EventHandler(this.CtlClassParameters_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

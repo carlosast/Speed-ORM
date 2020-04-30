@@ -254,17 +254,21 @@ namespace Speed.Data
 
         #endregion SelectToJson
 
-        #region Query
+        #region SelectSql
 
-        public virtual object Query(Database db, string sql)
+        public virtual object SelectSql(Database db, string sql)
         {
             throw new NotImplementedException();
         }
 
-        public virtual object Query(Database db, string sql, bool concurrency)
+        public virtual object SelectSql(Database db, string sql, bool concurrency)
         {
             throw new NotImplementedException();
         }
+
+        #endregion SelectSql
+
+        #region SelectByPk
 
         public virtual object SelectByPk(Database db, object instance)
         {
@@ -276,7 +280,7 @@ namespace Speed.Data
             throw new NotImplementedException();
         }
 
-        #endregion Query
+        #endregion SelectByPk
 
         #region Count
 
@@ -478,10 +482,10 @@ namespace Speed.Data
             return reader.IsDBNull(ordinal) ? (Byte?)null : reader.GetByte(ordinal);
         }
 
-       public TimeSpan? GetTimeSpan(Database db, DbDataReader reader, int ordinal)
-       {
+        public TimeSpan? GetTimeSpan(Database db, DbDataReader reader, int ordinal)
+        {
             return reader.IsDBNull(ordinal) ? (TimeSpan?)null : db.Provider.GetTimeSpan(reader, ordinal);
-       }
+        }
 
         public char[] GetChars(DbDataReader reader, int ordinal)
         {

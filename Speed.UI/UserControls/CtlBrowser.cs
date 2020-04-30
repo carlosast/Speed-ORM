@@ -24,13 +24,13 @@ namespace Speed.UI.UserControls
             public const int TableName = 1;
             public const int DataClassName = 2;
             public const int BusinessClassName = 3;
-            public const int EnumColumnName = 4;
-            public const int EnumColumnId = 5;
-            public const int EnumName = 6;
-            public const int EnumAttributes = 7;
-            public const int SequenceColumn = 8;
-            public const int SequenceName = 9;
-            public const int Attributes = 10;
+            public const int SequenceColumn = 4;
+            public const int SequenceName = 5;
+            public const int Attributes = 6;
+            public const int EnumColumnName = 7;
+            public const int EnumColumnId = 8;
+            public const int EnumName = 9;
+            public const int EnumAttributes = 10;
         }
 
         #region Declarations
@@ -105,6 +105,7 @@ namespace Speed.UI.UserControls
                 numericTypes.Add("UInt16", null);
                 //numericTypes.Add("String", null);
             }
+
             foreach (TabPage page in tabObjects.TabPages)
                 page.AutoScroll = true;
         }
@@ -185,7 +186,7 @@ namespace Speed.UI.UserControls
                 table.BusinessClassName = ctlBusPars.ApplyNames(table.SchemaName, table.TableName, true);
 
             if (!string.IsNullOrEmpty(table.EnumColumnId) && !string.IsNullOrEmpty(table.EnumColumnName) && options.ApplyEnum(table.EnumName))
-                table.EnumName = ctlDataPars.ApplyNames(null, "EnumDb" + table.DataClassName, true);
+                table.EnumName = ctlDataPars.ApplyNames(null, "EnumDb" + table.DataClassName, true, EnumNameCase.None);
 
             table.SubDirectory = (file.Parameters.ArrangeDirectoriesBySchema && !string.IsNullOrEmpty(table.SchemaName))
                 ? Database.GetName(table.SchemaName, file.Parameters.DataClass.NameCase)
@@ -695,7 +696,7 @@ namespace Speed.UI.UserControls
                     grid[r, Col.EnumColumnName].Value = tb.EnumColumnName;
                     grid[r, Col.EnumColumnId].Value = tb.EnumColumnId;
                     grid[r, Col.EnumName].Value = tb.EnumName;
-                    grid[r, Col.EnumAttributes ].Value = tb.EnumAttributes;
+                    grid[r, Col.EnumAttributes].Value = tb.EnumAttributes;
                     grid[r, Col.SequenceColumn].Value = tb.SequenceColumn;
                     grid[r, Col.SequenceName].Value = tb.SequenceName;
                     grid[r, Col.Attributes].Value = tb.Attributes;
@@ -771,7 +772,7 @@ namespace Speed.UI.UserControls
                 //progress.SetProgress("Processing table" + node.Text + " ...");
 
                 var gtb = node.Item;
-                if (gtb.TableName == "CAMPOS_MINUTA")
+                if (gtb.TableName == "status")
                     ToString();
 
                 objects.Add(gtb.FullName, null);

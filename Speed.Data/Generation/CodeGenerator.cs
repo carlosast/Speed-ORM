@@ -176,7 +176,7 @@ namespace Speed.Data.Generation
             }
             catch (Exception ex)
             {
-                string msg = "Error: " + db.Provider.GetObjectName(schemaName, tableNameReal) + "\r\n\r\n" + ex.Message + "\r\n\r\n" + ex.StackTrace;
+                string msg = "Error: " + db.Provider.GetObjectName(schemaName, tableNameReal) + "\r\n\r\n" + ex.Message;
                 Database.Errors.Add(msg);
                 Debug.WriteLine(msg);
                 infos = null;
@@ -417,7 +417,7 @@ namespace Speed.Data.Generation
                         else if (db.ProviderType == EnumDbProviderType.PostgreSQL)
                         {
                             var vals = sequenceName.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-                            sequenceName = string.Join(".", vals.Select(p => Conv.Quote(p)));
+                            sequenceName = string.Join(".", vals.Select(p => db.Provider.GetObjectName(p)));
                             sequenceValue = string.Format("nextval('{0}')", sequenceName);
                         }
                         else if (db.ProviderType == EnumDbProviderType.Firebird)
@@ -573,6 +573,7 @@ namespace Speed.Data.Generation
                 cmdInsert = TemplatesCommands.INSERT;
                 cmdInsertRequery = TemplatesCommands.INSERT_REQUERY_POSTGRESQL(identityColumn == null ? "" : identityColumn.ColumnName);
                 cmdUpdateRequery = TemplatesCommands.UPDATE_REQUERY_POSTGRESQL;
+                cmdSelectPage = TemplatesCommands.SELECT_PAGE_POSTGRESQL;
             }
             else if (db.ProviderType == EnumDbProviderType.Firebird)
             {

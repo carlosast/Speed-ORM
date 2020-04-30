@@ -673,9 +673,8 @@ ORDER BY
         }
         public string GetLastModified()
         {
-            string sql =
-@"
-select to_char(max(last_ddl_time), 'YYYY-MM-DD HH24:MI:SS') last_ddl_time from user_objects where object_type in ('TABLE', 'VIEW')";
+            string sql = @"select to_char(max(last_ddl_time), 'YYYY-MM-DD HH24:MI:SS') last_ddl_time from user_objects where object_type in ('TABLE', 'VIEW')";
+            sql = "select last_ddl_time, t.*from user_objects t where object_type in ('TABLE', 'VIEW')  and not t.OBJECT_NAME IN('B_SADE_REUNIAO_PRD_CARGA_AUX', 'T_AB_SERVICOS', 'DN_ULT_DESTINAR', 'DN_ULT_CARREG', 'DN_VAGAO_CONTEINER', 'DN_POSICAO_VAGAO', 'DN_KM_VAGAO', 'T_VG_PED', 'TB_SADE_REUNIAO_PRD_CARGA_AUX') order by t.last_ddl_time desc";
             return db.ExecuteString(sql);
         }
 

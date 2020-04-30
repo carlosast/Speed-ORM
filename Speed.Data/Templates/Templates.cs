@@ -133,7 +133,7 @@ namespace [NameSpace]
     /// </summary>
     public const string RECORD_COLUMN_TEMPLATE_RAISEPROPERTYCHANGED =
 @"        /// <summary>
-        /// Column [ColumnName]
+        /// ColumnName: [ColumnName]
         /// </summary>
         private [DataTypeNullable] z_[PopertyName];
         [DbColumn('[ColumnName]')]
@@ -156,7 +156,7 @@ namespace [NameSpace]
 
     public const string RECORD_COLUMN_TEMPLATE_POCO =
 @"        /// <summary>
-        /// Column [ColumnName]
+        /// ColumnName: [ColumnName]
         /// </summary>
         [DbColumn('[ColumnName]')]
         [DataAnnotation]
@@ -169,7 +169,7 @@ namespace [NameSpace]
         private [DataTypeNullable] z_[ColumnName];
 
         /// <summary>
-        /// Column [ColumnName]
+        /// ColumnName: [ColumnName]
         /// </summary>
         [DbColumn('[ColumnName]')]
         public [DataTypeNullable] [ColumnName]

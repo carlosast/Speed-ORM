@@ -52,16 +52,14 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabConnection);
             this.tabControl1.Controls.Add(this.tabBrowser);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabControl1.Location = new System.Drawing.Point(0, 5);
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(974, 630);
+            this.tabControl1.Size = new System.Drawing.Size(974, 657);
             this.tabControl1.TabIndex = 0;
             // 
             // tabConnection
@@ -71,7 +69,7 @@
             this.tabConnection.Location = new System.Drawing.Point(4, 27);
             this.tabConnection.Name = "tabConnection";
             this.tabConnection.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConnection.Size = new System.Drawing.Size(966, 599);
+            this.tabConnection.Size = new System.Drawing.Size(966, 626);
             this.tabConnection.TabIndex = 0;
             this.tabConnection.Text = "Configuration";
             this.tabConnection.UseVisualStyleBackColor = true;
@@ -128,7 +126,7 @@
             this.tabBrowser.Location = new System.Drawing.Point(4, 27);
             this.tabBrowser.Name = "tabBrowser";
             this.tabBrowser.Padding = new System.Windows.Forms.Padding(3);
-            this.tabBrowser.Size = new System.Drawing.Size(966, 599);
+            this.tabBrowser.Size = new System.Drawing.Size(966, 621);
             this.tabBrowser.TabIndex = 1;
             this.tabBrowser.Text = "Object Browser";
             this.tabBrowser.UseVisualStyleBackColor = true;
@@ -148,9 +146,9 @@
             // 
             this.panel1.Controls.Add(this.panButtons);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 645);
+            this.panel1.Location = new System.Drawing.Point(0, 657);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(974, 42);
+            this.panel1.Size = new System.Drawing.Size(974, 30);
             this.panel1.TabIndex = 1;
             // 
             // panButtons
@@ -188,7 +186,7 @@
             this.browser.Location = new System.Drawing.Point(3, 3);
             this.browser.Margin = new System.Windows.Forms.Padding(4);
             this.browser.Name = "browser";
-            this.browser.Size = new System.Drawing.Size(960, 593);
+            this.browser.Size = new System.Drawing.Size(960, 615);
             this.browser.TabIndex = 0;
             // 
             // CtlGenerator
