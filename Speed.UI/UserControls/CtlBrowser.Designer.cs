@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CtlBrowser));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tabObjects = new System.Windows.Forms.TabControl();
             this.tabTables = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -51,7 +52,6 @@
             this.trv = new Speed.UI.UserControls.TreeView2();
             this.ctlBusPars = new Speed.UI.UserControls.CtlClassParameters();
             this.ctlDataPars = new Speed.UI.UserControls.CtlClassParameters();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -90,6 +90,13 @@
             this.splitContainer1.SplitterDistance = 572;
             this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "blank.png");
+            this.imageList1.Images.SetKeyName(1, "arrow.png");
             // 
             // tabObjects
             // 
@@ -130,7 +137,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.grdTableColumns);
             this.splitContainer2.Size = new System.Drawing.Size(501, 229);
-            this.splitContainer2.SplitterDistance = 132;
+            this.splitContainer2.SplitterDistance = 110;
             this.splitContainer2.TabIndex = 6;
             // 
             // grdTables
@@ -142,7 +149,7 @@
             this.grdTables.Name = "grdTables";
             this.grdTables.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.grdTables.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.grdTables.Size = new System.Drawing.Size(501, 132);
+            this.grdTables.Size = new System.Drawing.Size(501, 110);
             this.grdTables.TabIndex = 1;
             this.grdTables.TabStop = true;
             this.grdTables.ToolTipText = "";
@@ -156,7 +163,7 @@
             this.grdTableColumns.Name = "grdTableColumns";
             this.grdTableColumns.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.grdTableColumns.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.grdTableColumns.Size = new System.Drawing.Size(501, 93);
+            this.grdTableColumns.Size = new System.Drawing.Size(501, 115);
             this.grdTableColumns.TabIndex = 2;
             this.grdTableColumns.TabStop = true;
             this.grdTableColumns.ToolTipText = "";
@@ -188,7 +195,7 @@
             // 
             this.splitContainer3.Panel2.Controls.Add(this.grdViewColumns);
             this.splitContainer3.Size = new System.Drawing.Size(501, 229);
-            this.splitContainer3.SplitterDistance = 157;
+            this.splitContainer3.SplitterDistance = 110;
             this.splitContainer3.TabIndex = 7;
             // 
             // grdViews
@@ -200,7 +207,7 @@
             this.grdViews.Name = "grdViews";
             this.grdViews.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.grdViews.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.grdViews.Size = new System.Drawing.Size(501, 157);
+            this.grdViews.Size = new System.Drawing.Size(501, 110);
             this.grdViews.TabIndex = 1;
             this.grdViews.TabStop = true;
             this.grdViews.ToolTipText = "";
@@ -214,7 +221,7 @@
             this.grdViewColumns.Name = "grdViewColumns";
             this.grdViewColumns.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.grdViewColumns.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.grdViewColumns.Size = new System.Drawing.Size(501, 68);
+            this.grdViewColumns.Size = new System.Drawing.Size(501, 115);
             this.grdViewColumns.TabIndex = 2;
             this.grdViewColumns.TabStop = true;
             this.grdViewColumns.ToolTipText = "";
@@ -330,13 +337,6 @@
             this.ctlDataPars.Name = "ctlDataPars";
             this.ctlDataPars.Size = new System.Drawing.Size(415, 88);
             this.ctlDataPars.TabIndex = 0;
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "blank.png");
-            this.imageList1.Images.SetKeyName(1, "arrow.png");
             // 
             // CtlBrowser
             // 

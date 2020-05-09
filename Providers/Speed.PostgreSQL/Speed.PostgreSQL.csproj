@@ -21,6 +21,7 @@ https://github.com/carlosast/Speed-ORM</Description>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
     <DefineConstants />
+    <DocumentationFile>D:\Github\Speed\APP\Providers\Speed.PostgreSQL\Speed.PostgreSQL.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">

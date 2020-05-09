@@ -19,6 +19,10 @@ https://github.com/carlosast/Speed-ORM</Description>
     <PackageReleaseNotes />
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
+    <DocumentationFile>D:\Github\Speed\APP\Speed.Data\Speed.Data.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Transactions" />

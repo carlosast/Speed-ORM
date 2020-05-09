@@ -22,6 +22,7 @@ https://github.com/carlosast/Speed-ORM</Description>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
     <DefineConstants />
+    <DocumentationFile>D:\Github\Speed\APP\Providers\Speed.SqlServer\Speed.SqlServer.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">

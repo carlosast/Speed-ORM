@@ -86,7 +86,8 @@ namespace Speed.UI.UserControls
             if (!this.DesignMode)
             {
                 Show();
-                splitContainer1.SplitterDistance = (int)(0.3 * splitContainer1.SplitterDistance);
+                splitContainer1.SplitterDistance = (int)(0.4 * splitContainer1.SplitterDistance);
+                //splitContainer2.SplitterDistance = 400;
 
                 numericTypes = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
                 numericTypes.Add("Boolean", null);

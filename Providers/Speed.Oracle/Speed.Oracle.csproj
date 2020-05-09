@@ -18,6 +18,10 @@ https://github.com/carlosast/Speed-ORM</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
+    <DocumentationFile>D:\Github\Speed\APP\Providers\Speed.Oracle\Speed.Oracle.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
     <PackageReference Include="Oracle.ManagedDataAccess" Version="19.6.0" />
   </ItemGroup>
