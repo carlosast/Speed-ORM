@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Speed.Access</name>
+    </assembly>
+    <members>
+        <member name="P:Speed.Data.DbAccessProvider.DataTypes">
+            <summary>
+            Mapeamento dos tipos do banco de dados com os do .NET
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -76,6 +76,12 @@ namespace Speed.Data
         {
             return db.Select<T>();
         }
+
+        public static List<T> Select(Database db, int commandTimeout)
+        {
+            return db.Select<T>(commandTimeout);
+        }
+
         public static List<T> Select<T>(T filter, EnumDbFilter mode = EnumDbFilter.AndEqual, bool concurrency = false, int commandTimeout = 30)
         {
             using (var db = Sys.NewDb())
@@ -95,10 +101,22 @@ namespace Speed.Data
         {
             return db.Select<T>(where);
         }
+
+        public static List<T> Select(Database db, string where, int commandTimeout)
+        {
+            return db.Select<T>(where, commandTimeout);
+        }
+
         public static List<T> Select(string where)
         {
             using (var db = Sys.NewDb())
                 return db.Select<T>(where);
+        }
+
+        public static List<T> Select(string where, int commandTimeout)
+        {
+            using (var db = Sys.NewDb())
+                return db.Select<T>(where, commandTimeout);
         }
 
         public static List<T> Select(Database db, string where, params object[] args)

@@ -43,12 +43,22 @@ namespace Speed.Data
             throw new NotImplementedException();
         }
 
+        public virtual object Select(Database db, int commandTimeout)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual object Select(Database db, bool concurrency)
         {
             throw new NotImplementedException();
         }
 
         public virtual object Select(Database db, string where)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual object Select(Database db, string where, int commandTimeout)
         {
             throw new NotImplementedException();
         }

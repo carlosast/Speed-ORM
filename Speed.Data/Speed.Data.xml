@@ -1,0 +1,1530 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Speed.Data</name>
+    </assembly>
+    <members>
+        <member name="T:Speed.Data.DbColumnAttribute">
+            <summary>
+            Classe de atributo de uma coluna do banco de dados
+            </summary>
+        </member>
+        <member name="T:Speed.Data.DbTableAttribute">
+            <summary>
+            Attributes of tables and views
+            </summary>
+        </member>
+        <member name="T:Speed.Data.DbViewAttribute">
+            <summary>
+            Classe de atributo de um view do banco de dados
+            </summary>
+        </member>
+        <member name="T:Speed.Data.BLClass`1">
+            <summary>
+            Classe template pra usar na BL
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Speed.Data.BLClass`1.Q(System.Object)">
+            <summary>
+            Faz um Conv.ToSqlTextA.
+            Conv.ToSqlTextA já trata a aspas simples no meio da string e contatena aspas simples no início e final.
+            Isso evita Sql Injection
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Speed.Data.ConnectionInfo.ProviderName">
+            <summary>
+            Name of OleDbProvider
+            </summary>
+        </member>
+        <member name="T:Speed.Data.Database">
+            <summary>
+            Classe de conexão e métodos úteis de acesso à base de dados
+            </summary>
+        </member>
+        <member name="M:Speed.Data.Database.GetErrors">
+            <summary>
+            Get compilation errors
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:Speed.Data.Database.cache">
+            <summary>
+            Cache estático (usado por todas as instâncias)
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Database.UsingTransaction">
+            <summary>
+            Propriedade que indica que uma transação está em uso
+            </summary>
+        </member>
+        <member name="M:Speed.Data.Database.Close">
+            <summary>
+            Fecha a conexão com o banco de dados.
+            Caso esteja em transação, dá rollback automático
+            </summary>
+        </member>
+        <member name="M:Speed.Data.Database.BeginTransaction">
+            <summary>
+            inicia uma transação
+            </summary>
+        </member>
+        <member name="M:Speed.Data.Database.BeginTransaction(System.Data.IsolationLevel)">
+            <summary>
+            inicia uma transação
+            </summary>
+            <param name="iso">Isolation Level</param>
+        </member>
+        <member name="M:Speed.Data.Database.Select``1">
+            <summary>
+            Retorna todos os registros
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.Select``1(System.Boolean)">
+            <summary>
+            Return all records
+            de dados, use concurrency = true
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="concurrency">Concurrency</param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.SelectF``1(System.String,System.Object[])">
+            <summary>
+            Select Format. Usa string.Format internamente
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="where"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.SelectPage``1(System.Int32,System.Int32,System.String,System.Int32)">
+            <summary>
+            Retorna todos os registros
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.SelectPage``1(System.Int32,System.Int32,System.String,System.Int32,System.Boolean)">
+            <summary>
+            Return all records
+            de dados, use concurrency = true
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="concurrency">Concurrency</param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.SelectPageF``1(System.String,System.Int32,System.Int32,System.String,System.Int32,System.Object[])">
+            <summary>
+            SelectPage Format. Usa string.Format internamente
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="where"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.SelectTop``1(System.Int32)">
+            <summary>
+            Retorna todos os registros
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.SelectTop``1(System.Int32,System.Boolean)">
+            <summary>
+            Retorna todos os registros. Se desejar que estes possam ser usados para atualização no banco
+            de dados, use concurrency = true
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="concurrency"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.SelectColumns``1(System.Boolean,System.String[])">
+            <summary>
+            Retorna todos os registros. Se desejar que estes possam ser usados para atualização no banco
+            de dados, use concurrency = true
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="concurrency"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.SelectSingle``1">
+            <summary>
+            Retorna todos os registros
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.SelectSingle``1(System.Boolean)">
+            <summary>
+            Retorn 1 record. Se desejar que estes possam ser usados para atualização no banco
+            de dados, use concurrency = true
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="concurrency"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.SelectSingleF``1(System.String,System.Object[])">
+            <summary>
+            SelectSingle Format. Usa string.Format internamente
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="where"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.Save``1(Speed.Data.Record)">
+            <summary>
+            Salva na base de dados
+            Se RecordStatus.New - executa Insert, se RecordStatus.Modified - executa Update e se RecordStatus.Deleted - executa Delete
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="instance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.Save``1(Speed.Data.Record,Speed.Data.EnumSaveMode)">
+            <summary>
+            Salva na base de dados
+            Se RecordStatus.New - executa Insert, se RecordStatus.Modified - executa Update e se RecordStatus.Deleted - executa Delete
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="instance"></param>
+            <param name="mode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.SaveList``1(System.Collections.Generic.List{``0},System.Boolean)">
+            <summary>
+            Salva na base de dados
+            Se RecordStatus.New - executa Insert, se RecordStatus.Modified - executa Update e se RecordStatus.Deleted - executa Delete
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="instance"></param>
+            <param name="continueOnError"></param>
+        </member>
+        <member name="M:Speed.Data.Database.SaveList``1(System.Collections.Generic.List{``0},Speed.Data.EnumSaveMode,System.Boolean)">
+            <summary>
+            Salva na base de dados
+            Se RecordStatus.New - executa Insert, se RecordStatus.Modified - executa Update e se RecordStatus.Deleted - executa Delete
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="instance"></param>
+            <param name="mode"></param>
+            <param name="continueOnError"></param>
+        </member>
+        <member name="M:Speed.Data.Database.Delete``1">
+            <summary>
+            Exclui TODOS registros da tabela
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.Delete``1(Speed.Data.Record)">
+            <summary>
+            Exclui 1 registro
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="instance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.Delete``1(System.String)">
+            <summary>
+            Exclui registros filtrados pela cláusula where
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="where"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.Delete``1(System.String,System.Object[])">
+            <summary>
+            Exclui registros filtrados pela cláusula where
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="where"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.Delete``1(System.String,System.Int32,System.Object[])">
+            <summary>
+            Exclui registros filtrados pela cláusula where
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="where"></param>
+            <param name="commandTimeout"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.Delete``1(System.String,Speed.Data.Parameter[])">
+            <summary>
+            Exclui registros filtrados pela cláusula where
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="where"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.Delete``1(System.String,System.Int32,Speed.Data.Parameter[])">
+            <summary>
+            Exclui registros filtrados pela cláusula where
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="where"></param>
+            <param name="commandTimeout"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.ClearCache">
+            <summary>
+            Reset all compiled class
+            </summary>
+        </member>
+        <member name="M:Speed.Data.Database.GetTableInfo(System.String,System.String)">
+            <summary>
+            Retorna informações de todas as colunas da tabela tableName
+            </summary>
+            <param name="db"></param>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.GetDataTypesGeneric">
+            <summary>
+            Retorna um dictionary com a key sendo o tipo de dados do banco de dados e
+            o value o tipo correspondente do .NET
+            </summary>
+            <param name="db"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.GetSchemaTable(System.String,System.Data.CommandType,System.Int32)">
+            <summary>
+            Método rápido e simples de retornar o Schema
+            </summary>
+            <param name="cmd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.GetSchemaTable(System.Data.Common.DbCommand)">
+            <summary>
+            Método rápido e simples de retornar o Schema
+            </summary>
+            <param name="cmd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.GenerateRecord(System.Collections.Generic.Dictionary{System.String,Speed.Data.Generation.GenTableResult},System.String,System.String,Speed.Data.Generation.GenTable,System.Boolean,Speed.Data.Generation.EnumNameCase,System.Boolean)">
+            <summary>
+            Gera classe de um comando ou de tables e views.
+            Se isComand = true, deve ser passado um comando.
+            Se isComand = false, deve passado uma tabela ou view
+            </summary>
+            <param name="entityName"></param>
+            <param name="sqlOrTableName"></param>
+            <param name="isCommand"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.GenerateRecord2(Speed.Data.DictionarySchemaTable{Speed.Data.Generation.GenTableResult},Speed.Data.Generation.GenTableResult,System.String,System.String,Speed.Data.Generation.EnumNameCase)">
+            <summary>
+            Segunda fase de GenerateRecord
+            </summary>
+            <param name="tables"></param>
+            <param name="table"></param>
+            <param name="info"></param>
+            <param name="entityNameSpace"></param>
+            <param name="businnesNameSpace"></param>
+            <param name="classNameBL"></param>
+            <param name="entityName"></param>
+            <param name="schemaName"></param>
+            <param name="sqlOrTableName"></param>
+            <param name="isCommand"></param>
+            <param name="enumColumnName"></param>
+        </member>
+        <member name="M:Speed.Data.Database.Generate(Speed.Data.Generation.GenParameters,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="pars"></param>
+            <param name="writeToDisk"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.Generate(System.String,System.String,System.String,System.String,System.String,System.String,Speed.Data.Generation.GenTableCollection,System.Boolean,Speed.Data.Generation.EnumNameCase)">
+            <summary>
+            
+            </summary>
+            <param name="entityNameSpace"></param>
+            <param name="businnesNameSpace"></param>
+            <param name="entityDirectory"></param>
+            <param name="entityDirectoryExt"></param>
+            <param name="businnesDirectory"></param>
+            <param name="businnesDirectoryExt"></param>
+            <param name="alias"></param>
+            <param name="tableSchema">Nome do Schema. Para o MySql é importante, senão retornarão todas as tabelas do servidor</param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.GetExcludeColumns``1(System.String[])">
+            <summary>
+            Retorna todas as colunas da table, menos as de columnsToExclude
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="columnsToExclude"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.ExecuteArray(System.String)">
+            <summary>
+            Retorna, uma matriz bi-dimensional dos dados, no formato Linha, Coluna
+            Por exemplo: ret[4][1] é a primeira coluna do registro 5.
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.ExecuteArray1D(System.String)">
+            <summary>
+            Retorna, uma matriz unidimensional dos valores do primeiro registro.
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.ExecuteArray1D``1(System.String)">
+            <summary>
+            Retorna uma matriz unidimensional contendo os valores da primeira coluna
+            Por exemplo: ret[4] é a primeira coluna (a única) do registro 5.
+            </summary>
+            <param name="sql"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.ExecuteArray1D``1(System.String,System.Int32)">
+            <summary>
+            Retorna uma matriz unidimensional contendo os valores da coluna columnIndex
+            </summary>
+            <param name="sql"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.GetAllTables(System.String,System.Nullable{Speed.Data.MetaData.EnumTableType},System.Boolean)">
+            <summary>
+            Método genérico de GetAllTables. Não foi testado em todos os providers
+            </summary>
+            <param name="tableSchema"></param>
+            <param name="tableType"></param>
+            <param name="useDatabase">Se usa o DatabaseName no lugar do Schema (caso do MySql)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.GetReservedWordsGeneric">
+            <summary>
+            Método de retorna ReservedWords usando GetSchema
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.GetAllMetadata">
+            <summary>
+            Return all metada information, in text format
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.Validate``1(``0)">
+            <summary>
+            Validate field based on table properties
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="record"></param>
+        </member>
+        <member name="F:Speed.Data.DataClass.Code">
+            <summary>
+            Guarda o código C# da classe. Apenas pra proposta de debug
+            </summary>
+        </member>
+        <member name="T:Speed.Data.DataClassCache">
+            <summary>
+            Classe de armazenamento em memória das classes geradas e compiladas dinamicamente,
+            para otimizar a execução de código, pois Reflection é muito lento
+            </summary>
+        </member>
+        <member name="F:Speed.Data.DataClassCache.assRegistered">
+            <summary>
+            Tipos em cache pra reflexão apenas.
+            </summary>
+        </member>
+        <member name="M:Speed.Data.DataClassCache.Clear">
+            <summary>
+            Reset all compiled class
+            </summary>
+        </member>
+        <member name="M:Speed.Data.DataClassCache.GetDirectory(System.Collections.Generic.List{System.Type},Speed.Data.Database,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="types"></param>
+            <param name="db"></param>
+            <param name="lastModified">Última data de table ou view aterado na base</param>
+            <returns></returns>
+        </member>
+        <member name="F:Speed.Data.DataTableUtil.DateFormat">
+            <summary>
+            Formato de data usado
+            </summary>
+        </member>
+        <member name="M:Speed.Data.DataTableUtil.GetValidColumns(System.Data.DataTable)">
+            <summary>
+            Retorna todas as colunas do DataTablew que não possuem a propriedade extendida "Fake".
+            Fake não serão salvas
+            </summary>
+            <param name="tb"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.DataTableUtil.UpdateDataRow(System.Data.DataRow,System.Object)">
+            <summary>
+            Atualiza o Row com os valores do objeto newValues, com as propriedades com os mesmos nomes das colunas do DataTable
+            </summary>
+            <param name="row"></param>
+            <param name="newValues"></param>
+        </member>
+        <member name="M:Speed.Data.DataTableUtil.UpdateDataRow(System.Data.DataTable,System.Data.DataRowView,System.Object)">
+            <summary>
+            Atualiza o Row com os valores do objeto newValues, com as propriedades com os mesmos nomes das colunas do DataTable
+            </summary>
+            <param name="tb"></param>
+            <param name="row"></param>
+            <param name="newValues"></param>
+        </member>
+        <member name="M:Speed.Data.DataTableUtil.GetValues``1(System.Data.DataTable,System.String)">
+            <summary>
+            Retorna a lista de valores para uma única coluna do DataTable
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="tb"></param>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.DataTableUtil.GetValues(System.Data.DataTable,System.String)">
+            <summary>
+            Retorna a lista de valores para uma única coluna do DataTable
+            </summary>
+            <param name="tb"></param>
+            <param name="columnName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.DataTableUtil.GetText(System.Data.DataTable,System.Int32,System.Int32)">
+            <summary>
+            Retorna o resultado de das rows do DataTable formatado pra visualização
+            </summary>
+            <param name="tb"></param>
+            <param name="rowStart">Row inicial</param>
+            <param name="rowEnd">Row final. Deixe -1 pra todas rows (tb.Rows.Count)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.DbUtil.GetTypes``1">
+            <summary>
+            Retorna os enums dos types, indexado pelos valores numéricos
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.DbUtil.GetDataTypeDotNet(System.String,System.Boolean)">
+            <summary>
+            Retorna o DataType no formato .NET
+            </summary>
+            <param name="dataType"></param>
+            <param name="allowNull"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Speed.Data.EnumDbFilter.AndLike">
+            <summary>
+            Operador que faz um AND para todos os campos, e usa LIKE para campos string
+            </summary>
+        </member>
+        <member name="F:Speed.Data.EnumDbFilter.OrLike">
+            <summary>
+            Operador que faz um OR para todos os campos, e usa LIKE para campos string
+            </summary>
+        </member>
+        <member name="F:Speed.Data.EnumDbFilter.AndEqual">
+            <summary>
+            Operador que faz um AND para todos os campos, e usa '=' para campos string
+            </summary>
+        </member>
+        <member name="F:Speed.Data.EnumDbFilter.OrEqual">
+            <summary>
+            Operador que faz um OR para todos os campos, e usa LIKE para campos string
+            </summary>
+        </member>
+        <member name="M:Speed.Data.IDbProvider.GetSqlIdentityInsert">
+            <summary>
+            Retorna o comando sql para retornar o valor do da coluna identity do último insert
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Speed.Data.IDbProvider.DataTypes">
+            <summary>
+            Types do banco de dados. Ainda não usado
+            </summary>
+        </member>
+        <member name="M:Speed.Data.IDbProvider.GetLastModified">
+            <summary>
+            Returns a hash of table and view change dates
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Speed.Data.Data.ProviderHelper">
+            <summary>
+            Common provider methods
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Record.RecordOriginal">
+            <summary>
+            Valores originais do registro
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Record.RecordTag">
+            <summary>
+            A property for free use by the programmer
+            </summary>
+        </member>
+        <member name="M:Speed.Data.Sys.RunInDb``1(System.Func{Speed.Data.Database,``0})">
+            <summary>
+            Executa uma action, passando uma instância de Database
+            </summary>
+            <param name="action"></param>
+        </member>
+        <member name="M:Speed.Data.Sys.RunInTran(Speed.Data.Database,System.Action)">
+            <summary>
+            Método útil pra executar um comando dentro de uma transaction, usando uma base de dados já criada
+            A transaction é iniciada em RunInTran. Se sucesso, fará um Commit. Se não, Roolback
+            </summary>
+            <param name="db"></param>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Sys.GetLocalFile(System.String)">
+            <summary>
+            Returns the full path of a file located in the directory of the executable
+            </summary>
+            <param name="relativeFileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Sys.GetLocalFileX(System.String)">
+            <summary>
+            Returns the full path of a file located in a subdirectory x86 or x64 in the directory of the executable
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Speed.Data.EnumSaveMode">
+            <summary>
+            Mode de salvar um registro
+            </summary>
+        </member>
+        <member name="F:Speed.Data.EnumSaveMode.None">
+            <summary>
+            Salva o registro e não atualiza as propriedades da classe. Este é o modo mais rápido
+            </summary>
+        </member>
+        <member name="F:Speed.Data.Generation.CodeGenerator.assemblies">
+            <summary>
+            Usada apenas para pegar o assembly
+            </summary>
+        </member>
+        <member name="M:Speed.Data.Generation.CodeGenerator.GetParameterName(System.String)">
+            <summary>
+            Substitui ' ' por '_'
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Generation.CodeGenerator.Compile(Speed.Data.Database,System.Type,System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Compile generated code
+            </summary>
+            <param name="typeOfOneClass"></param>
+            <param name="code"></param>
+            <param name="id"></param>
+            <param name="fileDll">Caminho completo onde será salva a dll. se não for fornecido, a dll será gerada na memória</param>
+            <returns></returns>
+        </member>
+        <member name="T:Speed.Data.Generation.GenParameters">
+            <summary>
+            Parâmetros de geração de código
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenParameters.DataClass">
+            <summary>
+            Namespace das classes de dados
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenParameters.BusinessClass">
+            <summary>
+            Namespace das classes de dados
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenParameters.Tables">
+            <summary>
+            Tables e Views do banco de dados que serão geradas classes
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenParameters.Views">
+            <summary>
+            Tables e Views do banco de dados que serão geradas classes
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenParameters.Procedures">
+            <summary>
+            Procedures do banco de dados que serão geradas classes
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenClassParameters.NameSpace">
+            <summary>
+            Namespace das classes de dados
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenClassParameters.Directory">
+            <summary>
+            Diretório onde serão geradas as classes de dados
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenClassParameters.DirectoryExt">
+            <summary>
+            Diretório onde serão geradas as classes de extensão de dados
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenClassParameters.StartWithSchema">
+            <summary>
+            Se inclui o Schema da base de dados, no início dos nomes das classes de dados e negócios
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenClassParameters.NameCase">
+            <summary>
+            Modo de conversão dos nomes dos objetos da base de dados ao gerar as classes
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenClassParameters.Prefix">
+            <summary>
+            Modo de conversão dos nomes dos objetos da base de dados ao gerar as classes
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenClassParameters.Remove">
+            <summary>
+            Modo de conversão dos nomes dos objetos da base de dados ao gerar as classes
+            </summary>
+        </member>
+        <member name="T:Speed.Data.Generation.EnumNameCase">
+            <summary>
+            Modo de case do texto.
+            </summary>
+        </member>
+        <member name="F:Speed.Data.Generation.EnumNameCase.None">
+            <summary>
+            Não aplica case. Usa os nomes que existem no banco de dados. EX: NOME_EMPRESA fica NOME_EMPRESA
+            </summary>
+        </member>
+        <member name="F:Speed.Data.Generation.EnumNameCase.Pascal">
+            <summary>
+            Pascal Case. Convere a primeira letra para maiúscula. EX: NOME_EMPRESA fica NomeEmpresa
+            </summary>
+        </member>
+        <member name="F:Speed.Data.Generation.EnumNameCase.Camel">
+            <summary>
+            Camel Case. Convere a primeira letra para minúscula. EX: NOME_EMPRESA fica nomeepresa
+            </summary>
+        </member>
+        <member name="F:Speed.Data.Generation.EnumNameCase.Upper">
+            <summary>
+            Converte para maiúsculas
+            </summary>
+        </member>
+        <member name="F:Speed.Data.Generation.EnumNameCase.Lower">
+            <summary>
+            Converte para minúsculas
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenProcedure.SchemaName">
+            <summary>
+            Nome do Schema do banco de dados que a tabela pertence
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenProcedure.FullName">
+            <summary>
+            Nome completo da Table
+            </summary>
+        </member>
+        <member name="F:Speed.Data.Generation.GenProcedure.IsSelected">
+            <summary>
+            Se a prccedure será processada
+            </summary>
+        </member>
+        <member name="T:Speed.Data.Generation.GenTable">
+            <summary>
+            Classe de configuração de Tables ou Views
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenTable.SchemaName">
+            <summary>
+            Nome do Schema do banco de dados que a tabela pertence
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenTable.TableName">
+            <summary>
+            Nome da tabela
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenTable.DataClassName">
+            <summary>
+            Nome da classe de dados
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenTable.BusinessClassName">
+            <summary>
+            Nome da classe de negócios
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenTable.EnumColumnName">
+            <summary>
+            Nome da coluna que possui os valores texto do Enum
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenTable.EnumColumnId">
+            <summary>
+            Nome da coluna que possui os valores numéricos do Enum
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenTable.EnumName">
+            <summary>
+            Enum name
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenTable.EnumAttributes">
+            <summary>
+            Enum name
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenTable.SequenceName">
+            <summary>
+            Sequence Name
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenTable.SequenceColumn">
+            <summary>
+            Column of sequence
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenTable.IsSelected">
+            <summary>
+            Id will be processed
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenTable.SubDirectory">
+            <summary>
+            Nome da tabela
+            </summary>
+        </member>
+        <member name="P:Speed.Data.Generation.GenTable.FullName">
+            <summary>
+            Nome completo da Table
+            </summary>
+        </member>
+        <member name="T:Speed.Data.MetaData.DbColumnInfo">
+            <summary>
+            Classe com informações de uma coluna da base de dados
+            </summary>
+        </member>
+        <member name="P:Speed.Data.MetaData.DbDataType.IsNullable">
+            <summary>
+            Indica se o tipo permite nulos, e não se uma propriedade específica é nula ou não
+            </summary>
+        </member>
+        <member name="T:Speed.Data.DataReflectionUtil">
+            <summary>
+            Classe estática de métodos de serialização usada neste projeto
+            </summary>
+        </member>
+        <member name="M:Speed.Data.DataReflectionUtil.GetColumns(System.Type)">
+            <summary>
+            retorna um Dictionary com os nomes das propriedades como chave
+            e os objectos ColumnAttribute como valores
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.DataReflectionUtil.GetMapColumns(System.Type)">
+            <summary>
+            Retorna um dictionary, indexado pelos nomes das colunas da tabela, com valores
+            dos nomes das propriedades da classe
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.DataReflectionUtil.GetColumnsList(System.Type)">
+            <summary>
+            retorna uma string com os nomes das colunas separadas por ',', para usar num sql
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.DataReflectionUtil.GetColumnName(System.Object,System.String)">
+            <summary>
+            Retorna o nome da coluna na base de dados de uma propriedade da Model
+            </summary>
+            <param name="model"></param>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.DataReflectionUtil.GetFirstColumnName(System.Object)">
+            <summary>
+            retorna o nome da coluna na base de dados, da primeira coluna
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.CollectionUtil.GetValue``2(System.Collections.Generic.Dictionary{``0,``1},``0)">
+            <summary>
+            Checa se uma Key existe no Dictionary. Se existir, retorna. Senão retorna default(TSource)
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.CollectionUtil.GetValue``2(System.Collections.Concurrent.ConcurrentDictionary{``0,``1},``0)">
+            <summary>
+            Checa se uma Key existe no Dictionary. Se existir, retorna. Senão retorna default(TSource)
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.CollectionUtil.Split``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Divide um IEnumerable em partes
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+            <param name="blockSize">Número de partes á ser dividida</param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.CollectionUtil.ToList``1(System.Collections.IEnumerable)">
+            <summary>
+            Converte para um List
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="collection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.CollectionUtil.Sort``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Boolean)">
+            <summary>
+            Ordena um IEnumerable pelo nome de uma Propriedade
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+            <param name="propertyName"></param>
+            <param name="descending"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.CollectionUtil.ToDictionaryDistinct``2(System.Collections.Generic.IEnumerable{``1},System.Func{``1,``0})">
+            <summary>
+            Faz um ToDictionary, mas só para valores distintos. Se tiver valores com chaves duplicadas serão desprezadas
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="keySelector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.CollectionUtil.ToDictionaryDistinct``2(System.Collections.Generic.IEnumerable{``1},System.Func{``1,``0},System.Collections.Generic.IEqualityComparer{``0})">
+            <summary>
+            Faz um ToDictionary, mas só para valores distintos. Se tiver valores com chaves duplicadas serão desprezadas
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="keySelector"></param>
+            <param name="comparer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.CollectionUtil.Shuffle``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Embaralha a ordem dos elementos
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+        </member>
+        <member name="M:Speed.Common.Conv.Trim(System.Object)">
+            <summary>
+            Faz um ToString seguido por Trim
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.ToSqlText(System.Object,System.Int32)">
+            Trata as aspas simples no meio da string
+            Isso evita Sql Injection
+        </member>
+        <member name="M:Speed.Common.Conv.ToSqlTextA(System.Object)">
+            <summary>
+            Trata as aspas simples no meio da string e contatena aspas simples no início e final.
+            Isso evita Sql Injection
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.ToSqlTextA(System.Object,System.Int32)">
+            <summary>
+            Trata as aspas simples no meio da string e contatena aspas simples no início e final.
+            Isso evita Sql Injection
+            </summary>
+            <param name="value"></param>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.Trunc(System.String,System.Int32)">
+            <summary>
+            Trunca uma string, mas não quebra palavras. Procura o primeiro espaço e trunca ali
+            </summary>
+            <param name="text"></param>
+            <param name="maxLength"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.Trunc(System.String,System.Int32,System.String)">
+            <summary>
+            Trunca uma string, mas não quebra palavras. Procura o primeiro espaço e trunca ali
+            </summary>
+            <param name="text"></param>
+            <param name="maxLength"></param>
+            <param name="addToEnd">Texto à ser inserido no final, caso text.Length > maxLength. Exemplo: " ..."</param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.Concat(System.String,System.Object[])">
+            <summary>
+            Contatena um array de strings
+            Não acrescenta o último endSeparator
+            </summary>
+            <param name="endSeparator"></param>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.Concat(System.String,System.String,System.Object[])">
+            <summary>
+            Contatena um array de strings
+            Não acrescenta o último endSeparator
+            </summary>
+            <param name="beforeSeparator"></param>
+            <param name="endSeparator"></param>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Speed.Common.Conv.ToSqlDateRange(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Boolean,System.Boolean)" -->
+        <member name="M:Speed.Common.Conv.Cast(System.Type,System.Object)">
+            <summary>
+            Exemplo: double? x = Cast(typeof(double?), 1.0);
+                     int y = .Cast(typeof(int), 1.2345);
+            </summary>
+            <param name="type"></param>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.GetDateOnly1(System.DateTime)">
+            <summary>
+            Retorna só a parte da Data, removendo horas, minutos e segundos
+            </summary>
+            <param name="date"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.GetDateOnly2(System.DateTime)">
+            <summary>
+            Retorna a Data, com o tempo como 23:59:59:999
+            Usado para filtros em query
+            </summary>
+            <param name="date"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.CalcPageSize(System.Int32,System.Int32)">
+            <summary>
+            Calcula o número de páginas
+            </summary>
+            <param name="count">Número de items</param>
+            <param name="pageSize">Tamanho da página</param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.DMY(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Retorna uma data. Método útil para trabalhar no fdormato dd/MM/yy
+            </summary>
+            <param name="day"></param>
+            <param name="month"></param>
+            <param name="year"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.ObjectToString(System.Object)">
+            <summary>
+            Converte um objecto para sua representação string, no formato Json
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.ObjectToBytes(System.Object)">
+            <summary>
+            Converte um objecto para sua representação byte, no formato Json
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.StringToObject``1(System.String)">
+            <summary>
+            Converte uma string, no formato Json, para um objeto
+            </summary>
+            <param name="json">Representação json (string) do objeto</param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.ByteToObject``1(System.Byte[])">
+            <summary>
+            Converte um byte[], no formato Json, para um objeto
+            </summary>
+            <param name="json">Representação json (byte[]) do objeto</param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.GetKey(System.Object[])">
+            <summary>
+            Gera uma chava com os valores de keys
+            </summary>
+            <param name="keys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.ContainsI(System.String,System.String)">
+            <summary>
+            Insentitive case
+            </summary>
+            <param name="s1"></param>
+            <param name="s2"></param>
+            <param name="comparison"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.GetCharInfo(System.String)">
+            <summary>
+            Retorna uma string com os caracteres e o valor asc destes
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.GetErrorMessage(System.Exception,System.Boolean)">
+            <summary>
+            Retorna a mensagem de erro de uma exception.
+            Se InnerException não for null, acrestanta-a tb, recursivamente
+            </summary>
+            <param name="ex"></param>
+            <param name="includeStack"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.ObjectToDataTable(System.Object)">
+            <summary>
+            Converte um objeto num DataTable, com 2 colunas, Nome (nome da propriedade) e Valor (valor da propriedade)
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.IsNumeric(System.String)">
+            <summary>
+            Checa se uma string é numérica
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.IsNumeric(System.Char)">
+            <summary>
+            Checa se um char é numérico
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.TrimObject(System.Collections.IEnumerable)">
+            <summary>
+            Dá um trim em todas as propriedades string. Se o valor for String.IsNullOrEmpty, seta null
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="M:Speed.Common.Conv.TrimObject(System.Object)">
+            <summary>
+            Dá um trim em todas as propriedades string. Se o valor for String.IsNullOrEmpty, seta null
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Speed.Common.Conv.ToDataTableStr``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Converte para um DataTable, mas trata todos as DataColumns como string
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Conv.ToDataTable``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Converte para um DataTable, mas trata todos as DataColumns como string
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.Cryptography.Encrypt(System.String,System.String)">
+            <summary>
+            Incrypt the input using password provided
+            </summary>
+            <param name="input">Input string to encrypt</param>
+            <param name="password">Password to use</param>
+            <returns>Encrypted string</returns>
+        </member>
+        <member name="M:Speed.Common.Cryptography.Decrypt(System.String,System.String)">
+            <summary>
+            Decrypt string using password provided
+            </summary>
+            <param name="base64Input">Input to decrypt</param>
+            <param name="password">Password to use</param>
+            <returns>Decrypted string</returns>
+        </member>
+        <member name="T:Speed.Common.DataTimer`1">
+            <summary>
+            Classe útil, que se atualiza automaticamente de tempos em tempos.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Speed.Common.DataTimer`1.#ctor(System.Int32,System.Func{`0})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="milliseconds">Intervalo, em milliseconds, que a classe deve se auto-atualizar</param>
+            <param name="funcReturnValue">Func usada para a auto-atualização</param>
+        </member>
+        <member name="P:Speed.Common.DataTimer`1.Value">
+            <summary>
+            Valor 
+            </summary>
+        </member>
+        <member name="M:Speed.Common.DataTimer`1.Update">
+            <summary>
+            força uma atualização
+            </summary>
+        </member>
+        <member name="T:Speed.Common.HexEncoding">
+            <summary>
+            Summary description for HexEncoding.
+            </summary>
+        </member>
+        <member name="M:Speed.Common.HexEncoding.GetBytes(System.String,System.Int32@)">
+            <summary>
+            Creates a byte array from the hexadecimal string. Each two characters are combined
+            to create one byte. First two hexadecimal characters become first byte in returned array.
+            Non-hexadecimal characters are ignored. 
+            </summary>
+            <param name="hexString">string to convert to byte array</param>
+            <param name="discarded">number of characters in string ignored</param>
+            <returns>byte array, in the same left-to-right order as the hexString</returns>
+        </member>
+        <member name="M:Speed.Common.HexEncoding.InHexFormat(System.String)">
+            <summary>
+            Determines if given string is in proper hexadecimal string format
+            </summary>
+            <param name="hexString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.HexEncoding.IsHexDigit(System.Char)">
+            <summary>
+            Returns true is c is a hexadecimal digit (A-F, a-f, 0-9)
+            </summary>
+            <param name="c">Character to test</param>
+            <returns>true if hex digit, false if not</returns>
+        </member>
+        <member name="M:Speed.Common.HexEncoding.HexToByte(System.String)">
+            <summary>
+            Converts 1 or 2 character string into equivalant byte value
+            </summary>
+            <param name="hex">1 or 2 character string</param>
+            <returns>byte</returns>
+        </member>
+        <member name="T:Speed.Common.ReflectionUtil">
+            <summary>
+            Métodos úties de reflexão
+            </summary>
+        </member>
+        <member name="M:Speed.Common.ReflectionUtil.Clone``1(System.Object)">
+            <summary>
+            Clona Fields e Properties de um objeto e retorna uma cópia de objSource
+            </summary>
+            <param name="objSource"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.ReflectionUtil.Clone(System.Object,System.Object)">
+            <summary>
+            Copia Fields e Properties comuns entre objSource e objTarget
+            </summary>
+            <param name="objSource"></param>
+            <param name="objTarget"></param>
+        </member>
+        <member name="M:Speed.Common.ReflectionUtil.CopyProperties(System.Object,System.Object)">
+            <summary>
+            Copia todos os valores das propriedades de objSource para objTarget
+            É um "Clone" simplificado e genérico
+            </summary>
+            <param name="objSource"></param>
+            <param name="objTarget"></param>
+        </member>
+        <member name="T:Speed.Common.SmartDictionary`2">
+            <summary>
+            Classe de ajuda, principalmente usada dentro de loops, com lógica que evitar que uma mesma busca seja realizada na base de dados.
+            Esta classe herda do Dictionary e implementa apenas um método, o Find. Todo restante funciona como um Dictionary.
+            Esta classe não acessa a base de dados, mas serve como um cache local
+            Possui internamente uma lógica que, usando o método Find, caso um elemento não exista, executa a função funcValue. Se existir, retornar o valor já  existente.
+            </summary>
+            <typeparam name="TKey">Tipo da chave do dictionary</typeparam>
+            <typeparam name="TValue">Tipo dos valores do dictionary</typeparam>
+        </member>
+        <member name="M:Speed.Common.SmartDictionary`2.Find(`0,System.Func{`1})">
+            <summary>
+            Busca um elemento no dictioary. Caso exista, retorna o valor encontrado.
+            Caso não exista, executa funcFindValue e adicona um elemento com chave "key" e o valor retornado por "funcFindValue"
+            </summary>
+            <param name="key">Chave do elemento</param>
+            <param name="funcFindValue">Function que será executada, caso ainda não exista um elemento com a chave "key"</param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.SmartDictionary`2.Find(`0)">
+            <summary>
+            Busca um elemento no dictioary. Caso exista, retorna o valor encontrado.
+            Caso não exista, executa funcFindValue e adicona um elemento com chave "key" e o valor retornado por "funcFindValue"
+            </summary>
+            <param name="key">Chave do elemento</param>
+            <param name="funcFindValue">Function que será executada, caso ainda não exista um elemento com a chave "key"</param>
+            <returns></returns>
+        </member>
+        <member name="T:Speed.Common.SmartDictionaryList`2">
+            <summary>
+            Classe de ajuda, principalmente usada dentro de loops, com lógica que evitar que uma mesma busca seja realizada na base de dados.
+            Esta classe herda do Dictionary e implementa apenas um método, o Find. Todo restante funciona como um Dictionary.
+            Esta classe não acessa a base de dados, mas serve como um cache local
+            Possui internamente uma lógica que, usando o método Find, caso um elemento não exista, executa a função funcValue. Se existir, retornar o valor já  existente.
+            Difere de SmartDictionary, pq os elementos são um List de TValue
+            </summary>
+            <typeparam name="TKey">Tipo da chave do dictionary</typeparam>
+            <typeparam name="TValue">Tipo dos valores do dictionary</typeparam>
+        </member>
+        <member name="M:Speed.Common.SmartDictionaryList`2.Find(`0,System.Func{System.Collections.Generic.IEnumerable{`1}})">
+            <summary>
+            Busca um elemento no dictionary. Caso exista, retorna o valor encontrado.
+            Caso não exista, executa funcFindValue e adicona um elemento com chave "key" e o valor retornado por "funcFindValue"
+            </summary>
+            <param name="key">Chave do elemento</param>
+            <param name="funcFindValue">Function que será executada, caso ainda não exista um elemento com a chave "key"</param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.SmartDictionaryList`2.Find(`0)">
+            <summary>
+            Busca um elemento no dictionary. Caso exista, retorna o valor encontrado.
+            Caso não exista, executa funcFindValue e adicona um elemento com chave "key" e o valor retornado por "funcFindValue"
+            </summary>
+            <param name="key">Chave do elemento</param>
+            <returns></returns>
+        </member>
+        <member name="T:Speed.Common.SmartValue`1">
+            <summary>
+            Classe de ajuda, para definir uma classe com valores, mas que serão populados apenas quando a propriedade value for chamada.
+            </summary>
+            <typeparam name="TValue"></typeparam>
+        </member>
+        <member name="M:Speed.Common.SmartValue`1.#ctor(System.Func{`0})">
+            <summary>
+            Cria uma nova instância de SmartValue;
+            </summary>
+            <param name="funcValue">Função que será executada quando a propriedade Value for chamada pela priemira vez</param>
+        </member>
+        <member name="P:Speed.Common.SmartValue`1.Value">
+            <summary>
+            Valor
+            </summary>
+        </member>
+        <member name="M:Speed.Common.StringUtil.RemoveAccents(System.String)">
+            <summary>
+            Remove a acentuação de um texto
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.StringUtil.Right(System.String,System.String)">
+            <summary>
+            Retorna o texto à direita de text
+            </summary>
+            <param name="str"></param>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.StringUtil.Randomize(System.Int32)">
+            <summary>
+            Gera uma string randômica
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.StringUtil.CountChar(System.String,System.Char)">
+            <summary>
+            Retorna o nº de ocorrências do caracter 'c' dentro de 'text'
+            </summary>
+            <param name="text"></param>
+            <param name="c"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.StringUtil.ToPascalCase(System.String,System.Boolean)">
+            <summary>
+            Converte a primeira letra pra maiúscula
+            Se toLower = truee, faz ToLower da segunda letra em diante
+            </summary>
+            <param name="value"></param>
+            <param name="toLower"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.StringUtil.ToCamelCase(System.String)">
+            <summary>
+            Converte um texto pra Camel Case
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Common.StringUtil.ConvertPageTextToNumbers(System.String)">
+            <summary>
+            Convert um range no formato texto para uma matriz numérica
+            Pode-se usar espaços, ',' ou ';' para separador, tanto faz. O '-' indica um range
+            Ex: 1 2 7-21;25, 31  56; 89 - 90
+            </summary>
+            <param name="pages"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Speed.Common.TimerCount">
+            <summary>
+            Classe de medição de intervalos de tempo
+            Útil e temppo de desenvolvimento para o programador
+            </summary>
+        </member>
+        <member name="M:Speed.Common.TimerCount.#ctor">
+            <summary>
+            Inicializa uma nova instância de TimerCount e já começa a medir o tempo
+            </summary>
+        </member>
+        <member name="M:Speed.Common.TimerCount.#ctor(System.Boolean)">
+            <summary>
+            Inicializa uma nova instância de TimerCount
+            </summary>
+            <param name="start">Se start=true, começa a medir o tempo. Se start=false, não começa a mediro tempo</param>
+        </member>
+        <member name="M:Speed.Common.TimerCount.#ctor(System.String)">
+            <summary>
+            Inicializa uma nova instância de TimerCount e já começa a medir o tempo
+            </summary>
+            <param name="title">Título do timer</param>
+        </member>
+        <member name="M:Speed.Common.TimerCount.#ctor(System.String,System.Boolean)">
+            <summary>
+            Inicializa uma nova instância de TimerCount
+            </summary>
+            <param name="title">Título do timer</param>
+            <param name="start">Se start=true, começa a medir o tempo. Se start=false, não começa a mediro tempo</param>
+        </member>
+        <member name="M:Speed.Common.TimerCount.Next">
+            <summary>
+            Cria um novo timer, sem título
+            </summary>
+        </member>
+        <member name="M:Speed.Common.TimerCount.Next(System.Boolean)">
+            <summary>
+            Cria um novo timer, sem título
+            </summary>
+            <param name="start">Se start=true, começa a medir o tempo. Se start=false, não começa a mediro tempo</param>
+        </member>
+        <member name="M:Speed.Common.TimerCount.Next(System.String)">
+            <summary>
+            Cria um novo timer
+            </summary>
+            <param name="title">Título do timer</param>
+        </member>
+        <member name="M:Speed.Common.TimerCount.Next(System.String,System.Action)">
+            <summary>
+            Cria um novo timer e executa uma Action
+            </summary>
+            <param name="title">Título do timer</param>
+        </member>
+        <member name="M:Speed.Common.TimerCount.Next(System.String,System.Boolean)">
+            <summary>
+            Cria um novo time
+            </summary>
+            <param name="title">Título do timer</param>
+            <param name="start">Se start=true, começa a medir o tempo. Se start=false, não começa a mediro tempo</param>
+        </member>
+        <member name="M:Speed.Common.TimerCount.ToString">
+            <summary>
+            Pára e retorna o relatório do timer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.IO.FileTools.FileFindExtensions(System.String,System.String,System.IO.SearchOption)">
+            <summary>
+            Procuras no diretório, obdecendo os filtros, e contas as extenssões de todos os arquivos
+            </summary>
+            <param name="dir"></param>
+            <param name="searchPattern">searchPattern do nome do diretório</param>
+            <param name="searchOption">Recursivo ou não</param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.IO.FileTools.FileCopyExtensions(System.String,System.String,System.IO.SearchOption,System.String[])">
+            <summary>
+            Copia todos os arquivos, com as extensions fornecidas, localizado no diretório "dirSource" para
+            o diretório dirTarget
+            </summary>
+            <param name="dirSource"></param>
+            <param name="dirTarget"></param>
+            <param name="searchOption"></param>
+            <param name="extensions">Extensions. Ex: ".png", ".gif"</param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.IO.FileTools.FileDeleteSafes(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Apaga vários arquivos
+            </summary>
+            <param name="filenames"></param>
+        </member>
+        <member name="M:Speed.IO.FileTools.IsValidFile(System.String)">
+            <summary>
+            Retorna true se fileName não é nulo e o arquivo existe 
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.IO.FileTools.SetDatesAndAttributes(System.String,System.String)">
+            <summary>
+            Seta as datas e atributos de fileNameTarget igual a fileNameSource
+            </summary>
+            <param name="fileNameSource"></param>
+            <param name="fileNameTarget"></param>
+        </member>
+        <member name="M:Speed.IO.FileTools.ToValidPath(System.String)">
+            <summary>
+            Remove todos caracteres inválidos de path e retorna um válido path
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.SerializationUtil.ObjectToStringXml(System.Object)">
+            Converte a representação Xml de um objeto para uma instância do objeto
+        </member>
+        <member name="M:Speed.SerializationUtil.WriteToXml``1(System.String,``0)">
+            <summary>
+            Salva um objeto ao disco, no formato Xml
+            </summary>
+            <param name="fileName"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Speed.SerializationUtil.ReadFromXml``1(System.String)">
+            <summary>
+            Lê do disco um arquivo no formato Xml e converte numa instância do objeto
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Templates.RECORD_COLUMN_TEMPLATE_RAISEPROPERTYCHANGED">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

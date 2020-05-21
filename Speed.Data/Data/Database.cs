@@ -434,6 +434,17 @@ namespace Speed.Data
         }
 
         /// <summary>
+        /// Retorna todos os registros
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public List<T> Select<T>(int commandTimeout)
+        {
+            DataClass dc = getCache<T>();
+            return (List<T>)dc.Select(this, commandTimeout);
+        }
+
+        /// <summary>
         /// Return all records
         /// de dados, use concurrency = true
         /// </summary>
@@ -450,6 +461,12 @@ namespace Speed.Data
         {
             DataClass dc = getCache<T>();
             return (List<T>)dc.Select(this, where);
+        }
+
+        public List<T> Select<T>(string where, int commandTimeout)
+        {
+            DataClass dc = getCache<T>();
+            return (List<T>)dc.Select(this, where, commandTimeout);
         }
 
         public List<T> Select<T>(string where, params object[] args)

@@ -129,20 +129,20 @@ public partial class [ClassName] : DataClass
         }
     }
 
-    private List<[TypeName]> select(Database db, bool concurrency)
+    private List<[TypeName]> select(Database db, bool concurrency, int commandTimeout = 30)
     {
         string sql = '[Sql]';
-        return readReader(db, sql, concurrency);
+        return readReader(db, sql, concurrency, commandTimeout);
     }
 
-    private List<[TypeName]> select(Database db, string where, bool concurrency)
+    private List<[TypeName]> select(Database db, string where, bool concurrency, int commandTimeout = 30)
     {
         string sql;
         if (string.IsNullOrWhiteSpace(where))
             sql = '[Sql]';
         else
             sql = '[Sql] where ' + where;
-        return readReader(db, sql, concurrency);
+        return readReader(db, sql, concurrency, commandTimeout);
     }
 
     private List<[TypeName]> select(Database db, string where, params Parameter[] parameters)
@@ -412,12 +412,22 @@ public partial class [ClassName] : DataClass
         return select(db, false);
     }
 
+    public override object Select(Database db, int commandTimeout)
+    {
+        return select(db, false);
+    }
+
     public override object Select(Database db, bool concurrency)
     {
         return select(db, concurrency);
     }
 
     public override object Select(Database db, string where)
+    {
+        return select(db, where, false);
+    }
+
+    public override object Select(Database db, string where, int commandTimeout)
     {
         return select(db, where, false);
     }
