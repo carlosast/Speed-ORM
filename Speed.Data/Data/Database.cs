@@ -67,7 +67,10 @@ namespace Speed.Data
         private static DataClassCache cache = new DataClassCache();
         // private event EventHandler<DbSqlInfoMessage> infoMessage;
 
-        private int commandTimeout;
+        /// <summary>
+        /// CommandTimeout default. Default value = 30 seconds
+        /// </summary>
+        public int CommandTimeout { get; set; } = 30;
         private string connectionString;
         private DbConnectionStringBuilder connectionStringBuilder;
         internal static Dictionary<string, MethodInfo> refMethods = new Dictionary<string, MethodInfo>();
@@ -233,7 +236,7 @@ namespace Speed.Data
             provider = ProviderFactory.CreateProvider(this, providerType);
             this.connectionStringBuilder = provider.CreateConnectionStringBuilder(server, database, userId, password, integratedSecurity, port, embedded);
             this.connectionString = connectionStringBuilder.ToString();
-            this.commandTimeout = commandTimeout;
+            this.CommandTimeout = commandTimeout;
             // InitializeLinq();
         }
 
@@ -267,7 +270,7 @@ namespace Speed.Data
             }
             catch { }
 
-            this.commandTimeout = commandTimeout;
+            this.CommandTimeout = commandTimeout;
 #if USELINQ
             InitializeLinq();
 #endif
@@ -321,7 +324,7 @@ namespace Speed.Data
 
         public DbCommand NewCommand(string commandText, CommandType commandType = CommandType.Text)
         {
-            return NewCommand(commandText, this.commandTimeout, commandType);
+            return NewCommand(commandText, this.CommandTimeout, commandType);
         }
 
         public DbCommand NewCommand(string commandText, int commandTimeout, CommandType commandType = CommandType.Text)
@@ -718,13 +721,18 @@ namespace Speed.Data
 
         public List<T> SelectSql<T>(string sql)
         {
-            return SelectSql<T>(sql, false);
+            return SelectSql<T>(sql, CommandTimeout, false);
         }
 
-        public List<T> SelectSql<T>(string sql, bool concurrency)
+        public List<T> SelectSql<T>(string sql, int commandTimeout)
+        {
+            return SelectSql<T>(sql, commandTimeout, false);
+        }
+
+        public List<T> SelectSql<T>(string sql, int commandTimeout, bool concurrency)
         {
             DataClass dc = getCache<T>();
-            return (List<T>)dc.SelectSql(this, sql, concurrency);
+            return (List<T>)dc.SelectSql(this, sql, commandTimeout, concurrency);
         }
 
         public T SelectByPK<T>(T instance)
@@ -1055,9 +1063,9 @@ namespace Speed.Data
 
         #region ExecuteScalar
 
-        public object ExecuteScalar(string commandText)
+        public object ExecuteScalar(string commandText, int commandTimeout = 30, CommandType commandType = CommandType.Text)
         {
-            using (DbCommand cmd = NewCommand(commandText))
+            using (DbCommand cmd = NewCommand(commandText, commandTimeout, commandType))
                 return cmd.ExecuteScalar();
         }
 
@@ -1066,9 +1074,9 @@ namespace Speed.Data
             return ExecuteScalar(string.Format(commandText, args));
         }
 
-        public int ExecuteInt32(string commandText)
+        public int ExecuteInt32(string commandText, int commandTimeout = 30, CommandType commandType = CommandType.Text)
         {
-            using (DbCommand cmd = NewCommand(commandText))
+            using (DbCommand cmd = NewCommand(commandText, commandTimeout, commandType))
                 return Conv.ToInt32(cmd.ExecuteScalar());
         }
 
@@ -1077,9 +1085,9 @@ namespace Speed.Data
             return ExecuteInt32(string.Format(commandText, args));
         }
 
-        public long ExecuteInt64(string commandText)
+        public long ExecuteInt64(string commandText, int commandTimeout = 30, CommandType commandType = CommandType.Text)
         {
-            using (DbCommand cmd = NewCommand(commandText))
+            using (DbCommand cmd = NewCommand(commandText, commandTimeout, commandType))
                 return Conv.ToInt64(cmd.ExecuteScalar());
         }
 
@@ -1088,9 +1096,9 @@ namespace Speed.Data
             return ExecuteInt64(string.Format(commandText, args));
         }
 
-        public string ExecuteString(string commandText)
+        public string ExecuteString(string commandText, int commandTimeout = 30, CommandType commandType = CommandType.Text)
         {
-            using (DbCommand cmd = NewCommand(commandText))
+            using (DbCommand cmd = NewCommand(commandText, commandTimeout, commandType))
                 return Convert.ToString(cmd.ExecuteScalar());
         }
 
@@ -1187,7 +1195,7 @@ namespace Speed.Data
                 if (type.Contains("("))
                     type = type.Left(type.IndexOf("("));
                 var dataType = Provider.DataTypes.GetValue(type);
-                
+
                 if (dataType == null && type.Contains(" without"))
                 {
                     type = type.Left(type.IndexOf(" without"));
@@ -2584,7 +2592,7 @@ namespace Speed.Data
                     info.EnumAttributes = item.EnumAttributes;
 
                     if (string.IsNullOrEmpty(info.EnumName))
-                        info.EnumName = GetName("EnumDb[ClassName]".Replace("[ClassName]", item.DataClassName),  EnumNameCase.None);
+                        info.EnumName = GetName("EnumDb[ClassName]".Replace("[ClassName]", item.DataClassName), EnumNameCase.None);
 
                     if (!string.IsNullOrWhiteSpace(info.EnumAttributes))
                         ToString();

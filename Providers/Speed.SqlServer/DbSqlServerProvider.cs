@@ -557,7 +557,7 @@ END;';
 @"
 select CONVERT(NVARCHAR(20), MAX(modify_date), 20) From sys.objects where type in ('U', 'V')
 ";
-            return db.ExecuteString(sql);
+            return db.ExecuteString(sql, 300);
         }
 
         public TimeSpan GetTimeSpan(DbDataReader reader, int ordinal)

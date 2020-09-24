@@ -33,6 +33,13 @@ namespace Speed.Data
             return db;
         }
 
+        public static Database NewDb(int commandTimeout)
+        {
+            Database db = new Database(ProviderType, ConnectionString, commandTimeout);
+            db.Open();
+            return db;
+        }
+
         public static Database NewDb(EnumDbProviderType providerType, string connectionString)
         {
             Database db = new Database(providerType, connectionString, CommandTimeout);

@@ -1,1 +1,1 @@
-del *.nupkg /s/q
+del Speed*.nupkg /s/q

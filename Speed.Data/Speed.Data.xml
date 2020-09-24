@@ -55,6 +55,11 @@
             Cache estático (usado por todas as instâncias)
             </summary>
         </member>
+        <member name="P:Speed.Data.Database.CommandTimeout">
+            <summary>
+            CommandTimeout default. Default value = 30 seconds
+            </summary>
+        </member>
         <member name="P:Speed.Data.Database.UsingTransaction">
             <summary>
             Propriedade que indica que uma transação está em uso
@@ -78,6 +83,13 @@
             <param name="iso">Isolation Level</param>
         </member>
         <member name="M:Speed.Data.Database.Select``1">
+            <summary>
+            Retorna todos os registros
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Speed.Data.Database.Select``1(System.Int32)">
             <summary>
             Retorna todos os registros
             </summary>

@@ -108,12 +108,12 @@ public partial class [ClassName] : DataClass
         }
     }
 
-    private List<[TypeName]> readReaderSql(Database db, string sql, bool concurrency)
+    private List<[TypeName]> readReaderSql(Database db, string sql, int commandTimeout, bool concurrency)
     {
-        using (DbDataReader dr = db.ExecuteReader(sql))
+        using (DbDataReader dr = db.ExecuteReader(sql, commandTimeout))
         {
             List<[TypeName]> list = new List<[TypeName]>();
-            // pega os nomes das colunas continas no sql
+            // pega os nomes das colunas contidas no sql
             List<string> names = new List<string>();
             for (int i = 0; i < dr.FieldCount; i++)
                 names.Add(dr.GetName(i));
@@ -197,7 +197,7 @@ public partial class [ClassName] : DataClass
     private List<[TypeName]> selectColumns(Database db, bool concurrency, params string[] columns)
     {
         string sql = 'select ' + Concat(', ', columns) + ' from [TableName]';
-        return readReaderSql(db, sql, concurrency);
+        return readReaderSql(db, sql, 30, concurrency);
     }
 
     private List<[TypeName]> selectColumns(Database db, string where, bool concurrency, params string[] columns)
@@ -207,7 +207,7 @@ public partial class [ClassName] : DataClass
             sql = 'select ' + Concat(', ', columns) + ' from [TableName] ';
         else
             sql = 'select ' + Concat(', ', columns) + ' from [TableName] where ' + where;
-        return readReaderSql(db, sql, concurrency);
+        return readReaderSql(db, sql, 30, concurrency);
     }
 
     private [TypeName] selectSingle(Database db, bool concurrency)
@@ -429,7 +429,7 @@ public partial class [ClassName] : DataClass
 
     public override object Select(Database db, string where, int commandTimeout)
     {
-        return select(db, where, false);
+        return select(db, where, false, commandTimeout);
     }
 
     public override object Select(Database db, string where, bool concurrency)
@@ -737,12 +737,17 @@ public partial class [ClassName] : DataClass
 
     public override object SelectSql(Database db, string sql)
     {
-        return readReaderSql(db, sql, false);
+        return readReader(db, sql, false, 30);
     }
 
-    public override object SelectSql(Database db, string sql, bool concurrency)
+    public override object SelectSql(Database db, string sql, int commandTimeout)
     {
-        return readReaderSql(db, sql, concurrency);
+        return readReader(db, sql, false, commandTimeout);
+    }
+
+    public override object SelectSql(Database db, string sql, int commandTimeout, bool concurrency)
+    {
+        return readReader(db, sql, concurrency, commandTimeout);
     }
 
     public override object SelectByPk(Database db, object instance)

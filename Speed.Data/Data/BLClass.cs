@@ -145,9 +145,31 @@ namespace Speed.Data
                 return db.SelectSql<T>(sql);
         }
 
+        public static List<T> SelectSql(string sql, int commandTimeout)
+        {
+            using (var db = Sys.NewDb())
+                return db.SelectSql<T>(sql, commandTimeout);
+        }
+
+        public static List<T> SelectSql(string sql, int commandTimeout, bool concurrency)
+        {
+            using (var db = Sys.NewDb())
+                return db.SelectSql<T>(sql, commandTimeout, concurrency);
+        }
+
         public static List<T> SelectSql(Database db, string sql)
         {
             return db.SelectSql<T>(sql);
+        }
+
+        public static List<T> SelectSql(Database db, string sql, int commandTimeout)
+        {
+            return db.SelectSql<T>(sql, commandTimeout);
+        }
+
+        public static List<T> SelectSql(Database db, string sql, int commandTimeout, bool concurrency)
+        {
+            return db.SelectSql<T>(sql, commandTimeout, concurrency);
         }
 
         public static List<T> SelectPage(Database db, int start, int pageSize = 20, string sort = null, int commandTimeout = 30)
@@ -251,6 +273,18 @@ namespace Speed.Data
         {
             using (var db = Sys.NewDb())
                 return db.SelectByPK<T>(rec);
+        }
+
+        public static List<T> SelectTop(int top)
+        {
+            using (var db = Sys.NewDb())
+                return db.SelectTop<T>(top);
+        }
+
+        public static List<T> SelectTop(int top, string where)
+        {
+            using (var db = Sys.NewDb())
+                return db.SelectTop<T>(top, where);
         }
 
         public static void Save(Database db, T rec, EnumSaveMode saveMode = EnumSaveMode.None)

@@ -31,7 +31,7 @@ namespace Speed.Data
 
         public Record()
         {
-            this.RecordStatus = RecordStatus.New;
+            this.RecordStatus = Speed.Data.RecordStatus.New;
         }
 
 

@@ -352,10 +352,10 @@
     <PublishFile Include="FirebirdSql.Data.FirebirdClient">
       <Visible>False</Visible>
       <Group>Optional</Group>
-      <TargetPath>
-      </TargetPath>
       <PublishState>Auto</PublishState>
       <IncludeHash>True</IncludeHash>
+      <TargetPath>
+      </TargetPath>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>
