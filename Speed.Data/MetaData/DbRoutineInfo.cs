@@ -7,118 +7,119 @@ using System.Runtime.Serialization;
 namespace Speed.Data.MetaData
 {
 
+    [DataContract]
     public class DbRoutineInfo
     {
 
-        // // [DataMember]
+        [DataMember]
         public string SpecificCatalog { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string SpecificSchema { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string SpecificName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string RoutineCatalog { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string RoutineSchema { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string RoutineName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string RoutineTypeStr { get; set; }
-        // // [DataMember]
+        [DataMember]
         public EnumRoutineType RoutineType { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ModuleCatalog { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ModuleSchema { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ModuleName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string UdtCatalog { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string UdtSchema { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string UdtName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string DataType { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CharacterMaximumLength { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CharacterOctetLength { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CollationCatalog { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CollationSchema { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CollationName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CharacterSetCatalog { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CharacterSetSchema { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CharacterSetName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string NumericPrecision { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string NumericPrecisionRadix { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string NumericScale { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string DatetimePrecision { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string IntervalType { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string IntervalPrecision { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string TypeUdtCatalog { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string TypeUdtSchema { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string TypeUdtName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ScopeCatalog { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ScopeSchema { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ScopeName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string MaximumCardinality { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string DtdIdentifier { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string RoutineBody { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string RoutineDefinition { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ExternalName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ExternalLanguage { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ParameterStyle { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string IsDeterministic { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string SqlDataAccess { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string IsNullCall { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string SqlPath { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string SchemaLevelRoutine { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string MaxDynamicResultSets { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string IsUserDefinedCast { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string IsImplicitlyInvocable { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string Created { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string LastAltered { get; set; }
 
-        // // [DataMember]
+        [DataMember]
         public string FullName { get { return string.IsNullOrEmpty(RoutineSchema) ? RoutineName : RoutineSchema + "." + RoutineName; } }
 
-        // // [DataMember]
+        [DataMember]
         public List<DbParameterInfo> Parameters { get; set; }
 
         public DbRoutineInfo()

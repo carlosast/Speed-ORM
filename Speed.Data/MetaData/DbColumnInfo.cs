@@ -11,7 +11,7 @@ namespace Speed.Data.MetaData
     /// Classe com informações de uma coluna da base de dados
     /// </summary>
 
-    // // [DataContract]
+    [DataContract]
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
@@ -20,51 +20,51 @@ namespace Speed.Data.MetaData
 
         #region Declarations
 
-        // // [DataMember]
+        [DataMember]
         public string TableCatalog { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string TableSchema { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string TableName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ColumnName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public int OrdinalPosition { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ColumnDefault { get; set; }
-        // // [DataMember]
+        [DataMember]
         public bool IsNullable { get; set; }
-        // // [DataMember]
+        [DataMember]
         public bool IsIdentity { get; set; }
-        // // [DataMember]
+        [DataMember]
         public bool IsComputed { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string DataType { get; set; }
 
         private string dataTypeDotNet;
 
-        // // [DataMember]
+        [DataMember]
         public long CharacterMaximumLength { get; set; }
-        // // [DataMember]
+        [DataMember]
         public long CharacterOctetLength { get; set; }
-        // // [DataMember]
+        [DataMember]
         public byte NumericPrecision { get; set; }
-        // // [DataMember]
+        [DataMember]
         public short NumericPrecisionRadix { get; set; }
-        // // [DataMember]
+        [DataMember]
         public int NumericScale { get; set; }
-        // // [DataMember]
+        [DataMember]
         public short DatetimePrecision { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CharacterSetCatalog { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CharacterSetSchema { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CharacterSetName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CollationCatalog { get; set; }
 
-        // // [DataMember]
+        [DataMember]
         public bool AddQuote = false;
 
         #endregion Declarations
@@ -183,7 +183,7 @@ namespace Speed.Data.MetaData
             IsIdentity = col.AutoIncrement;
         }
 
-        // // [DataMember]
+        [DataMember]
         public string DataTypeDotNet
         {
             get { return dataTypeDotNet; }

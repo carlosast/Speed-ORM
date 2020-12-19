@@ -657,6 +657,8 @@ namespace Speed.Data.Generation
             if (identityColumn != null)
                 text = text.Replace("[IdentityColumn]", db.Provider.GetObjectName(identityColumn.ColumnName));
 
+            //fullTableName = fullTableName.Replace("\"", "\\\"\"");
+
             text = text.Replace("[ClassName]", className);
             text = text.Replace("[TypeName]", fullTypeName);
             text = text.Replace("[Sql]", Q(db, sql));
@@ -697,7 +699,15 @@ namespace Speed.Data.Generation
             text = text.Replace("[UpdateColumns]", Q(db, updateColumns));
             text = text.Replace("[SortDefault]", Q(db, !string.IsNullOrWhiteSpace(pkColumns) ? pkColumns : "1"));
 
+            text = DbUtil.ParsePoco(text, isPoco);
+
 #if DEBUG
+
+            if (table.TableName == "WS_MENSAGEM_ENVIO")
+            {
+                table.ToString();
+            }
+
             // Descomentar somente se for necessário. Impacta muito a performance
             try
             {
@@ -708,7 +718,6 @@ namespace Speed.Data.Generation
             }
             catch { }
 #endif
-            text = DbUtil.ParsePoco(text, isPoco);
 
             return text;
         }

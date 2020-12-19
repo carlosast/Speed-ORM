@@ -4,17 +4,18 @@ using System.Runtime.Serialization;
 namespace Speed.Data.MetaData
 {
 
+    [DataContract]
     public class TableInfo
     {
-        // // [DataMember]
+        [DataMember]
         public string TableCatalog { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string TableSchema { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string TableName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public EnumTableType TableType { get; set; }
-        // // [DataMember]
+        [DataMember]
 
         public DateTime? DateModified { get; set; }
 

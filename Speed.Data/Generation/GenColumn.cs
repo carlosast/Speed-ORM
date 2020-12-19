@@ -1,9 +1,12 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace Speed.Data.Generation
 {
 
+    [Serializable]
+    [DataContract]
     public class GenColumn
     {
 

@@ -9,10 +9,10 @@ Use the Speed application to generate data classes:
 https://github.com/carlosast/Speed-ORM</Description>
     <Authors>Carlos Alberto Stefani</Authors>
     <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
-    <Version>1.0.1.30</Version>
+    <Version>1.0.1.31</Version>
     <RepositoryUrl></RepositoryUrl>
-    <FileVersion>1.0.1.30</FileVersion>
-    <AssemblyVersion>1.0.1.30</AssemblyVersion>
+    <FileVersion>1.0.1.31</FileVersion>
+    <AssemblyVersion>1.0.1.31</AssemblyVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>

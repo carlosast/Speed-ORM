@@ -187,7 +187,7 @@ namespace Speed.Data
                     var table = DataReflectionUtil.GetTableName(type);
                     if (table != null)
                     {
-                        throw new Exception("Table not compiled: " + table + "\r\nErrors\r\n\r\n: " + string.Join(", ", Database.Errors));
+                        throw new Exception("Uncompiled tables: " + table + "\r\nErrors\r\n\r\n: " + string.Join(", ", Database.Errors));
                     }
                     else
                     {
@@ -295,7 +295,7 @@ namespace Speed.Data
             if (erros.Length > 0)
             {
                 Sys.Trace("Erros: " + erros.ToString());
-                throw new Exception(erros.ToString());
+                Database.Errors.Add(erros.ToString());
             }
 
             StringBuilder b = new StringBuilder();

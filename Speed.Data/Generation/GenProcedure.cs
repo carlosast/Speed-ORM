@@ -13,20 +13,20 @@ namespace Speed.Data.Generation
         /// <summary>
         /// Nome do Schema do banco de dados que a tabela pertence
         /// </summary>
-        // // [DataMember]
+        [DataMember]
         public string SchemaName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ProcedureName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string MethodName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ReturnTypeName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public EnumReturnType ReturnType { get; set; }
         /// <summary>
         /// Nome completo da Table
         /// </summary>
-        //// // [DataMember]
+        //[DataMember]
         // // // //[XmlIgnore]
         public string FullName
         {
@@ -41,7 +41,7 @@ namespace Speed.Data.Generation
         /// <summary>
         /// Se a prccedure será processada
         /// </summary>
-        // // [DataMember]
+        [DataMember]
         public bool IsSelected = true;
 
         public GenProcedure()

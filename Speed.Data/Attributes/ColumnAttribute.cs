@@ -11,48 +11,49 @@ namespace Speed.Data
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
+    [DataContract]
     public class DbColumnAttribute : Attribute
     {
 
-        // // [DataMember]
+        [DataMember]
         public string TableCatalog { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string TableSchema { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string TableName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ColumnName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public int OrdinalPosition { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string ColumnDefault { get; set; }
-        // // [DataMember]
+        [DataMember]
         public bool IsNullable { get; set; }
-        // // [DataMember]
+        [DataMember]
         public bool IsIdentity { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string DataType { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string DataTypeDotNet { get; set; }
-        // // [DataMember]
+        [DataMember]
         public int CharacterMaximumLength { get; set; }
-        // // [DataMember]
+        [DataMember]
         public int CharacterOctetLength { get; set; }
-        // // [DataMember]
+        [DataMember]
         public byte NumericPrecision { get; set; }
-        // // [DataMember]
+        [DataMember]
         public short NumericPrecisionRadix { get; set; }
-        // // [DataMember]
+        [DataMember]
         public int NumericScale { get; set; }
-        // // [DataMember]
+        [DataMember]
         public short DatetimePrecision { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CharacterSetCatalog { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CharacterSetSchema { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CharacterSetName { get; set; }
-        // // [DataMember]
+        [DataMember]
         public string CollationCatalog { get; set; }
 
         public DbColumnAttribute()

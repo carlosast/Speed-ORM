@@ -174,7 +174,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>1088DCC9BDFBE5A8C16B075C24DE7134EDA4D204</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>A81E80EF20DF0D439E7D97485A8F2CBF3396BB3A</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>Speed.pfx</ManifestKeyFile>
@@ -192,8 +192,7 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Speed.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
@@ -260,9 +259,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="..\Speed.pfx">
-      <Link>Speed.pfx</Link>
-    </None>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -279,6 +275,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Speed.pfx" />
+    <None Include="Speed_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="APP.ico" />

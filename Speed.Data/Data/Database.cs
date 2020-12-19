@@ -1109,6 +1109,16 @@ namespace Speed.Data
 
         #endregion ExecuteScalar
 
+        #region ExecuteProcedure
+
+        public int ExecuteProcedure(string procName, int commandTimeout = 30)
+        {
+            return ExecuteNonQuery(procName, CommandType.StoredProcedure, commandTimeout);
+        }
+
+        #endregion ExecuteProcedure
+
+
         #region ExecuteReader
 
         public DbDataReader ExecuteReader(string commandText)

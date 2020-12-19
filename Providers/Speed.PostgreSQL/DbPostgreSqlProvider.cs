@@ -220,7 +220,11 @@ namespace Speed.Data
 
         public string GetObjectName(string schemaName, string name, bool quote = true)
         {
-            return string.IsNullOrEmpty(schemaName) ? GetObjectName(name) : string.Format("{0}.{1}", GetObjectName(schemaName), GetObjectName(name));
+            return string.IsNullOrEmpty(schemaName) 
+                ? GetObjectName(name)
+                // se tiver o schemaName, não usa quote para o name,pq senão dá erros ao gerar o código
+                // tudo por causa do doublequotes
+                : string.Format("{0}.{1}", GetObjectName(schemaName), getObjectName(name));
         }
 
         public string SetTop(string sql, long count)
@@ -426,7 +430,11 @@ FROM pg_catalog.pg_attribute a, pg_namespace n, pg_class c
             get
             {
                 if (reservedWords == null)
+                {
                     reservedWords = db.GetReservedWordsGeneric();
+                    if (reservedWords.ContainsKey("ORDER"))
+                        reservedWords.Remove("ORDER");
+                }
                 return reservedWords;
             }
         }

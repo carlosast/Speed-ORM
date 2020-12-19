@@ -159,6 +159,7 @@ namespace [NameSpace]
         /// ColumnName: [ColumnName]
         /// </summary>
         [DbColumn('[ColumnName]')]
+        [DataMember]
         [DataAnnotation]
         public [DataTypeNullable] [PopertyName] { get; set; }
 
@@ -172,6 +173,7 @@ namespace [NameSpace]
         /// ColumnName: [ColumnName]
         /// </summary>
         [DbColumn('[ColumnName]')]
+        [DataMember]
         public [DataTypeNullable] [ColumnName]
         {
             get { return z_[ColumnName]; }

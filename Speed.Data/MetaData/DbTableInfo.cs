@@ -11,6 +11,7 @@ namespace Speed.Data.MetaData
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
+    [DataContract]
     public class DbTableInfo
     {
 

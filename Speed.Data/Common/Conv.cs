@@ -413,6 +413,23 @@ namespace Speed.Common
 
         }
 
+        public static decimal ToDecimal(this object value)
+        {
+            if (value == null)
+            {
+                return 0;
+            }
+
+            decimal result;
+
+            if (decimal.TryParse(value.ToString(), out result))
+            {
+                return result;
+            }
+
+            return 0;
+        }
+
         public static decimal ToDecimal(this object value, CultureInfo culture = null)
         {
             culture = culture ?? Culture;
