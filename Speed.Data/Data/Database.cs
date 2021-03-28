@@ -70,7 +70,7 @@ namespace Speed.Data
         /// <summary>
         /// CommandTimeout default. Default value = 30 seconds
         /// </summary>
-        public int CommandTimeout { get; set; } = 30;
+        public static int CommandTimeout { get; set; } = 30;
         private string connectionString;
         private DbConnectionStringBuilder connectionStringBuilder;
         internal static Dictionary<string, MethodInfo> refMethods = new Dictionary<string, MethodInfo>();
@@ -236,7 +236,7 @@ namespace Speed.Data
             provider = ProviderFactory.CreateProvider(this, providerType);
             this.connectionStringBuilder = provider.CreateConnectionStringBuilder(server, database, userId, password, integratedSecurity, port, embedded);
             this.connectionString = connectionStringBuilder.ToString();
-            this.CommandTimeout = commandTimeout;
+            Database.CommandTimeout = commandTimeout;
             // InitializeLinq();
         }
 
@@ -270,7 +270,7 @@ namespace Speed.Data
             }
             catch { }
 
-            this.CommandTimeout = commandTimeout;
+            Database.CommandTimeout = commandTimeout;
 #if USELINQ
             InitializeLinq();
 #endif
@@ -324,7 +324,7 @@ namespace Speed.Data
 
         public DbCommand NewCommand(string commandText, CommandType commandType = CommandType.Text)
         {
-            return NewCommand(commandText, this.CommandTimeout, commandType);
+            return NewCommand(commandText, Database.CommandTimeout, commandType);
         }
 
         public DbCommand NewCommand(string commandText, int commandTimeout, CommandType commandType = CommandType.Text)
@@ -721,7 +721,7 @@ namespace Speed.Data
 
         public List<T> SelectSql<T>(string sql)
         {
-            return SelectSql<T>(sql, CommandTimeout, false);
+            return SelectSql<T>(sql, Database.CommandTimeout, false);
         }
 
         public List<T> SelectSql<T>(string sql, int commandTimeout)

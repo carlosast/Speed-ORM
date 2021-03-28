@@ -23,7 +23,14 @@ namespace Speed.Data
         static Sys()
         {
             var ass = Assembly.GetEntryAssembly() ?? (Assembly.GetCallingAssembly() ?? Assembly.GetExecutingAssembly());
-            AppDirectory = Path.GetDirectoryName(ass.Location);
+            if (ass.Location == null)
+            {
+                AppDirectory = Directory.GetCurrentDirectory();
+            }
+            else
+            {
+                AppDirectory = Path.GetDirectoryName(ass.Location);
+            }
         }
 
         public static Database NewDb()

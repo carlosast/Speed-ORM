@@ -30,9 +30,17 @@ namespace Speed.Common
 
                 try
                 {
-                    asm = Assembly.Load(assName);
+                    asm = Assembly.Load(Path.Combine(Directory.GetCurrentDirectory(), assName));
                 }
-                catch { }
+                catch
+                {
+                    try
+                    {
+                        asm = Assembly.Load(assName);
+                    }
+                    catch { }
+                }
+
 
                 if (asm == null)
                 {
