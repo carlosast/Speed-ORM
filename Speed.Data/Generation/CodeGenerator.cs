@@ -812,7 +812,9 @@ namespace Speed.Data.Generation
                     asmCompModel = assemblies.FirstOrDefault(p => p.Contains("System.Data"));
                 if (asmCompModel != null)
                 {
-                    var files = Directory.GetFiles(Path.GetDirectoryName(asmCompModel), "System.*.dll").ToList();
+                    //var files = Directory.GetFiles(Path.GetDirectoryName(asmCompModel), "System.*.dll").ToList();
+                    var files = Directory.GetFiles(Path.GetDirectoryName(asmCompModel), "System.*.dll")
+                        .Where(p => !Path.GetFileName(p).Contains("Native", StringComparison.OrdinalIgnoreCase)).ToList();
                     foreach (var asmPath in files)
                     {
                         if (!assemblies.Contains(asmPath))

@@ -30,6 +30,8 @@ namespace Speed.Data
             else
             {
                 AppDirectory = Path.GetDirectoryName(ass.Location);
+                if (string.IsNullOrWhiteSpace(AppDirectory))
+                    AppDirectory = Directory.GetCurrentDirectory();
             }
         }
 
