@@ -100,7 +100,7 @@ namespace Speed.Data
             {
 #if NET40
                 csb.UserName = userId;
-#elif NETSTANDARD2_0 || NET45
+#else
                 csb.Username = userId;
 #endif
             }

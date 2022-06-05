@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using Speed.Common;
 
-#if NETSTANDARD2_0
+#if !NET40
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Emit;
@@ -767,7 +767,7 @@ namespace Speed.Data.Generation
             return "P_" + name.Replace(' ', '_');
         }
 
-#if NETSTANDARD2_0
+#if !NET40
         /// <summary>
         /// Compile generated code
         /// </summary>

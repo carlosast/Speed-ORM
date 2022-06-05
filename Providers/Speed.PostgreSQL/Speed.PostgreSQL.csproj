@@ -1,51 +1,49 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <PackageId>Speed.ORM.PostgreSQL</PackageId>
-    <PackageTags>Speed;Faster;orm;sql;micro-orm;MySql</PackageTags>
-    <Title>Speed.MySql</Title>
-    <Description>High performance database access library.
-Use the Speed application to generate data classes:
-https://github.com/carlosast/Speed-ORM</Description>
-    <Authors>Carlos Alberto Stefani</Authors>
-    <TargetFrameworks>net40;net45;netstandard2.0</TargetFrameworks>
-    <Version>1.0.1.33</Version>
-    <PackageProjectUrl>https://github.com/carlosast/Speed-ORM</PackageProjectUrl>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <AssemblyVersion>1.0.1.18</AssemblyVersion>
-    <FileVersion>1.0.1.18</FileVersion>
-    <Company>Carlos Alberto Stefanis</Company>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-  </PropertyGroup>
+	<PropertyGroup>
+		<PackageId>Speed.ORM.PostgreSQL</PackageId>
+		<PackageTags>Speed;Faster;orm;sql;micro-orm;MySql</PackageTags>
+		<Title>Speed.MySql</Title>
+		<Description>
+			High performance database access library.
+			Use the Speed application to generate data classes:
+			https://github.com/carlosast/Speed-ORM
+		</Description>
+		<Authors>Carlos Alberto Stefani</Authors>
+		<TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+		<Version>2.0.0</Version>
+		<PackageProjectUrl>https://github.com/carlosast/Speed-ORM</PackageProjectUrl>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<AssemblyVersion>1.0.1.18</AssemblyVersion>
+		<FileVersion>1.0.1.18</FileVersion>
+		<Company>Carlos Alberto Stefanis</Company>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
-    <DefineConstants />
-    <DocumentationFile>D:\Github\Speed\APP\Providers\Speed.PostgreSQL\Speed.PostgreSQL.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants />
+		<DocumentationFile>D:\Github\Speed\APP\Providers\Speed.PostgreSQL\Speed.PostgreSQL.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="Npgsql">
-      <Version>4.1.2</Version>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+		<PackageReference Include="Npgsql">
+			<Version>4.1.2</Version>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-    <PackageReference Include="Npgsql" Version="2.2.5" />
-  </ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="Npgsql" Version="5.0.12" />
+	</ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-    <PackageReference Include="Npgsql" Version="4.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Speed.Data\Speed.Data.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Speed.Data\Speed.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Mono.Security">
-      <HintPath>..\..\Lib\Mono\Mono.Security.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="Mono.Security">
+			<HintPath>..\..\Lib\Mono\Mono.Security.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>

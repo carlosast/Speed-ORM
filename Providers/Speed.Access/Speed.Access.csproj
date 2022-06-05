@@ -8,12 +8,12 @@
 Use the Speed application to generate data classes:
 https://github.com/carlosast/Speed-ORM</Description>
     <Authors>Carlos Alberto Stefani</Authors>
-    <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
-    <Version>1.0.1.33</Version>
+	  <TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+	  <Version>2.0.0</Version>
     <PackageProjectUrl>https://github.com/carlosast/Speed-ORM</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <AssemblyVersion>1.0.1.33</AssemblyVersion>
-    <FileVersion>1.0.1.33</FileVersion>
+    <AssemblyVersion>2.0.0</AssemblyVersion>
+    <FileVersion>2.0.0</FileVersion>
     <Company>Carlos Alberto Stefani</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Product>Speed.Access</Product>
@@ -23,7 +23,7 @@ https://github.com/carlosast/Speed-ORM</Description>
     <StartupObject />
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants />
     <DocumentationFile>D:\Github\Speed\APP\Providers\Speed.Access\Speed.Access.xml</DocumentationFile>
   </PropertyGroup>
@@ -31,14 +31,11 @@ https://github.com/carlosast/Speed-ORM</Description>
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="System.Data.OleDb">
-      <Version>4.6.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Data.SqlClient" Version="4.4.3" />
+  <ItemGroup>
+    <PackageReference Include="System.Data.OleDb" Version="6.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
     <ProjectReference Include="..\..\Speed.Data\Speed.Data.csproj" />
   </ItemGroup>
 

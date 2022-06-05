@@ -8,29 +8,33 @@
 Use the Speed application to generate data classes:
 https://github.com/carlosast/Speed-ORM</Description>
     <Authors>Carlos Alberto Stefani</Authors>
-    <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
-    <Version>1.0.1.33</Version>
+    <TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+    <Version>2.0.0</Version>
     <RepositoryUrl></RepositoryUrl>
-    <FileVersion>1.0.1.33</FileVersion>
-    <AssemblyVersion>1.0.1.33</AssemblyVersion>
+    <FileVersion>2.0.0</FileVersion>
+    <AssemblyVersion>2.0.0</AssemblyVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>D:\Github\Speed\APP\Providers\Speed.Oracle\Speed.Oracle.xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-    <PackageReference Include="Oracle.ManagedDataAccess" Version="19.6.0" />
-  </ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.50" />
+	</ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.31" />
-  </ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
+		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.50" />
+	</ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.50" />
+	</ItemGroup>
+
+	<ItemGroup>
     <ProjectReference Include="..\..\Speed.Data\Speed.Data.csproj" />
   </ItemGroup>
 
