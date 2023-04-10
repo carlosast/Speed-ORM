@@ -269,34 +269,44 @@ namespace Speed.Data
             return "SCOPE_IDENTITY()";
         }
 
-        /*
-        public string GetIdentityColumn(string database, string schemaName, string tableName)
+        public string GetIdentityColumn1(string database, string schemaName, string tableName)
         {
             string sql = string.Format(
-            "SELECT c.name FROM syscolumns c, sysobjects o WHERE c.id = o.id AND (c.status & 128) = 128 and o.id = OBJECT_ID('{0}') {1};",
-            tableName, !string.IsNullOrEmpty(schemaName) ? "schema_name(o.uid) = '" + db.Provider.GetObjectName(schemaName) : "");
+            "SELECT c.name FROM syscolumns c, sysobjects o WHERE c.id = o.id AND (c.status & 128) = 128 and o.id = OBJECT_ID('{0}')",
+            tableName, !string.IsNullOrEmpty(schemaName) ? "schema_name(o.uid) = '" + db.Provider.GetObjectName(schemaName) + "'" : "");
             return db.ExecuteString(sql);
         }
-        */
 
         Dictionary<string, string> bufferIdentity;
         public string GetIdentityColumn(string database, string schemaName, string tableName)
         {
+            string schema = string.IsNullOrWhiteSpace(schemaName) ? "dbo" : schemaName;
+            string key = $"{schema}.{tableName}";
+
             if (bufferIdentity == null)
             {
                 string sql = string.Format(
-                "SELECT o.name, c.name FROM syscolumns c, sysobjects o WHERE c.id = o.id AND (c.status & 128) = 128;",
+                "SELECT SCHEMA_NAME(o.uid) SchemaName, o.name, c.name FROM syscolumns c, sysobjects o WHERE c.id = o.id AND (c.status & 128) = 128;",
                 //tableName, !string.IsNullOrEmpty(schemaName) ? "schema_name(o.uid) = '" + db.Provider.GetObjectName(schemaName) : "");
 
                 bufferIdentity = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase));
                 using (var dr = db.ExecuteReader(sql))
                 {
                     while (dr.Read())
-                        bufferIdentity.Add(dr.GetString(0), dr.GetString(1));
+                    {
+                        try
+                        {
+                            bufferIdentity.Add($"{dr.GetString(0)}.{dr.GetString(1)}", dr.GetString(2));
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.ToString();
+                        }
+                    }
                 }
             }
-            if (bufferIdentity.ContainsKey(tableName))
-                return bufferIdentity[tableName];
+            if (bufferIdentity.ContainsKey(key))
+                return bufferIdentity[key];
             else
                 return null;
         }

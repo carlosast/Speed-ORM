@@ -50,7 +50,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Speed.Access", "Providers\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Speed.PostgreSQL", "Providers\Speed.PostgreSQL\Speed.PostgreSQL.csproj", "{1EEDC3F6-715A-4255-B488-7F693FEE92C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesteSqlServer", "Testes\TesteSqlServer\TesteSqlServer.csproj", "{3C9E6E3A-B32F-4515-B839-004627FC0A10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TesteSqlServer", "Testes\TesteSqlServer\TesteSqlServer.csproj", "{3C9E6E3A-B32F-4515-B839-004627FC0A10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

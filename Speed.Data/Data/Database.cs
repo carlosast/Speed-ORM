@@ -1010,7 +1010,7 @@ namespace Speed.Data
 
         #region ExecuteNonQuery
 
-        public int ExecuteNonQuery(string commandText, params object[] args)
+        public int ExecuteNonQueryFormat(string commandText, params object[] args)
         {
             return ExecuteNonQuery(string.Format(commandText, args));
         }
@@ -1021,14 +1021,14 @@ namespace Speed.Data
                 return cmd.ExecuteNonQuery();
         }
 
-        public int ExecuteNonQuery(string commandText, params Parameter[] parameters)
-        {
-            using (DbCommand cmd = NewCommand(commandText, CommandType.Text))
-            {
-                cmd.Parameters.AddRange(ConvertParameters(parameters));
-                return cmd.ExecuteNonQuery();
-            }
-        }
+        //public int ExecuteNonQuery(string commandText, params Parameter[] parameters)
+        //{
+        //    using (DbCommand cmd = NewCommand(commandText, CommandType.Text))
+        //    {
+        //        cmd.Parameters.AddRange(ConvertParameters(parameters));
+        //        return cmd.ExecuteNonQuery();
+        //    }
+        //}
 
         public int ExecuteNonQuery(string commandText, CommandType commandType, params Parameter[] parameters)
         {
@@ -1133,16 +1133,16 @@ namespace Speed.Data
             return cmd.ExecuteReader();
         }
 
-        public DbDataReader ExecuteReader(string commandText, params Parameter[] parameters)
-        {
-            DbCommand cmd = NewCommand(commandText);
-            if (parameters != null)
-            {
-                foreach (var par in parameters)
-                    cmd.Parameters.Add(provider.Convert(par));
-            }
-            return cmd.ExecuteReader();
-        }
+        //public DbDataReader ExecuteReader(string commandText, params Parameter[] parameters)
+        //{
+        //    DbCommand cmd = NewCommand(commandText);
+        //    if (parameters != null)
+        //    {
+        //        foreach (var par in parameters)
+        //            cmd.Parameters.Add(provider.Convert(par));
+        //    }
+        //    return cmd.ExecuteReader();
+        //}
 
         public DbDataReader ExecuteReader(string commandText, int commandTimeout, params Parameter[] parameters)
         {
