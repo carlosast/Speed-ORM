@@ -1021,14 +1021,13 @@ namespace Speed.Data
                 return cmd.ExecuteNonQuery();
         }
 
-        //public int ExecuteNonQuery(string commandText, params Parameter[] parameters)
-        //{
-        //    using (DbCommand cmd = NewCommand(commandText, CommandType.Text))
-        //    {
-        //        cmd.Parameters.AddRange(ConvertParameters(parameters));
-        //        return cmd.ExecuteNonQuery();
-        //    }
-        //}
+        public int ExecuteNonQuery(string commandText)
+        {
+            using (DbCommand cmd = NewCommand(commandText, CommandType.Text))
+            {
+                return cmd.ExecuteNonQuery();
+            }
+        }
 
         public int ExecuteNonQuery(string commandText, CommandType commandType, params Parameter[] parameters)
         {
@@ -1132,17 +1131,6 @@ namespace Speed.Data
             DbCommand cmd = NewCommand(commandText, commandTimeout);
             return cmd.ExecuteReader();
         }
-
-        //public DbDataReader ExecuteReader(string commandText, params Parameter[] parameters)
-        //{
-        //    DbCommand cmd = NewCommand(commandText);
-        //    if (parameters != null)
-        //    {
-        //        foreach (var par in parameters)
-        //            cmd.Parameters.Add(provider.Convert(par));
-        //    }
-        //    return cmd.ExecuteReader();
-        //}
 
         public DbDataReader ExecuteReader(string commandText, int commandTimeout, params Parameter[] parameters)
         {

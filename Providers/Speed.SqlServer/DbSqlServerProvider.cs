@@ -355,8 +355,8 @@ namespace Speed.Data
             {
                 sql = "select * from (select DB_NAME() table_catalog, schema_name(schema_id) schema_name, name table_name, type table_type, modify_date from sys.objects where type in ('U', 'V')) T ";
                 var w = new List<string>();
-                if (string.IsNullOrEmpty(tableSchema))
-                    w.Add("schema_name = '" + tableSchema);
+                if (!string.IsNullOrEmpty(tableSchema))
+                    w.Add("schema_name = '" + tableSchema + "'");
                 if (tableType == EnumTableType.Table)
                     w.Add("table_type = 'U'");
                 else if (tableType == EnumTableType.Table)

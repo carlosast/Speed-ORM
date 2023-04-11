@@ -96,7 +96,7 @@ public partial class [ClassName] : DataClass
     private [TypeName] readReaderSingle(Database db, string sql, Parameter[] parameters)
     {
         [TypeName] value = null;
-        using (DbDataReader dr = db.ExecuteReader(sql, parameters))
+        using (DbDataReader dr = db.ExecuteReader(sql, 300, parameters))
         {
             List<[TypeName]> list = new List<[TypeName]>();
             if (dr.Read())

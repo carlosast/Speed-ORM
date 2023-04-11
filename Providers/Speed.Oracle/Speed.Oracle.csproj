@@ -9,7 +9,7 @@ Use the Speed application to generate data classes:
 https://github.com/carlosast/Speed-ORM</Description>
     <Authors>Carlos Alberto Stefani</Authors>
     <TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
-    <Version>2.0.3</Version>
+    <Version>2.0.4</Version>
     <RepositoryUrl></RepositoryUrl>
     <FileVersion>2.0.0</FileVersion>
     <AssemblyVersion>2.0.0</AssemblyVersion>
