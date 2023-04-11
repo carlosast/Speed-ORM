@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <PackageId>Speed.ORM.SqlServer</PackageId>
@@ -26,15 +26,15 @@ https://github.com/carlosast/Speed-ORM</Description>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-		<PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
 	</ItemGroup>
 
 	<ItemGroup>
