@@ -224,6 +224,24 @@ from
             return new OracleDataAdapter((OracleCommand)cmd);
         }
 
+        public DbParameter CreateParameter(string parameterName, object value)
+        {
+            return new OracleParameter(parameterName, value);
+        }
+
+        public DbParameter CreateParameter(string parameterName, DbType dbType, ParameterDirection direction, object value, int size = 0)
+        {
+            OracleParameter par = new OracleParameter(parameterName, value);
+            par.DbType = dbType;
+            par.Direction = direction;
+            par.Value = value;
+            if (size > 0)
+                par.Size = size;
+            par.Direction = direction;
+            par.DbType = dbType;
+            return par;
+        }
+
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, string dataType, object value)
         {
             OracleParameter par = new OracleParameter(parameterName, value);

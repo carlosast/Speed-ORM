@@ -4,7 +4,6 @@ using System.Data.OleDb;
 using System.Data.Common;
 using System.Data;
 using Speed.Data.MetaData;
-using Speed.Common;
 
 namespace Speed.Data
 {
@@ -12,19 +11,19 @@ namespace Speed.Data
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
-    class DbAccessProvider : IDbProvider
+    class DbOleDbProvider : IDbProvider
     {
 
         Database db;
         public string ParameterSymbol { get { return "@"; } }
         public string ParameterSymbolVar { get { return ParameterSymbol; } }
 
-        public DbAccessProvider(Database db)
+        public DbOleDbProvider(Database db)
         {
             this.db = db;
         }
 
-        ~DbAccessProvider()
+        ~DbOleDbProvider()
         {
             db = null;
         }
@@ -45,12 +44,12 @@ namespace Speed.Data
 
         public bool SupportInformationSchema
         {
-            get { return false; }
+            get { return true; }
         }
 
         public bool SupportBatchStatements
         {
-            get { return false; }
+            get { return true; }
         }
 
         public DbConnectionStringBuilder CreateConnectionStringBuilder(string connectionString)
@@ -61,37 +60,23 @@ namespace Speed.Data
 
         public DbConnectionStringBuilder CreateConnectionStringBuilder(string server, string database, string userId, string password, bool integratedSecurity = false, int port = 0, bool embedded = false, string provider = null)
         {
-            return BuildConnectionString(EnumDbProviderType.Access, server, database, userId, password, integratedSecurity, port, embedded); 
+            return BuildConnectionString(EnumDbProviderType.OleDb, server, database, userId, password, integratedSecurity, port, embedded);
         }
 
         public DbConnectionStringBuilder CreateConnectionStringBuilder(string server, string database)
         {
-            return CreateConnectionStringBuilder(server, database, null, null, false, 0);
+            return BuildConnectionString(EnumDbProviderType.OleDb, server, database, null, null, false, 0, false);
         }
 
         public DbConnectionStringBuilder BuildConnectionString(EnumDbProviderType providerType, string server, string database, string userId, string password, bool integratedSecurity = false, int port = 0, bool embedded = false, string provider = null)
         {
-            var csb = new OleDbConnectionStringBuilder();
-            csb.DataSource = server;
-
-            string file = (server ?? "").Trim();
-            if (System.IO.Path.GetExtension(file).ToLower().Replace(".", "") == "mdb")
-                csb.Provider = "Microsoft.Jet.OLEDB.4.0";
-            else
-                csb.Provider = "Microsoft.ACE.OLEDB.12.0";
-            csb.DataSource = server;
-            return csb;
+            throw new NotImplementedException();
         }
 
         public System.Data.Common.DbConnection NewConnection(string connectionString)
         {
             OleDbConnection cn = new OleDbConnection(connectionString);
             cn.Open();
-            //using (var cmd = cn.CreateCommand())
-            //{
-            //    cmd.CommandText = "set dateformat mdy";
-            //    cmd.ExecuteNonQuery();
-            //}
             return cn;
         }
 
@@ -108,24 +93,6 @@ namespace Speed.Data
         public System.Data.Common.DbDataAdapter CreateDataAdapter(System.Data.Common.DbCommand cmd)
         {
             return new OleDbDataAdapter((OleDbCommand)cmd);
-        }
-
-        public DbParameter CreateParameter(string parameterName, object value)
-        {
-            return new OleDbParameter(parameterName, value);
-        }
-
-        public DbParameter CreateParameter(string parameterName, DbType dbType, ParameterDirection direction, object value, int size = 0)
-        {
-            OleDbParameter par = new OleDbParameter(parameterName, value);
-            par.DbType = dbType;
-            par.Direction = direction;
-            par.Value = value;
-            if (size > 0)
-                par.Size = size;
-            par.Direction = direction;
-            par.DbType = dbType;
-            return par;
         }
 
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, string dataType, object value)
@@ -185,10 +152,11 @@ namespace Speed.Data
 
         public string GetObjectName(string name, bool quote = true)
         {
-            if (name.Contains(" ") && name.IndexOf('[') == -1 || ReservedWords.ContainsKey(name))
-                return "[" + name + "]";
-            else
-                return name;
+            return name;
+            //if (name.Contains(" ") && name.IndexOf('[') == -1 || ReservedWords.ContainsKey(name))
+            //    return "[" + name + "]";
+            //else
+            //    return name;
         }
 
         public string GetObjectName(string schemaName, string name, bool quote = true)
@@ -198,96 +166,54 @@ namespace Speed.Data
 
         public string SetTop(string sql, long count)
         {
-            var pos = sql.IndexOf("select", StringComparison.InvariantCultureIgnoreCase);
-            sql = sql.Remove(pos, "select".Length);
-            sql = sql.Insert(pos, "select top " + count);
-            return sql;
+            throw new NotImplementedException();
         }
 
         public string[] GetPrimaryKeyColumns(string database, string schemaName, string tableName)
         {
-            var tb = ((OleDbConnection)db.Connection).GetOleDbSchemaTable(OleDbSchemaGuid.Primary_Keys, new object[] { null, null, tableName });
-            string[] ret = new string[tb.Rows.Count];
-            for (int i = 0; i < tb.Rows.Count; i++)
-                ret[i] = (string)tb.Rows[i]["COLUMN_NAME"]; ;
-            return ret;
+            return null;
+            //string sql = string.Format("sp_pkeys {0}", db.Provider.GetObjectName(tableName));
+            //if (schemaName != null && Conv.HasData(db.Provider.GetObjectName(schemaName)))
+            //    sql += ", " + db.Provider.GetObjectName(schemaName);
+
+            //return db.ExecuteArray1D<string>(sql, 3);
         }
 
         public string GetSqlIdentityInsert()
         {
-            return "@@IDENTITY";
+            return null;
         }
 
         public string GetIdentityColumn(string database, string schemaName, string tableName)
         {
-            var tbCols = db.GetSchema("columns", new string[] { null, null, tableName, null });
-            var rows = tbCols.Select("COLUMN_FLAGS=90");
-            if (rows.Length > 0)
-                return (string)rows[0]["COLUMN_NAME"];
             return null;
+            //string sql = string.Format(
+            //    "SELECT c.name FROM syscolumns c, sysobjects o WHERE c.id = o.id AND (c.status & 128) = 128 and o.id = OBJECT_ID('{0}');",
+            //    tableName);
+            //if (schemaName != null)
+            //    sql += ", " + db.Provider.GetObjectName(schemaName);
+
+            //return db.ExecuteString(sql);
         }
 
         public List<string> GetCalculatedColumns(string database, string schemaName, string tableName)
         {
-            var ret = new List<string>();
-            // TODO: implementar GetCalculatedColumns pro access
-
-            //var tbCols = db.GetSchema("columns", new string[] { null, null, tableName, null });
-            //var rows = tbCols.Select("COLUMN_FLAGS=90");
-            //foreach (var row in rows)
-            //    ret.Add((string)row["COLUMN_NAME"]);
-            return ret;
+            return new List<string>();
         }
 
         public List<TableInfo> GetAllTables(string tableSchema = null, EnumTableType? tableType = null)
         {
-            DataTable tableViews;
-            if (tableType == null)
-                tableViews = db.Connection.GetSchema("tables");
-            else if (tableType.Value == EnumTableType.Table)
-                tableViews = db.Connection.GetSchema("tables", new string[] { null, null, null, "TABLE" });
-            else // if (tableType.Value == EnumTableType.View)
-                tableViews = db.Connection.GetSchema("tables", new string[] { null, null, null, "VIEW" });
-
-            List<TableInfo> tables = new List<TableInfo>();
-
-            foreach (DataRow row in tableViews.Rows)
-            {
-                string type = (string)row["TABLE_TYPE"];
-                if (type == "TABLE" || type == "VIEW")
-                {
-                    TableInfo tb = new TableInfo();
-                    tb.TableSchema = Conv.ToString(row["TABLE_SCHEMA"]);
-                    tb.TableCatalog = Conv.ToString(row["TABLE_CATALOG"]);
-                    tb.TableName = (string)row["TABLE_NAME"];
-                    tb.TableType = type == "TABLE" ? EnumTableType.Table : EnumTableType.View;
-                    tables.Add(tb);
-                }
-            }
-            return tables;
+            return new List<TableInfo>();
         }
 
         public DataTable GetSchemaColumns(string schemaName, string tableName)
         {
-            return db.GetSchemaColumnsGeneric2(schemaName, tableName);
+            return db.GetSchemaColumnsGeneric(schemaName, tableName);
         }
-
 
         public List<DbReferencialConstraintInfo> GetParentRelations(string schemaName, string tableName)
         {
-            return null;
-
-            //var tb = ((OleDbConnection)db.Connection).GetOleDbSchemaTable(OleDbSchemaGuid.Foreign_Keys, new object[] { null, null, null, null });
-
-            //foreach (DataRow row in tb.Rows)
-            //{
-            //    string pkTableName = (string)row["PK_TABLE_NAME"];
-            //    string fkTableName = (string)row["FK_TABLE_NAME"];
-            //    string pkColumnName = (string)row["PK_COLUMN_NAME"];
-            //    string fkColumnName = (string)row["FK_COLUMN_NAME"];
-            //}
-
-            //tb.ToString();
+            return new List<DbReferencialConstraintInfo>();
         }
 
         public DataTable GetDataTypes()
@@ -331,11 +257,9 @@ namespace Speed.Data
             return new OleDbParameter(parameter.Name, parameter.Value);
         }
 
-
-
         public string GetInsertXml()
         {
-            throw new NotSupportedException();
+            return "throw new NotSupportedException();";
         }
 
         public int ExecuteSequenceInt32(string sequenceName)
@@ -350,13 +274,22 @@ namespace Speed.Data
 
         public IDbProvider CreateProvider(Database db)
         {
-            return new DbAccessProvider(db);
+            return new DbOleDbProvider(db);
+        }
+
+        public DbParameter CreateParameter(string parameterName, DbType dbType, ParameterDirection direction, object value, int size = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DbParameter CreateParameter(string parameterName, object value)
+        {
+            throw new NotImplementedException();
         }
 
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value)
         {
-            var par = ((OleDbCommand)cmd).Parameters.AddWithValue(parameterName, value);
-            return par;
+            throw new NotImplementedException();
         }
 
         public bool AddUsings(DbColumnInfo col, Dictionary<string, string> usings)

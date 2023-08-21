@@ -26,6 +26,7 @@ namespace Speed.Data
             switch (providerType)
             {
                 case EnumDbProviderType.SqlServer:
+                case EnumDbProviderType.SqlServerCe:
                     if (SqlServer == null)
                         SqlServer = AssemblyHelper.GetProvider("Speed.SqlServer.dll", db);
                     provider = SqlServer;
@@ -43,6 +44,12 @@ namespace Speed.Data
                     provider = Access;
                     break;
 
+                case EnumDbProviderType.MariaDB:
+                    if (MySql == null)
+                        MySql = AssemblyHelper.GetProvider("Speed.MariaDB.dll", db);
+                    provider = MySql;
+                    break;
+
                 case EnumDbProviderType.MySql:
                     if (MySql == null)
                         MySql = AssemblyHelper.GetProvider("Speed.MySql.dll", db);
@@ -55,31 +62,36 @@ namespace Speed.Data
                     provider = Postgres;
                     break;
 
-                    //case EnumDbProviderType.SqlServerCe:
-                    //    provider = new DbSqlServerCeProvider(db);
-                    //    db.commandTimeout = 0;
-                    //    break;
-                    //case EnumDbProviderType.MySql:
-                    //    provider = new DbMySqlProvider(db);
-                    //    break;
-                    //case EnumDbProviderType.MariaDB:
-                    //    provider = new DbMariaDBProvider(db);
-                    //    break;
-                    //case EnumDbProviderType.Firebird:
-                    //    provider = new DbFirebirdProvider(db);
-                    //    break;
-                    //case EnumDbProviderType.OleDb:
-                    //    provider = new DbOleDbProvider(db);
-                    //    break;
-                    //case EnumDbProviderType.PostgreSQL:
-                    //    provider = new DbPostgreSqlProvider(db);
-                    //    break;
-                    //case EnumDbProviderType.Access:
-                    //    provider = new DbAccessProvider(db);
-                    //    break;
-                    //case EnumDbProviderType.SQLite:
-                    //    provider = new DbSQLiteProvider(db);
-                    //    break;
+                case EnumDbProviderType.Firebird:
+                    if (Postgres == null)
+                        Postgres = AssemblyHelper.GetProvider("Speed.Firebird.dll", db);
+                    provider = Postgres;
+                    break;
+
+                case EnumDbProviderType.OleDb:
+                    if (Postgres == null)
+                        Postgres = AssemblyHelper.GetProvider("Speed.OleDb.dll", db);
+                    provider = Postgres;
+                    break;
+                case EnumDbProviderType.Odbc:
+                    if (Postgres == null)
+                        Postgres = AssemblyHelper.GetProvider("Speed.Odbc.dll", db);
+                    provider = Postgres;
+                    break;
+
+                //case EnumDbProviderType.SqlServerCe:
+                //    provider = new DbSqlServerCeProvider(db);
+                //    db.commandTimeout = 0;
+                //    break;
+                //case EnumDbProviderType.Firebird:
+                //    provider = new DbFirebirdProvider(db);
+                //    break;
+                //case EnumDbProviderType.SQLite:
+                //    provider = new DbSQLiteProvider(db);
+                //    break;
+
+                default:
+                    throw new Exception("Provider not found");
             }
             return provider;
         }

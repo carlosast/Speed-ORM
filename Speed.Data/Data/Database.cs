@@ -14,6 +14,7 @@ using Speed.Data.MetaData;
 using Speed.Data.Generation;
 using System.Runtime.InteropServices;
 using Speed.Common;
+using System.Drawing;
 
 #if USELINQ
 using IQ;
@@ -1919,6 +1920,15 @@ namespace Speed.Data
         #endregion Linq
 
         #region Helper
+
+        public DbParameter CreateParameter(string parameterName, DbType dbType, ParameterDirection direction, object value, int size = 0)
+        {
+            return provider.CreateParameter(parameterName, dbType, direction, value, size);
+        }
+        public DbParameter CreateParameter(string parameterName, object value)
+        {
+            return provider.CreateParameter(parameterName, value);
+        }
 
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value)
         {

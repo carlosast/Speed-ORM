@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>Speed.ORM.MySql</PackageId>
-    <PackageTags>Speed;Faster;orm;sql;micro-orm;MySql</PackageTags>
-    <Title>Speed.MySql</Title>
+    <PackageId>Speed.ORM.OleDb</PackageId>
+    <PackageTags>Speed;Faster;orm;sql;micro-orm;Sql Server</PackageTags>
+    <Title>Speed.OleDb</Title>
     <Description>High performance database access library.
 Use the Speed application to generate data classes:
 https://github.com/carlosast/Speed-ORM</Description>
@@ -16,32 +16,27 @@ https://github.com/carlosast/Speed-ORM</Description>
     <FileVersion>2.0.0</FileVersion>
     <Company>Carlos Alberto Stefanis</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Product>Speed.OleDb</Product>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants />
-    <DocumentationFile>D:\Github\Speed\APP\Providers\Speed.MySql\Speed.MySql.xml</DocumentationFile>
+    <DocumentationFile>D:\Github\Speed\APP\Providers\Speed.OleDb\Speed.OleDb.xml</DocumentationFile>
   </PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-		<PackageReference Include="MySql.Data" Version="8.0.28" />
-	</ItemGroup>
-
 	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-		<PackageReference Include="MySql.Data" Version="8.0.28" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="MySql.Data" Version="8.0.28" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-		<PackageReference Include="MySql.Data" Version="8.0.28" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Speed.Data\Speed.Data.csproj" />
+	  <PackageReference Include="System.Data.OleDb" Version="7.0.0" />
 	</ItemGroup>
+
+	<ItemGroup>
+    <ProjectReference Include="..\..\Speed.Data\Speed.Data.csproj" />
+  </ItemGroup>
 
 </Project>

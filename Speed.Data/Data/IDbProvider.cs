@@ -27,6 +27,8 @@ namespace Speed.Data
         DbCommand NewCommand(string commandText);
         DbDataAdapter CreateDataAdapter(string selectCommand, DbConnection cn);
         DbDataAdapter CreateDataAdapter(DbCommand cmd);
+        DbParameter CreateParameter(string parameterName, DbType dbType, ParameterDirection direction, object value, int size = 0);
+        DbParameter CreateParameter(string parameterName, object value);
         DbParameter AddWithValue(DbCommand cmd, string parameterName, object value);
         DbParameter AddWithValue(DbCommand cmd, string parameterName, string propertyType, object value);
         DbParameter AddWithValue(DbCommand cmd, string parameterName, object value, int size);

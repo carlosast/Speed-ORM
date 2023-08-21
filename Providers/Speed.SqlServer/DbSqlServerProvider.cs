@@ -90,7 +90,7 @@ namespace Speed.Data
             return csb;
         }
 
-        public System.Data.Common.DbConnection NewConnection(string connectionString)
+        public DbConnection NewConnection(string connectionString)
         {
             SqlConnection cn = new SqlConnection(connectionString);
             cn.Open();
@@ -107,14 +107,32 @@ namespace Speed.Data
             return new SqlCommand(commandText);
         }
 
-        public System.Data.Common.DbDataAdapter CreateDataAdapter(string selectCommand, DbConnection cn)
+        public DbDataAdapter CreateDataAdapter(string selectCommand, DbConnection cn)
         {
             return new SqlDataAdapter(selectCommand, (SqlConnection)cn);
         }
 
-        public System.Data.Common.DbDataAdapter CreateDataAdapter(System.Data.Common.DbCommand cmd)
+        public DbDataAdapter CreateDataAdapter(DbCommand cmd)
         {
             return new SqlDataAdapter((SqlCommand)cmd);
+        }
+
+        public DbParameter CreateParameter(string parameterName, object value)
+        {
+            return new SqlParameter(parameterName, value);
+        }
+
+        public DbParameter CreateParameter(string parameterName, DbType dbType, ParameterDirection direction, object value, int size = 0)
+        {
+            SqlParameter par = new SqlParameter(parameterName, value);
+            par.DbType = dbType;
+            par.Direction = direction;
+            par.Value = value;
+            if (size > 0)
+                par.Size = size;
+            par.Direction = direction;
+            par.DbType = dbType;
+            return par;
         }
 
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, string dataType, object value)

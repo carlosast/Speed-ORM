@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data;
 using Speed.Data.MetaData;
-using Npgsql;
-using NpgsqlTypes;
 using Speed.Common;
 using System.Reflection;
 using System.Linq;
+using FirebirdSql.Data;
+using FirebirdSql.Data.Client;
+using FirebirdSql.Data.Common;
+using FirebirdSql.Data.FirebirdClient;
 
 namespace Speed.Data
 {
@@ -15,24 +17,24 @@ namespace Speed.Data
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
-    public class DbPostgreSqlProvider : IDbProvider
+    public class DbFirebirdProvider : IDbProvider
     {
 
         Database db;
         public string ParameterSymbol { get { return ":"; } }
         public string ParameterSymbolVar { get { return ParameterSymbol; } }
 
-        public DbPostgreSqlProvider(Database db)
+        public DbFirebirdProvider(Database db)
         {
             this.db = db;
         }
 
-        ~DbPostgreSqlProvider()
+        ~DbFirebirdProvider()
         {
             db = null;
         }
 
-        public Type DbType { get { return typeof(NpgsqlDbType); } }
+        public Type DbType { get { return typeof(FbDbType); } }
 
         [ThreadStatic]
         static Dictionary<int, Enum> dbTypes;
@@ -41,7 +43,7 @@ namespace Speed.Data
             get
             {
                 if (dbTypes == null)
-                    dbTypes = DbUtil.GetTypes<NpgsqlDbType>();
+                    dbTypes = DbUtil.GetTypes<FbDbType>();
                 return dbTypes;
             }
         }
@@ -58,7 +60,7 @@ namespace Speed.Data
 
         //public string CreateConnectionString(string server, string database, string userId, string password)
         //{
-        //    NpgsqlConnectionStringBuilder csb = new NpgsqlConnectionStringBuilder();
+        //    FbConnectionStringBuilder csb = new FbConnectionStringBuilder();
         //    csb.Host = server;
         //    csb.Database = database;
         //    csb.UserName = userId;
@@ -68,7 +70,7 @@ namespace Speed.Data
 
         //public string CreateConnectionString(string server, string database)
         //{
-        //    NpgsqlConnectionStringBuilder csb = new NpgsqlConnectionStringBuilder();
+        //    FbConnectionStringBuilder csb = new FbConnectionStringBuilder();
         //    csb.Host = server;
         //    csb.Database = database;
         //    // csb.IntegratedSecurity = true;
@@ -77,7 +79,7 @@ namespace Speed.Data
 
         public DbConnectionStringBuilder CreateConnectionStringBuilder(string connectionString)
         {
-            NpgsqlConnectionStringBuilder csb = new NpgsqlConnectionStringBuilder(connectionString);
+            FbConnectionStringBuilder csb = new FbConnectionStringBuilder(connectionString);
             return csb;
         }
 
@@ -93,29 +95,12 @@ namespace Speed.Data
 
         public DbConnectionStringBuilder BuildConnectionString(EnumDbProviderType providerType, string server, string database, string userId, string password, bool integratedSecurity = false, int port = 0, bool embedded = false, string provider = null)
         {
-            var csb = new NpgsqlConnectionStringBuilder();
-            csb.Host = server;
-            csb.Database = database;
-            if (!string.IsNullOrWhiteSpace(userId))
-            {
-#if NET40
-                csb.UserName = userId;
-#else
-                csb.Username = userId;
-#endif
-            }
-            if (!string.IsNullOrWhiteSpace(password))
-                csb.Password = password;
-            if (integratedSecurity)
-                csb.IntegratedSecurity = integratedSecurity;
-            if (port > 0)
-                csb.Port = (int)port;
-            return csb;
+            throw new NotImplementedException();
         }
 
         public System.Data.Common.DbConnection NewConnection(string connectionString)
         {
-            NpgsqlConnection cn = new NpgsqlConnection(connectionString);
+            FbConnection cn = new FbConnection(connectionString);
             cn.Open();
             //using (var cmd = cn.CreateCommand())
             //{
@@ -127,27 +112,27 @@ namespace Speed.Data
 
         public DbCommand NewCommand(string commandText)
         {
-            return new NpgsqlCommand(commandText);
+            return new FbCommand(commandText);
         }
 
         public System.Data.Common.DbDataAdapter CreateDataAdapter(string selectCommand, DbConnection cn)
         {
-            return new NpgsqlDataAdapter(selectCommand, (NpgsqlConnection)cn);
+            return new FbDataAdapter(selectCommand, (FbConnection)cn);
         }
 
         public System.Data.Common.DbDataAdapter CreateDataAdapter(System.Data.Common.DbCommand cmd)
         {
-            return new NpgsqlDataAdapter((NpgsqlCommand)cmd);
+            return new FbDataAdapter((FbCommand)cmd);
         }
 
         public DbParameter CreateParameter(string parameterName, object value)
         {
-            return new NpgsqlParameter(parameterName, value);
+            return new FbParameter(parameterName, value);
         }
 
         public DbParameter CreateParameter(string parameterName, DbType dbType, ParameterDirection direction, object value, int size = 0)
         {
-            NpgsqlParameter par = new NpgsqlParameter(parameterName, value);
+            FbParameter par = new FbParameter(parameterName, value);
             par.DbType = dbType;
             par.Direction = direction;
             par.Value = value;
@@ -160,19 +145,19 @@ namespace Speed.Data
 
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value)
         {
-            return ((NpgsqlCommand)cmd).Parameters.AddWithValue(parameterName, value);
+            return ((FbCommand)cmd).Parameters.AddWithValue(parameterName, value);
         }
 
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value, int size)
         {
-            var par = ((NpgsqlCommand)cmd).Parameters.AddWithValue(parameterName, value);
+            var par = ((FbCommand)cmd).Parameters.AddWithValue(parameterName, value);
             par.Size = size;
             return par;
         }
 
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, string propertyType, object value)
         {
-            NpgsqlParameter par = new NpgsqlParameter(parameterName, value);
+            FbParameter par = new FbParameter(parameterName, value);
             par.Value = value;
             cmd.Parameters.Add(par);
             return par;
@@ -180,7 +165,7 @@ namespace Speed.Data
 
         public DbParameter AddParameter(DbCommand cmd, string parameterName, DbType dbType, ParameterDirection direction, object value, int size = 0)
         {
-            NpgsqlParameter par = new NpgsqlParameter(parameterName, value);
+            FbParameter par = new FbParameter(parameterName, value);
             par.DbType = dbType;
             par.Value = value;
             par.Direction = direction;
@@ -192,7 +177,7 @@ namespace Speed.Data
 
         public DbParameter AddParBinary(DbCommand cmd, string parameterName, object value)
         {
-            NpgsqlParameter par = new NpgsqlParameter(parameterName, NpgsqlDbType.Bytea);
+            FbParameter par = new FbParameter(parameterName, FbDbType.Binary);
             if (value == null || value == DBNull.Value)
                 par.Size = -1;
             par.Value = value;
@@ -202,7 +187,7 @@ namespace Speed.Data
 
         public DbParameter AddParBinary(DbCommand cmd, string parameterName, object value, int size)
         {
-            NpgsqlParameter par = new NpgsqlParameter(parameterName, NpgsqlDbType.Bytea);
+            FbParameter par = new FbParameter(parameterName, FbDbType.Binary);
             par.Size = size;
             par.Value = value;
             cmd.Parameters.Add(par);
@@ -238,7 +223,7 @@ namespace Speed.Data
 
         public string GetObjectName(string schemaName, string name, bool quote = true)
         {
-            return string.IsNullOrEmpty(schemaName) 
+            return string.IsNullOrEmpty(schemaName)
                 ? GetObjectName(name)
                 // se tiver o schemaName, não usa quote para o name,pq senão dá erros ao gerar o código
                 // tudo por causa do doublequotes
@@ -250,7 +235,7 @@ namespace Speed.Data
             return sql + "\r\nLIMIT " + count;
         }
 
-        // TODO: aqui no DbNpgsqlProvider é criado um inner join correto com todas as colunas necessárias entre 
+        // TODO: aqui no DbFirebirdProvider é criado um inner join correto com todas as colunas necessárias entre 
         // key_column_usage e table_constraints. Ver se nos demais providers está correto
         public string[] GetPrimaryKeyColumns(string database, string schemaName, string tableName)
         {
@@ -465,58 +450,6 @@ FROM pg_catalog.pg_attribute a, pg_namespace n, pg_class c
         {
             get
             {
-#if !NET40
-                dataTypes = new Dictionary<string, DbDataType>(StringComparer.OrdinalIgnoreCase);
-                var cn = (NpgsqlConnection)db.Connection;
-                var mapper = cn.TypeMapper;
-                foreach (var map in mapper.Mappings)
-                {
-                    if (!dataTypes.ContainsKey(map.PgTypeName))
-                    {
-                        var type = new DbDataType();
-                        type.TypeName = map.PgTypeName;
-                        // TODO: comentei isso, mas testar se funciona
-                        //type.DataType = map.DefaultClrType.FullName;
-
-                        var t = map.GetType();
-                        var props = t.GetProperties(BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.IgnoreCase);
-                        var prop = props.FirstOrDefault(p => p.Name == "DefaultClrType");
-                        //prop = t.GetProperty("DefaultValueType", BindingFlags.NonPublic | BindingFlags.FlattenHierarchy | BindingFlags.Instance);
-
-                        if (prop == null)
-                        {
-                            ToString();
-                        }
-                        Type ty = (Type)prop.GetValue(map, null);
-                        if (ty != null)
-                        {
-                            type.DataType = ty.FullName;
-                            dataTypes.Add(type.TypeName, type);
-                        }
-                        else if (map.ClrTypes.Length > 0)
-                        {
-                            type.DataType = map.ClrTypes[0].FullName;
-                            dataTypes.Add(type.TypeName, type);
-                        }
-                        else
-                        {
-                            ToString();
-                        }
-
-                        //if (map.ClrTypes.Length > 0)
-                        //{
-                        //    type.DataType = map.ClrTypes[0].FullName;
-                        //    dataTypes.Add(type.TypeName, type);
-                        //}
-                    }
-                    //foreach (var dbType in map.DbTypes)
-                    //{
-                    //    //if (!types.ContainsKey(DbTypes.))
-                    //}
-                }
-                return dataTypes;
-#endif
-
                 if (dataTypes == null)
                     dataTypes = db.GetDataTypesGeneric();
                 return dataTypes;
@@ -525,7 +458,7 @@ FROM pg_catalog.pg_attribute a, pg_namespace n, pg_class c
 
         public IDbDataParameter Convert(Parameter parameter)
         {
-            var par = new NpgsqlParameter(parameter.Name, parameter.DbType);
+            var par = new FbParameter(parameter.Name, parameter.DbType);
             par.Value = parameter.Value;
             par.Direction = parameter.Direction;
             if (parameter.Size.HasValue)
@@ -550,7 +483,7 @@ FROM pg_catalog.pg_attribute a, pg_namespace n, pg_class c
 
         public IDbProvider CreateProvider(Database db)
         {
-            return new DbPostgreSqlProvider(db);
+            return new DbFirebirdProvider(db);
         }
 
         public bool AddUsings(DbColumnInfo col, Dictionary<string, string> usings)

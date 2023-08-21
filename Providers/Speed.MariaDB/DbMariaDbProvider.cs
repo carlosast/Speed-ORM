@@ -13,7 +13,7 @@ namespace Speed.Data
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
-    public class DbMySqlProvider : IDbProvider
+    public class DbMariaDbProvider : IDbProvider
     {
 
         Database db;
