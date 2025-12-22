@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data;
+using Speed.Data;
 using System.Data.SqlClient;
 using Speed.Data.MetaData;
 using System.Linq;
@@ -89,7 +90,7 @@ namespace Speed.Data
             return csb;
         }
 
-        public DbConnection NewConnection(string connectionString)
+        public System.Data.Common.DbConnection NewConnection(string connectionString)
         {
             SqlConnection cn = new SqlConnection(connectionString);
             cn.Open();
@@ -106,32 +107,14 @@ namespace Speed.Data
             return new SqlCommand(commandText);
         }
 
-        public DbDataAdapter CreateDataAdapter(string selectCommand, DbConnection cn)
+        public System.Data.Common.DbDataAdapter CreateDataAdapter(string selectCommand, DbConnection cn)
         {
             return new SqlDataAdapter(selectCommand, (SqlConnection)cn);
         }
 
-        public DbDataAdapter CreateDataAdapter(DbCommand cmd)
+        public System.Data.Common.DbDataAdapter CreateDataAdapter(System.Data.Common.DbCommand cmd)
         {
             return new SqlDataAdapter((SqlCommand)cmd);
-        }
-
-        public DbParameter CreateParameter(string parameterName, object value)
-        {
-            return new SqlParameter(parameterName, value);
-        }
-
-        public DbParameter CreateParameter(string parameterName, DbType dbType, ParameterDirection direction, object value, int size = 0)
-        {
-            SqlParameter par = new SqlParameter(parameterName, value);
-            par.DbType = dbType;
-            par.Direction = direction;
-            par.Value = value;
-            if (size > 0)
-                par.Size = size;
-            par.Direction = direction;
-            par.DbType = dbType;
-            return par;
         }
 
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, string dataType, object value)
@@ -286,44 +269,34 @@ namespace Speed.Data
             return "SCOPE_IDENTITY()";
         }
 
-        public string GetIdentityColumn1(string database, string schemaName, string tableName)
+        /*
+        public string GetIdentityColumn(string database, string schemaName, string tableName)
         {
             string sql = string.Format(
-            "SELECT c.name FROM syscolumns c, sysobjects o WHERE c.id = o.id AND (c.status & 128) = 128 and o.id = OBJECT_ID('{0}')",
-            tableName, !string.IsNullOrEmpty(schemaName) ? "schema_name(o.uid) = '" + db.Provider.GetObjectName(schemaName) + "'" : "");
+            "SELECT c.name FROM syscolumns c, sysobjects o WHERE c.id = o.id AND (c.status & 128) = 128 and o.id = OBJECT_ID('{0}') {1};",
+            tableName, !string.IsNullOrEmpty(schemaName) ? "schema_name(o.uid) = '" + db.Provider.GetObjectName(schemaName) : "");
             return db.ExecuteString(sql);
         }
+        */
 
         Dictionary<string, string> bufferIdentity;
         public string GetIdentityColumn(string database, string schemaName, string tableName)
         {
-            string schema = string.IsNullOrWhiteSpace(schemaName) ? "dbo" : schemaName;
-            string key = $"{schema}.{tableName}";
-
             if (bufferIdentity == null)
             {
                 string sql = string.Format(
-                "SELECT SCHEMA_NAME(o.uid) SchemaName, o.name, c.name FROM syscolumns c, sysobjects o WHERE c.id = o.id AND (c.status & 128) = 128;",
+                "SELECT o.name, c.name FROM syscolumns c, sysobjects o WHERE c.id = o.id AND (c.status & 128) = 128;",
                 //tableName, !string.IsNullOrEmpty(schemaName) ? "schema_name(o.uid) = '" + db.Provider.GetObjectName(schemaName) : "");
 
                 bufferIdentity = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase));
                 using (var dr = db.ExecuteReader(sql))
                 {
                     while (dr.Read())
-                    {
-                        try
-                        {
-                            bufferIdentity.Add($"{dr.GetString(0)}.{dr.GetString(1)}", dr.GetString(2));
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.ToString();
-                        }
-                    }
+                        bufferIdentity.Add(dr.GetString(0), dr.GetString(1));
                 }
             }
-            if (bufferIdentity.ContainsKey(key))
-                return bufferIdentity[key];
+            if (bufferIdentity.ContainsKey(tableName))
+                return bufferIdentity[tableName];
             else
                 return null;
         }
@@ -372,8 +345,8 @@ namespace Speed.Data
             {
                 sql = "select * from (select DB_NAME() table_catalog, schema_name(schema_id) schema_name, name table_name, type table_type, modify_date from sys.objects where type in ('U', 'V')) T ";
                 var w = new List<string>();
-                if (!string.IsNullOrEmpty(tableSchema))
-                    w.Add("schema_name = '" + tableSchema + "'");
+                if (string.IsNullOrEmpty(tableSchema))
+                    w.Add("schema_name = '" + tableSchema);
                 if (tableType == EnumTableType.Table)
                     w.Add("table_type = 'U'");
                 else if (tableType == EnumTableType.Table)

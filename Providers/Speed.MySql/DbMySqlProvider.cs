@@ -139,24 +139,6 @@ namespace Speed.Data
             return new MySqlDataAdapter((MySqlCommand)cmd);
         }
 
-        public DbParameter CreateParameter(string parameterName, object value)
-        {
-            return new MySqlParameter(parameterName, value);
-        }
-
-        public DbParameter CreateParameter(string parameterName, DbType dbType, ParameterDirection direction, object value, int size = 0)
-        {
-            MySqlParameter par = new MySqlParameter(parameterName, value);
-            par.DbType = dbType;
-            par.Direction = direction;
-            par.Value = value;
-            if (size > 0)
-                par.Size = size;
-            par.Direction = direction;
-            par.DbType = dbType;
-            return par;
-        }
-
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value)
         {
             return ((MySqlCommand)cmd).Parameters.AddWithValue(parameterName, value);

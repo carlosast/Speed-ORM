@@ -469,18 +469,8 @@ namespace Speed.Data
                     .Replace("=", "").Replace("/", "").Replace("\\", ""));
 
                 string dirBase = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                string dir = Path.Combine(dirBase, "Speed", db.ProviderType.ToString(), nspace, hashName);
 
-                try
-                {
-                    Directory.CreateDirectory(dir);
-                }
-                catch
-                {
-                    dirBase = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                    dir = Path.Combine(dirBase, "Speed", db.ProviderType.ToString(), nspace, hashName);
-                }
-                
+                string dir = Path.Combine(dirBase, "Speed", db.ProviderType.ToString(), nspace, hashName);
                 return dir;
             }
             catch (Exception ex)

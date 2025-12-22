@@ -100,7 +100,7 @@ namespace Speed.Data
             {
 #if NET40
                 csb.UserName = userId;
-#else
+#elif NETSTANDARD2_0 || NET45
                 csb.Username = userId;
 #endif
             }
@@ -138,24 +138,6 @@ namespace Speed.Data
         public System.Data.Common.DbDataAdapter CreateDataAdapter(System.Data.Common.DbCommand cmd)
         {
             return new NpgsqlDataAdapter((NpgsqlCommand)cmd);
-        }
-
-        public DbParameter CreateParameter(string parameterName, object value)
-        {
-            return new NpgsqlParameter(parameterName, value);
-        }
-
-        public DbParameter CreateParameter(string parameterName, DbType dbType, ParameterDirection direction, object value, int size = 0)
-        {
-            NpgsqlParameter par = new NpgsqlParameter(parameterName, value);
-            par.DbType = dbType;
-            par.Direction = direction;
-            par.Value = value;
-            if (size > 0)
-                par.Size = size;
-            par.Direction = direction;
-            par.DbType = dbType;
-            return par;
         }
 
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value)

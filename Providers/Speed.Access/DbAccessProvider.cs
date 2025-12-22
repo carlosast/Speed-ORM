@@ -12,7 +12,7 @@ namespace Speed.Data
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
-    public class DbAccessProvider : IDbProvider
+    class DbAccessProvider : IDbProvider
     {
 
         Database db;
@@ -108,24 +108,6 @@ namespace Speed.Data
         public System.Data.Common.DbDataAdapter CreateDataAdapter(System.Data.Common.DbCommand cmd)
         {
             return new OleDbDataAdapter((OleDbCommand)cmd);
-        }
-
-        public DbParameter CreateParameter(string parameterName, object value)
-        {
-            return new OleDbParameter(parameterName, value);
-        }
-
-        public DbParameter CreateParameter(string parameterName, DbType dbType, ParameterDirection direction, object value, int size = 0)
-        {
-            OleDbParameter par = new OleDbParameter(parameterName, value);
-            par.DbType = dbType;
-            par.Direction = direction;
-            par.Value = value;
-            if (size > 0)
-                par.Size = size;
-            par.Direction = direction;
-            par.DbType = dbType;
-            return par;
         }
 
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, string dataType, object value)

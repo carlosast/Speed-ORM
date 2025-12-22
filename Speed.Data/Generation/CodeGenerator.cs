@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using Speed.Common;
 
-#if !NET40
+#if NETSTANDARD2_0
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Emit;
@@ -767,7 +767,7 @@ namespace Speed.Data.Generation
             return "P_" + name.Replace(' ', '_');
         }
 
-#if !NET40
+#if NETSTANDARD2_0
         /// <summary>
         /// Compile generated code
         /// </summary>
@@ -812,9 +812,7 @@ namespace Speed.Data.Generation
                     asmCompModel = assemblies.FirstOrDefault(p => p.Contains("System.Data"));
                 if (asmCompModel != null)
                 {
-                    //var files = Directory.GetFiles(Path.GetDirectoryName(asmCompModel), "System.*.dll").ToList();
-                    var files = Directory.GetFiles(Path.GetDirectoryName(asmCompModel), "System.*.dll")
-                        .Where(p => !Path.GetFileName(p).Contains("Native", StringComparison.OrdinalIgnoreCase)).ToList();
+                    var files = Directory.GetFiles(Path.GetDirectoryName(asmCompModel), "System.*.dll").ToList();
                     foreach (var asmPath in files)
                     {
                         if (!assemblies.Contains(asmPath))

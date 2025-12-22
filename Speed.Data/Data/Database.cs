@@ -14,7 +14,6 @@ using Speed.Data.MetaData;
 using Speed.Data.Generation;
 using System.Runtime.InteropServices;
 using Speed.Common;
-using System.Drawing;
 
 #if USELINQ
 using IQ;
@@ -71,7 +70,7 @@ namespace Speed.Data
         /// <summary>
         /// CommandTimeout default. Default value = 30 seconds
         /// </summary>
-        public static int CommandTimeout { get; set; } = 30;
+        public int CommandTimeout { get; set; } = 30;
         private string connectionString;
         private DbConnectionStringBuilder connectionStringBuilder;
         internal static Dictionary<string, MethodInfo> refMethods = new Dictionary<string, MethodInfo>();
@@ -237,7 +236,7 @@ namespace Speed.Data
             provider = ProviderFactory.CreateProvider(this, providerType);
             this.connectionStringBuilder = provider.CreateConnectionStringBuilder(server, database, userId, password, integratedSecurity, port, embedded);
             this.connectionString = connectionStringBuilder.ToString();
-            Database.CommandTimeout = commandTimeout;
+            this.CommandTimeout = commandTimeout;
             // InitializeLinq();
         }
 
@@ -271,7 +270,7 @@ namespace Speed.Data
             }
             catch { }
 
-            Database.CommandTimeout = commandTimeout;
+            this.CommandTimeout = commandTimeout;
 #if USELINQ
             InitializeLinq();
 #endif
@@ -325,7 +324,7 @@ namespace Speed.Data
 
         public DbCommand NewCommand(string commandText, CommandType commandType = CommandType.Text)
         {
-            return NewCommand(commandText, Database.CommandTimeout, commandType);
+            return NewCommand(commandText, this.CommandTimeout, commandType);
         }
 
         public DbCommand NewCommand(string commandText, int commandTimeout, CommandType commandType = CommandType.Text)
@@ -722,7 +721,7 @@ namespace Speed.Data
 
         public List<T> SelectSql<T>(string sql)
         {
-            return SelectSql<T>(sql, Database.CommandTimeout, false);
+            return SelectSql<T>(sql, CommandTimeout, false);
         }
 
         public List<T> SelectSql<T>(string sql, int commandTimeout)
@@ -1011,7 +1010,7 @@ namespace Speed.Data
 
         #region ExecuteNonQuery
 
-        public int ExecuteNonQueryFormat(string commandText, params object[] args)
+        public int ExecuteNonQuery(string commandText, params object[] args)
         {
             return ExecuteNonQuery(string.Format(commandText, args));
         }
@@ -1022,10 +1021,11 @@ namespace Speed.Data
                 return cmd.ExecuteNonQuery();
         }
 
-        public int ExecuteNonQuery(string commandText)
+        public int ExecuteNonQuery(string commandText, params Parameter[] parameters)
         {
             using (DbCommand cmd = NewCommand(commandText, CommandType.Text))
             {
+                cmd.Parameters.AddRange(ConvertParameters(parameters));
                 return cmd.ExecuteNonQuery();
             }
         }
@@ -1034,8 +1034,7 @@ namespace Speed.Data
         {
             using (DbCommand cmd = NewCommand(commandText, commandType))
             {
-                if (parameters != null)
-                    cmd.Parameters.AddRange(ConvertParameters(parameters));
+                cmd.Parameters.AddRange(ConvertParameters(parameters));
                 return cmd.ExecuteNonQuery();
             }
         }
@@ -1044,8 +1043,7 @@ namespace Speed.Data
         {
             using (DbCommand cmd = NewCommand(commandText, commandTimeout, commandType))
             {
-                if (parameters != null)
-                    cmd.Parameters.AddRange(ConvertParameters(parameters));
+                cmd.Parameters.AddRange(ConvertParameters(parameters));
                 return cmd.ExecuteNonQuery();
             }
         }
@@ -1057,8 +1055,7 @@ namespace Speed.Data
 
         public int ExecuteNonQuery(DbCommand cmd, params Parameter[] parameters)
         {
-            if (parameters != null)
-                cmd.Parameters.AddRange(ConvertParameters(parameters));
+            cmd.Parameters.AddRange(ConvertParameters(parameters));
             return cmd.ExecuteNonQuery();
         }
 
@@ -1114,9 +1111,9 @@ namespace Speed.Data
 
         #region ExecuteProcedure
 
-        public int ExecuteProcedure(string procName, int commandTimeout = 30, Parameter[] parameters = null)
+        public int ExecuteProcedure(string procName, int commandTimeout = 30)
         {
-            return ExecuteNonQuery(procName, CommandType.StoredProcedure, commandTimeout, parameters);
+            return ExecuteNonQuery(procName, CommandType.StoredProcedure, commandTimeout);
         }
 
         #endregion ExecuteProcedure
@@ -1133,6 +1130,17 @@ namespace Speed.Data
         public DbDataReader ExecuteReader(string commandText, int commandTimeout)
         {
             DbCommand cmd = NewCommand(commandText, commandTimeout);
+            return cmd.ExecuteReader();
+        }
+
+        public DbDataReader ExecuteReader(string commandText, params Parameter[] parameters)
+        {
+            DbCommand cmd = NewCommand(commandText);
+            if (parameters != null)
+            {
+                foreach (var par in parameters)
+                    cmd.Parameters.Add(provider.Convert(par));
+            }
             return cmd.ExecuteReader();
         }
 
@@ -1923,15 +1931,6 @@ namespace Speed.Data
         #endregion Linq
 
         #region Helper
-
-        public DbParameter CreateParameter(string parameterName, DbType dbType, ParameterDirection direction, object value, int size = 0)
-        {
-            return provider.CreateParameter(parameterName, dbType, direction, value, size);
-        }
-        public DbParameter CreateParameter(string parameterName, object value)
-        {
-            return provider.CreateParameter(parameterName, value);
-        }
 
         public DbParameter AddWithValue(DbCommand cmd, string parameterName, object value)
         {
@@ -3541,7 +3540,7 @@ namespace Speed.Data
         /// <param name="tableType"></param>
         /// <param name="useDatabase">Se usa o DatabaseName no lugar do Schema (caso do MySql)</param>
         /// <returns></returns>
-        public List<TableInfo> GetAllTables(string tableSchema = null, EnumTableType? tableType = null, bool useDatabase = false)
+        internal List<TableInfo> GetAllTables(string tableSchema = null, EnumTableType? tableType = null, bool useDatabase = false)
         {
             tableSchema = Conv.Unquote(tableSchema);
 
@@ -3610,9 +3609,6 @@ namespace Speed.Data
 
         public IDbDataParameter[] ConvertParameters(params Parameter[] parameters)
         {
-            if (parameters == null || !parameters.Any())
-                return new IDbDataParameter[];
-
             IDbDataParameter[] pars = new IDbDataParameter[parameters.Length];
             for (int i = 0; i < parameters.Length; i++)
                 pars[i] = provider.Convert(parameters[i]);

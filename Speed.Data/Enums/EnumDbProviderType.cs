@@ -17,8 +17,7 @@ namespace Speed.Data
         PostgreSQL = 7,
         Access = 8,
         SQLite = 9,
-        MariaDB = 10,
-        Odbc = 11
+        MariaDB = 10
     }
 
 }
