@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<PackageId>Speed.ORM.PostgreSQL</PackageId>
+		<PackageId>Speed.ORM.Firebird</PackageId>
 		<PackageTags>Speed;Faster;orm;sql;micro-orm;MySql</PackageTags>
 		<Title>Speed.MySql</Title>
 		<Description>
@@ -23,7 +23,7 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|AnyCPU'">
 		<DefineConstants />
-		<DocumentationFile>D:\Github\Speed\APP\Providers\Speed.PostgreSQL\Speed.PostgreSQL.xml</DocumentationFile>
+		<DocumentationFile>D:\Github\Speed\APP\Providers\Speed.Firebird\Speed.Firebird.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">

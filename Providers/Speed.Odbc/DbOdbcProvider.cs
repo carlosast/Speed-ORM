@@ -11,7 +11,7 @@ namespace Speed.Data
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
-    class DbOdbcProvider : IDbProvider
+    public class DbOdbcProvider : IDbProvider
     {
 
         Database db;
@@ -166,7 +166,7 @@ namespace Speed.Data
 
         public string SetTop(string sql, long count)
         {
-            throw new NotImplementedException();
+            return sql;
         }
 
         public string[] GetPrimaryKeyColumns(string database, string schemaName, string tableName)
@@ -203,7 +203,7 @@ namespace Speed.Data
 
         public List<TableInfo> GetAllTables(string tableSchema = null, EnumTableType? tableType = null)
         {
-            return new List<TableInfo>();
+            return db.GetAllTables(tableSchema, tableType);
         }
 
         public DataTable GetSchemaColumns(string schemaName, string tableName)

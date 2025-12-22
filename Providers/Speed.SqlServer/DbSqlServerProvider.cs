@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data;
-using Speed.Data;
 using System.Data.SqlClient;
 using Speed.Data.MetaData;
 using System.Linq;

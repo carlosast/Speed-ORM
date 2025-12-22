@@ -12,7 +12,7 @@ namespace Speed.Data
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
-    class DbAccessProvider : IDbProvider
+    public class DbAccessProvider : IDbProvider
     {
 
         Database db;

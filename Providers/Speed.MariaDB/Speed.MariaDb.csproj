@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>Speed.ORM.MySql</PackageId>
-    <PackageTags>Speed;Faster;orm;sql;micro-orm;MySql</PackageTags>
-    <Title>Speed.MySql</Title>
+    <PackageId>Speed.ORM.MariaDb</PackageId>
+    <PackageTags>Speed;Faster;orm;sql;micro-orm;MariaDb</PackageTags>
+    <Title>Speed.MariaDb</Title>
     <Description>High performance database access library.
 Use the Speed application to generate data classes:
 https://github.com/carlosast/Speed-ORM</Description>
@@ -21,7 +21,7 @@ https://github.com/carlosast/Speed-ORM</Description>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants />
-    <DocumentationFile>D:\Github\Speed\APP\Providers\Speed.MySql\Speed.MySql.xml</DocumentationFile>
+    <DocumentationFile>D:\Github\Speed\APP\Providers\Speed.MariaDb\Speed.MariaDb.xml</DocumentationFile>
   </PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">

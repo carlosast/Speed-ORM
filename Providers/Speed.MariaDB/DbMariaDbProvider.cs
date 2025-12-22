@@ -20,17 +20,17 @@ namespace Speed.Data
         public string ParameterSymbol { get { return "?"; } }
         public string ParameterSymbolVar { get { return ParameterSymbol; } }
 
-        static DbMySqlProvider()
+        static DbMariaDbProvider()
         {
             //Sys.LoadLibraryW("./MySql.Data.dll");
         }
 
-        public DbMySqlProvider(Database db)
+        public DbMariaDbProvider(Database db)
         {
             this.db = db;
         }
 
-        ~DbMySqlProvider()
+        ~DbMariaDbProvider()
         {
             db = null;
         }
@@ -325,7 +325,7 @@ select TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME,          TABLE_TYPE from informa
 
         public List<DbReferencialConstraintInfo> GetParentRelations(string schemaName, string tableName)
         {
-            return null;
+            return new List<DbReferencialConstraintInfo>();
             //return db.GetParentRelationsGeneric(schemaName, tableName);
         }
 
@@ -400,7 +400,7 @@ select TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME,          TABLE_TYPE from informa
 
         public IDbProvider CreateProvider(Database db)
         {
-            return new DbMySqlProvider(db);
+            return new DbMariaDbProvider(db);
         }
 
         public bool AddUsings(DbColumnInfo col, Dictionary<string, string> usings)

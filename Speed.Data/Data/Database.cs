@@ -1034,7 +1034,8 @@ namespace Speed.Data
         {
             using (DbCommand cmd = NewCommand(commandText, commandType))
             {
-                cmd.Parameters.AddRange(ConvertParameters(parameters));
+                if (parameters != null)
+                    cmd.Parameters.AddRange(ConvertParameters(parameters));
                 return cmd.ExecuteNonQuery();
             }
         }
@@ -1043,7 +1044,8 @@ namespace Speed.Data
         {
             using (DbCommand cmd = NewCommand(commandText, commandTimeout, commandType))
             {
-                cmd.Parameters.AddRange(ConvertParameters(parameters));
+                if (parameters != null)
+                    cmd.Parameters.AddRange(ConvertParameters(parameters));
                 return cmd.ExecuteNonQuery();
             }
         }
@@ -1055,7 +1057,8 @@ namespace Speed.Data
 
         public int ExecuteNonQuery(DbCommand cmd, params Parameter[] parameters)
         {
-            cmd.Parameters.AddRange(ConvertParameters(parameters));
+            if (parameters != null)
+                cmd.Parameters.AddRange(ConvertParameters(parameters));
             return cmd.ExecuteNonQuery();
         }
 
@@ -1111,9 +1114,9 @@ namespace Speed.Data
 
         #region ExecuteProcedure
 
-        public int ExecuteProcedure(string procName, int commandTimeout = 30)
+        public int ExecuteProcedure(string procName, int commandTimeout = 30, Parameter[] parameters = null)
         {
-            return ExecuteNonQuery(procName, CommandType.StoredProcedure, commandTimeout);
+            return ExecuteNonQuery(procName, CommandType.StoredProcedure, commandTimeout, parameters);
         }
 
         #endregion ExecuteProcedure
@@ -3538,7 +3541,7 @@ namespace Speed.Data
         /// <param name="tableType"></param>
         /// <param name="useDatabase">Se usa o DatabaseName no lugar do Schema (caso do MySql)</param>
         /// <returns></returns>
-        internal List<TableInfo> GetAllTables(string tableSchema = null, EnumTableType? tableType = null, bool useDatabase = false)
+        public List<TableInfo> GetAllTables(string tableSchema = null, EnumTableType? tableType = null, bool useDatabase = false)
         {
             tableSchema = Conv.Unquote(tableSchema);
 
@@ -3607,6 +3610,9 @@ namespace Speed.Data
 
         public IDbDataParameter[] ConvertParameters(params Parameter[] parameters)
         {
+            if (parameters == null || !parameters.Any())
+                return new IDbDataParameter[];
+
             IDbDataParameter[] pars = new IDbDataParameter[parameters.Length];
             for (int i = 0; i < parameters.Length; i++)
                 pars[i] = provider.Convert(parameters[i]);
