@@ -8,8 +8,8 @@
 Use the Speed application to generate data classes:
 https://github.com/carlosast/Speed-ORM</Description>
     <Authors>Carlos Alberto Stefani</Authors>
-	  <TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
-	  <Version>2.0.6</Version>
+	  <TargetFrameworks>net40;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+	  <Version>2.0.7</Version>
     <PackageProjectUrl>https://github.com/carlosast/Speed-ORM</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <AssemblyVersion>2.0.0</AssemblyVersion>
@@ -23,12 +23,17 @@ https://github.com/carlosast/Speed-ORM</Description>
     <StartupObject />
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
     <DefineConstants />
-    <DocumentationFile>D:\Github\Speed\APP\Providers\Speed.Access\Speed.Access.xml</DocumentationFile>
+    <DocumentationFile>Speed.Access.xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants />
+    <DocumentationFile>Speed.Access.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
     <PackageReference Include="System.Data.OleDb" Version="6.0.0" />
   </ItemGroup>
 

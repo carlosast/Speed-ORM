@@ -271,12 +271,17 @@ namespace Speed.Data
             throw new NotImplementedException();
         }
 
-        public virtual object SelectSql(Database db, string sql, int commandTimeout)
+        public virtual object SelectSql(Database db, string sql, params Parameter[] parameters)
         {
             throw new NotImplementedException();
         }
 
-        public virtual object SelectSql(Database db, string sql, int commandTimeout, bool concurrency)
+        public virtual object SelectSql(Database db, string sql, int commandTimeout, params Parameter[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual object SelectSql(Database db, string sql, int commandTimeout, bool concurrency, params Parameter[] parameters)
         {
             throw new NotImplementedException();
         }

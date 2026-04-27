@@ -139,22 +139,22 @@ namespace Speed.Data
                 return db.Select<T>(where, parameters);
         }
 
-        public static List<T> SelectSql(string sql)
+        public static List<T> SelectSql(string sql, params Parameter[] parameters)
         {
             using (var db = Sys.NewDb())
-                return db.SelectSql<T>(sql);
+                return db.SelectSql<T>(sql, parameters);
         }
 
-        public static List<T> SelectSql(string sql, int commandTimeout)
+        public static List<T> SelectSql(string sql, int commandTimeout, params Parameter[] parameters)
         {
             using (var db = Sys.NewDb())
-                return db.SelectSql<T>(sql, commandTimeout);
+                return db.SelectSql<T>(sql, commandTimeout, parameters);
         }
 
-        public static List<T> SelectSql(string sql, int commandTimeout, bool concurrency)
+        public static List<T> SelectSql(string sql, int commandTimeout, bool concurrency, params Parameter[] parameters)
         {
             using (var db = Sys.NewDb())
-                return db.SelectSql<T>(sql, commandTimeout, concurrency);
+                return db.SelectSql<T>(sql, commandTimeout, concurrency, parameters);
         }
 
         public static List<T> SelectSql(Database db, string sql)

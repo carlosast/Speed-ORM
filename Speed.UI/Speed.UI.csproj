@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Speed.UI</RootNamespace>
     <AssemblyName>Speed.UI</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -222,16 +222,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Speed.Data\Speed.Data.csproj">
-      <Project>{e9d58e90-d9b9-45f4-92cd-2e8248bc2df5}</Project>
-      <Name>Speed.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Speed.Windows\Speed.Windows.csproj">
-      <Project>{7479af82-8966-411a-a29c-134e11759809}</Project>
-      <Name>Speed.Windows</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Forms\FormApply.resx">
       <DependentUpon>FormApply.cs</DependentUpon>
     </EmbeddedResource>
@@ -290,6 +280,16 @@
       <Link>Speed.pfx</Link>
     </None>
     <None Include="Resources\Gear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Speed.Data\Speed.Data.csproj">
+      <Project>{e9d58e90-d9b9-45f4-92cd-2e8248bc2df5}</Project>
+      <Name>Speed.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Speed.Windows\Speed.Windows.csproj">
+      <Project>{7479af82-8966-411a-a29c-134e11759809}</Project>
+      <Name>Speed.Windows</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

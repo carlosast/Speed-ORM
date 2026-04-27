@@ -84,7 +84,8 @@ namespace Speed.Data
             //        Sys.CheckFiles()
             //}
             // se passar tipo nulo, ou se for DbTable, compila tudo
-            if (type == null || type.GetCustomAttributes(typeof(DbTableAttribute), false) != null)
+            var dbTableAttr = type.GetCustomAttributes(typeof(DbTableAttribute), false);
+            if (TypeExt.IsRecord(type))
                 RegisterAssemblyAndCompile(db, assembly, recompile);
             else
                 RegisterAndCompileType(db, type, recompile);
@@ -215,9 +216,12 @@ namespace Speed.Data
 
             var erros = new StringBuilder();
 
-            Sys.Trace("db.Provider.GetLastModified()");
+            Sys.Trace("db.Provider.GetHash() ?? db.Provider.GetLastModified()");
 
-            string lastModified = db.Provider.GetLastModified();
+            var tables = types.Select(type => DataReflectionUtil.GetTableName(type));
+
+            // string lastModified = db.Provider.GetHash(tables) ?? db.Provider.GetLastModified();
+            string lastModified = string.Empty;
             string dir = GetDirectory(types, db, lastModified);
             string fileCode = Path.Combine(dir, "Speed.Code.cs");
             string fileDll = Path.Combine(dir, "Speed." + types[0].Assembly.GetName().Name + ".dll");

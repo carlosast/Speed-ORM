@@ -64,11 +64,18 @@ namespace Speed.UI.Forms
 
         public void SetProgress(string message = null)
         {
-            progressBar.Value = ++index;
-            progressBar.Refresh();
-            if (message != null)
-                SetMessage(message);
-            timer1_Tick(null, null);
+            try
+            {
+                progressBar.Value = ++index;
+                progressBar.Refresh();
+                if (message != null)
+                    SetMessage(message);
+                timer1_Tick(null, null);
+            }
+            catch (Exception ex )
+            {
+
+            }
         }
 
         public void SetProgress()

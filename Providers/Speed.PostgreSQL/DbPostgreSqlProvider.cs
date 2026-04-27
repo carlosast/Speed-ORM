@@ -106,8 +106,15 @@ namespace Speed.Data
             }
             if (!string.IsNullOrWhiteSpace(password))
                 csb.Password = password;
+
             if (integratedSecurity)
-                csb.IntegratedSecurity = integratedSecurity;
+            {
+#if NET40
+            csb["Integrated Security"] = "true";
+#else
+                // Não precisa fazer nada (automático nas versões novas)
+#endif
+            }
             if (port > 0)
                 csb.Port = (int)port;
             return csb;
@@ -465,7 +472,8 @@ FROM pg_catalog.pg_attribute a, pg_namespace n, pg_class c
         {
             get
             {
-#if !NET40
+// #if !NET40
+#if NET40xxx
                 dataTypes = new Dictionary<string, DbDataType>(StringComparer.OrdinalIgnoreCase);
                 var cn = (NpgsqlConnection)db.Connection;
                 var mapper = cn.TypeMapper;
@@ -559,6 +567,11 @@ FROM pg_catalog.pg_attribute a, pg_namespace n, pg_class c
         }
 
         public string GetLastModified()
+        {
+            return null;
+        }
+
+        public string GetHash(IEnumerable<string> tableNames)
         {
             return null;
         }

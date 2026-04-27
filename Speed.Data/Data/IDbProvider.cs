@@ -73,6 +73,12 @@ namespace Speed.Data
         /// <returns></returns>
         string GetLastModified();
 
+        /// <summary>
+        /// Retorna o hash da estrutura de todas tavelas/colunas. Assim se mudar é pq teve mudanças de DDL
+        /// </summary>
+        /// <returns></returns>
+        string GetHash(IEnumerable<string> tables);
+
         TimeSpan GetTimeSpan(DbDataReader reader, int ordinal);
 
     }

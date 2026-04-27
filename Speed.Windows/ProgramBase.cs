@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
-using Speed.Data;
 using System.ServiceModel;
+using Speed.Data;
 using Speed.Common;
 
 namespace Speed.Windows
 {
 
-    public class ProgramBase : Speed.Data.Sys
+    public class ProgramBase : Sys
     {
 
         public static string Title = "";

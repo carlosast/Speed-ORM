@@ -96,7 +96,7 @@ public partial class [ClassName] : DataClass
     private [TypeName] readReaderSingle(Database db, string sql, Parameter[] parameters)
     {
         [TypeName] value = null;
-        using (DbDataReader dr = db.ExecuteReader(sql, 300, parameters))
+        using (DbDataReader dr = db.ExecuteReader(sql, Database.CommandTimeout, parameters))
         {
             List<[TypeName]> list = new List<[TypeName]>();
             if (dr.Read())
@@ -148,13 +148,13 @@ public partial class [ClassName] : DataClass
     private List<[TypeName]> select(Database db, string where, params Parameter[] parameters)
     {
         string sql = '[Sql] where ' + where;
-        return readReader(db, sql, false, 30, parameters);
+        return readReader(db, sql, false, Database.CommandTimeout, parameters);
     }
 
     private List<[TypeName]> select(Database db, string where, bool concurrency, params Parameter[] parameters)
     {
         string sql = '[Sql] where ' + where;
-        return readReader(db, sql, concurrency, 30, parameters);
+        return readReader(db, sql, concurrency, Database.CommandTimeout, parameters);
     }
 
     private List<[TypeName]> selectTop(Database db, int top, bool concurrency)
@@ -197,7 +197,7 @@ public partial class [ClassName] : DataClass
     private List<[TypeName]> selectColumns(Database db, bool concurrency, params string[] columns)
     {
         string sql = 'select ' + Concat(', ', columns) + ' from [TableName]';
-        return readReaderSql(db, sql, 30, concurrency);
+        return readReaderSql(db, sql, Database.CommandTimeout, concurrency);
     }
 
     private List<[TypeName]> selectColumns(Database db, string where, bool concurrency, params string[] columns)
@@ -207,7 +207,7 @@ public partial class [ClassName] : DataClass
             sql = 'select ' + Concat(', ', columns) + ' from [TableName] ';
         else
             sql = 'select ' + Concat(', ', columns) + ' from [TableName] where ' + where;
-        return readReaderSql(db, sql, 30, concurrency);
+        return readReaderSql(db, sql, Database.CommandTimeout, concurrency);
     }
 
     private [TypeName] selectSingle(Database db, bool concurrency)
@@ -735,19 +735,19 @@ public partial class [ClassName] : DataClass
         return SerializeToJson<[TypeName]>(select(db, where, concurrency));
     }
 
-    public override object SelectSql(Database db, string sql)
+    public override object SelectSql(Database db, string sql, params Parameter[] parameters)
     {
-        return readReader(db, sql, false, 30);
+        return readReader(db, sql, false, Database.CommandTimeout, parameters);
     }
 
-    public override object SelectSql(Database db, string sql, int commandTimeout)
+    public override object SelectSql(Database db, string sql, int commandTimeout, params Parameter[] parameters)
     {
-        return readReader(db, sql, false, commandTimeout);
+        return readReader(db, sql, false, commandTimeout, parameters);
     }
 
-    public override object SelectSql(Database db, string sql, int commandTimeout, bool concurrency)
+    public override object SelectSql(Database db, string sql, int commandTimeout, bool concurrency, params Parameter[] parameters)
     {
-        return readReader(db, sql, concurrency, commandTimeout);
+        return readReader(db, sql, concurrency, commandTimeout, parameters);
     }
 
     public override object SelectByPk(Database db, object instance)

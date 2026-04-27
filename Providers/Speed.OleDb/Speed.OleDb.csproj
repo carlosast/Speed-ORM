@@ -1,42 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<PackageId>Speed.ORM.OleDb</PackageId>
+		<PackageTags>Speed;Faster;orm;sql;micro-orm;oledb</PackageTags>
+		<Title>Speed.OleDb</Title>
+		<Description>
+			High performance database access library.
+			Use the Speed application to generate data classes:
+			https://github.com/carlosast/Speed-ORM
+		</Description>
+		<Authors>Carlos Alberto Stefani</Authors>
+		<TargetFrameworks>net40;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+		<Version>2.0.7</Version>
+		<PackageProjectUrl>https://github.com/carlosast/Speed-ORM</PackageProjectUrl>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<AssemblyVersion>2.0.0</AssemblyVersion>
+		<FileVersion>2.0.0</FileVersion>
+		<Company>Carlos Alberto Stefanis</Company>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Product>Speed.OleDb</Product>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <PackageId>Speed.ORM.OleDb</PackageId>
-    <PackageTags>Speed;Faster;orm;sql;micro-orm;Sql Server</PackageTags>
-    <Title>Speed.OleDb</Title>
-    <Description>High performance database access library.
-Use the Speed application to generate data classes:
-https://github.com/carlosast/Speed-ORM</Description>
-    <Authors>Carlos Alberto Stefani</Authors>
-    <TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
-    <Version>2.0.6</Version>
-    <PackageProjectUrl>https://github.com/carlosast/Speed-ORM</PackageProjectUrl>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <AssemblyVersion>2.0.0</AssemblyVersion>
-    <FileVersion>2.0.0</FileVersion>
-    <Company>Carlos Alberto Stefanis</Company>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Product>Speed.OleDb</Product>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants />
+		<DocumentationFile>Speed.OleDb.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants />
-    <DocumentationFile>D:\Github\Speed\APP\Providers\Speed.OleDb\Speed.OleDb.xml</DocumentationFile>
-  </PropertyGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="System.Data.OleDb" Version="7.0.0" />
+	<!-- Referência moderna apenas para targets que precisam dela -->
+	<ItemGroup Condition="'$(TargetFramework)' != 'net40'">
+		<PackageReference Include="System.Data.OleDb" Version="10.0.2" />
 	</ItemGroup>
 
 	<ItemGroup>
-    <ProjectReference Include="..\..\Speed.Data\Speed.Data.csproj" />
-  </ItemGroup>
+		<ProjectReference Include="..\..\Speed.Data\Speed.Data.csproj" />
+	</ItemGroup>
 
 </Project>

@@ -302,6 +302,11 @@ namespace Speed.Data
             return null;
         }
 
+        public string GetHash(IEnumerable<string> tableNames)
+        {
+            return null;
+        }
+
         public TimeSpan GetTimeSpan(DbDataReader reader, int ordinal)
         {
             return ((OleDbDataReader)reader).GetTimeSpan(ordinal);

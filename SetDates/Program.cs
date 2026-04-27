@@ -9,7 +9,8 @@ namespace SetDates
     {
         static void Main(string[] args)
         {
-            string dirPkg = @"D:\Github\Speed\APP\PublishPackages";
+            // string dirPkg = @"D:\Github\Speed\APP\PublishPackages";
+            string dirPkg = @"D:\Github\Speed\master\PublishPackages";
             var files = Directory.GetFiles(@"D:\Github\Speed\APP", "*.nupkg", SearchOption.AllDirectories)
                                 .Where(p => p.Contains("Release")).ToList();
             files.RemoveAll(p => p.StartsWith(dirPkg));

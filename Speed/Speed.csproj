@@ -183,10 +183,10 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <DelaySign>false</DelaySign>
@@ -195,14 +195,6 @@
     <AssemblyOriginatorKeyFile>Speed.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Sql Server\Microsoft.SqlServer.Types.dll</HintPath>
@@ -324,7 +316,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Providers\Speed.Access\Speed.Access.csproj">
       <Project>{869bf91e-5489-438f-b32c-e33c04d815d0}</Project>
@@ -347,7 +338,7 @@
       <Name>Speed.SqlServer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Speed.Data\Speed.Data.csproj">
-      <Project>{23ac56a3-c34f-4524-8d2a-3d852c50c10a}</Project>
+      <Project>{e9d58e90-d9b9-45f4-92cd-2e8248bc2df5}</Project>
       <Name>Speed.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Speed.UI\Speed.UI.csproj">

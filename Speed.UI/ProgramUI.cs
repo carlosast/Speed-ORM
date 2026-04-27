@@ -3,7 +3,7 @@
 namespace Speed.UI
 {
 
-    public class Program : ProgramBase
+    public class Program : Windows.ProgramBase
     {
     }
 

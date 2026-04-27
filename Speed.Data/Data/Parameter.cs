@@ -9,7 +9,7 @@ namespace Speed.Data
         public object Value { get; set; }
         public DbType DbType { get; set; }
         public int? Size { get; set; }
-        public ParameterDirection Direction { get; set; }
+        public ParameterDirection Direction { get; set; } = ParameterDirection.Input;
         public IDbDataParameter DbParameter { get; set; }
 
         public Parameter()
@@ -27,6 +27,14 @@ namespace Speed.Data
             this.Name = name;
             this.DbType = type;
             this.Value = value;
+        }
+
+        public Parameter(string name, DbType type, object value, ParameterDirection direction)
+        {
+            this.Name = name;
+            this.DbType = type;
+            this.Value = value;
+            this.Direction = direction;
         }
 
     }

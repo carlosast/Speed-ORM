@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<PackageId>Speed.ORM.PostgreSQL</PackageId>
-		<PackageTags>Speed;Faster;orm;sql;micro-orm;MySql</PackageTags>
-		<Title>Speed.MySql</Title>
+		<PackageTags>Speed;Faster;orm;sql;micro-orm;postgresql;npgsql</PackageTags>
+		<Title>Speed.PostgreSQL</Title>
 		<Description>
 			High performance database access library.
 			Use the Speed application to generate data classes:
 			https://github.com/carlosast/Speed-ORM
 		</Description>
 		<Authors>Carlos Alberto Stefani</Authors>
-		<TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
-		<Version>2.0.6</Version>
+		<TargetFrameworks>net40;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+		<Version>2.0.7</Version>
+		<!-- Considere incrementar a versão do pacote após alterações -->
 		<PackageProjectUrl>https://github.com/carlosast/Speed-ORM</PackageProjectUrl>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<AssemblyVersion>1.0.1.18</AssemblyVersion>
@@ -23,24 +23,28 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|AnyCPU'">
 		<DefineConstants />
-		<DocumentationFile>D:\Github\Speed\APP\Providers\Speed.PostgreSQL\Speed.PostgreSQL.xml</DocumentationFile>
+		<DocumentationFile>Speed.PostgreSQL.xml</DocumentationFile>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-		<PackageReference Include="Npgsql">
-			<Version>4.1.2</Version>
-		</PackageReference>
+	<!-- Referência Npgsql para targets modernos (netcoreapp3.1, net5.0, net6.0) -->
+	<ItemGroup Condition="'$(TargetFramework)' != 'net40'">
+		<PackageReference Include="Npgsql" Version="8.0.*" />
+		<!-- Última da série 8.x; ajuste para a versão exata mais recente (ex.: 8.0.8) -->
 	</ItemGroup>
 
-	<ItemGroup>
-	  <PackageReference Include="Npgsql" Version="5.0.12" />
+	<!-- Referência Npgsql antiga apenas para net40 -->
+	<ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+		<PackageReference Include="Npgsql" Version="2.2.5" />
 	</ItemGroup>
+
+	<!-- Removido: ItemGroup para netstandard2.0 (não usado) -->
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Speed.Data\Speed.Data.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<!-- Mono.Security provavelmente só necessário para net40/Mono -->
+	<ItemGroup Condition="'$(TargetFramework)' == 'net40'">
 		<Reference Include="Mono.Security">
 			<HintPath>..\..\Lib\Mono\Mono.Security.dll</HintPath>
 		</Reference>

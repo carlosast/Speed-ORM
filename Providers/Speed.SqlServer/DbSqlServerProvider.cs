@@ -376,7 +376,7 @@ namespace Speed.Data
                     w.Add("schema_name = '" + tableSchema + "'");
                 if (tableType == EnumTableType.Table)
                     w.Add("table_type = 'U'");
-                else if (tableType == EnumTableType.Table)
+                else if (tableType == EnumTableType.View)
                     w.Add("table_type = 'V'");
 
                 if (w.Any())
@@ -392,7 +392,7 @@ namespace Speed.Data
                         tb.TableCatalog = dr.GetString(0) as string;
                         tb.TableSchema = dr.GetString(1) as string;
                         tb.TableName = dr.GetString(2);
-                        tb.TableType = dr.GetString(3) == "U" ? EnumTableType.Table : EnumTableType.View;
+                        tb.TableType = (dr.GetString(3) ?? "").Trim() == "U" ? EnumTableType.Table : EnumTableType.View;
                         if (!dr.IsDBNull(4))
                             tb.DateModified = dr.GetDateTime(4);
                         if (tb.TableName.ToLower() != "sysdiagrams")
@@ -585,6 +585,11 @@ END;';
 select CONVERT(NVARCHAR(20), MAX(modify_date), 20) From sys.objects where type in ('U', 'V')
 ";
             return db.ExecuteString(sql, 300);
+        }
+
+        public string GetHash(IEnumerable<string> tableNames)
+        {
+            return null;
         }
 
         public TimeSpan GetTimeSpan(DbDataReader reader, int ordinal)

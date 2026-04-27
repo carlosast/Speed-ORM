@@ -574,6 +574,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Speed.Data.IDbProvider.GetHash(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Retorna o hash da estrutura de todas tavelas/colunas. Assim se mudar é pq teve mudanças de DDL
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Speed.Data.Data.ProviderHelper">
             <summary>
             Common provider methods

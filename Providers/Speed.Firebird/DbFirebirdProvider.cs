@@ -496,6 +496,11 @@ FROM pg_catalog.pg_attribute a, pg_namespace n, pg_class c
             return null;
         }
 
+        public string GetHash(IEnumerable<string> tableNames)
+        {
+            return null;
+        }
+
         public TimeSpan GetTimeSpan(DbDataReader reader, int ordinal)
         {
             throw new NotImplementedException();

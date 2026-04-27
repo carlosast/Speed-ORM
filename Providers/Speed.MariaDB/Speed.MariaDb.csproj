@@ -8,8 +8,8 @@
 Use the Speed application to generate data classes:
 https://github.com/carlosast/Speed-ORM</Description>
     <Authors>Carlos Alberto Stefani</Authors>
-    <TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
-    <Version>2.0.6</Version>
+    <TargetFrameworks>net40;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+    <Version>2.0.7</Version>
     <PackageProjectUrl>https://github.com/carlosast/Speed-ORM</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <AssemblyVersion>2.0.0</AssemblyVersion>
@@ -21,8 +21,12 @@ https://github.com/carlosast/Speed-ORM</Description>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants />
-    <DocumentationFile>D:\Github\Speed\APP\Providers\Speed.MariaDb\Speed.MariaDb.xml</DocumentationFile>
+    <DocumentationFile>Speed.MariaDb.xml</DocumentationFile>
   </PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+		<PackageReference Include="MySql.Data" Version="6.9.12" />
+	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
 		<PackageReference Include="MySql.Data" Version="8.0.28" />

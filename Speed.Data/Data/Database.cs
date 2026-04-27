@@ -12,9 +12,7 @@ using System.IO;
 using Speed;
 using Speed.Data.MetaData;
 using Speed.Data.Generation;
-using System.Runtime.InteropServices;
 using Speed.Common;
-using System.Drawing;
 
 #if USELINQ
 using IQ;
@@ -725,15 +723,20 @@ namespace Speed.Data
             return SelectSql<T>(sql, Database.CommandTimeout, false);
         }
 
-        public List<T> SelectSql<T>(string sql, int commandTimeout)
+        public List<T> SelectSql<T>(string sql, params Parameter[] parameters)
         {
-            return SelectSql<T>(sql, commandTimeout, false);
+            return SelectSql<T>(sql, Database.CommandTimeout, false, parameters);
         }
 
-        public List<T> SelectSql<T>(string sql, int commandTimeout, bool concurrency)
+        public List<T> SelectSql<T>(string sql, int commandTimeout, params Parameter[] parameters)
+        {
+            return SelectSql<T>(sql, commandTimeout, false, parameters);
+        }
+
+        public List<T> SelectSql<T>(string sql, int commandTimeout, bool concurrency, params Parameter[] parameters)
         {
             DataClass dc = getCache<T>();
-            return (List<T>)dc.SelectSql(this, sql, commandTimeout, concurrency);
+            return (List<T>)dc.SelectSql(this, sql, commandTimeout, concurrency, parameters);
         }
 
         public T SelectByPK<T>(T instance)
@@ -3611,7 +3614,7 @@ namespace Speed.Data
         public IDbDataParameter[] ConvertParameters(params Parameter[] parameters)
         {
             if (parameters == null || !parameters.Any())
-                return new IDbDataParameter[];
+                return new IDbDataParameter[0];
 
             IDbDataParameter[] pars = new IDbDataParameter[parameters.Length];
             for (int i = 0; i < parameters.Length; i++)

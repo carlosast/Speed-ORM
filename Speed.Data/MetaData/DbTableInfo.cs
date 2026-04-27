@@ -38,6 +38,11 @@ namespace Speed.Data.MetaData
 
         #endregion Declarations
 
+        public DbTableInfo()
+        {
+
+        }
+
         public DbTableInfo(Database cn, string tableName)
             : this(cn, tableName, false)
         {

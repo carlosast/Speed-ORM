@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Speed.Data;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -72,6 +73,17 @@ namespace Speed.Common
                 if (!assemblies.Contains(ass.Location))
                     assemblies.Add(ass.Location);
             }
+        }
+
+        public static bool IsRecord<T>()
+        {
+            return IsRecord(typeof(T));
+        }
+
+        public static bool IsRecord(Type type)
+        {
+            var dbTableAttr = type.GetCustomAttributes(typeof(DbTableAttribute), false);
+            return dbTableAttr != null && dbTableAttr.Length > 0;
         }
 
     }

@@ -651,8 +651,17 @@ ORDER BY
 
         public IDbDataParameter Convert(Parameter parameter)
         {
-            // TODO: implementar a conversão de DbType para OracleDbType
-            return new OracleParameter(parameter.Name, parameter.Value);
+            var par = new OracleParameter
+            {
+                ParameterName = parameter.Name,
+                Value = parameter.Value,
+                DbType = parameter.DbType,
+                Direction = parameter.Direction
+            };
+
+            if (parameter.Size.GetValueOrDefault() > 0)
+                par.Size = parameter.Size.Value;
+            return par;
         }
 
         public string GetInsertXml()
@@ -692,6 +701,48 @@ ORDER BY
         public string GetLastModified()
         {
             string sql = @"select to_char(max(last_ddl_time), 'YYYY-MM-DD HH24:MI:SS') last_ddl_time from user_objects where object_type in ('TABLE', 'VIEW')";
+            return db.ExecuteString(sql, 300);
+        }
+
+        public string GetHash(IEnumerable<string> tableNames)
+        {
+
+            string sql =
+@"SELECT
+    SUM(DBMS_UTILITY.GET_HASH_VALUE(
+            object_type || '|' ||
+            table_name || '|' ||
+            column_id || '|' ||
+            column_name || '|' ||
+            tipo_formatado || '|' ||
+            nulo,
+            1,
+            1073741824
+         )) AS HASH_ESTRUTURA_TABELAS_E_VIEWS
+FROM (
+    SELECT 
+        o.object_type,
+        c.table_name,
+        c.column_id,
+        c.column_name,
+        CASE 
+            WHEN c.data_type IN ('VARCHAR2','CHAR') THEN c.data_type || '(' || c.data_length || ')'
+            WHEN c.data_type = 'NUMBER' AND c.data_precision IS NOT NULL 
+                THEN 'NUMBER(' || c.data_precision || ',' || NVL(c.data_scale,0) || ')'
+            WHEN c.data_type IN ('DATE','TIMESTAMP') THEN c.data_type
+            ELSE c.data_type 
+        END AS tipo_formatado,
+        DECODE(c.nullable, 'Y', 'NULL', 'NOT NULL') AS nulo
+    FROM user_tab_columns c
+    JOIN user_objects o ON c.table_name = o.object_name
+    WHERE o.object_type IN ('TABLE', 'VIEW')
+      AND o.generated = 'N'
+      AND upper(o.OBJECT_NAME) IN ([Tables])
+)";
+
+            var sqlTables = string.Join(", ", tableNames.Select(p => "'" + p.ToUpper() + "'"));
+            sql = sql.Replace("[Tables]", sqlTables);
+
             return db.ExecuteString(sql, 300);
         }
 

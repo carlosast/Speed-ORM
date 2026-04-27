@@ -213,7 +213,8 @@ namespace Speed.UI.UserControls
 
 
             // Tables
-            var dbTbs = db.Provider.GetAllTables(null, EnumTableType.Table).ToDictionary(p => p.FullName);
+            var all = db.Provider.GetAllTables(null);
+            var dbTbs = all.Where(p => p.TableType == EnumTableType.Table).ToDictionary(p => p.FullName);
             foreach (var table in file.Parameters.Tables.ToList())
             {
                 if (!dbTbs.ContainsKey(table.FullName))
@@ -221,7 +222,7 @@ namespace Speed.UI.UserControls
             }
 
             // Views
-            var dbVws = db.Provider.GetAllTables(null, EnumTableType.View).ToDictionary(p => p.FullName);
+            var dbVws = all.Where(p => p.TableType == EnumTableType.View).ToDictionary(p => p.FullName);
             foreach (var view in file.Parameters.Views.ToList())
             {
                 if (!dbVws.ContainsKey(view.FullName))
