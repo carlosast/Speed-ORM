@@ -222,11 +222,6 @@ namespace Speed.Data.Generation
 
             infos = table.Columns;
 
-#if DEBUG
-            if (type.Name.Equals("VwSisLog"))
-                type.ToString();
-#endif
-
             foreach (KeyValuePair<string, DbColumnInfo> pair in table.Columns)
             {
                 DbColumnInfo ci = pair.Value;
@@ -780,6 +775,8 @@ namespace Speed.Data.Generation
         {
             Assembly assembly = null;
 
+            Database.Code.Add(code);
+
             var references = new List<string>();
 
             TypeExt.LoadAssemblies<Database>(assemblies);
@@ -906,9 +903,6 @@ namespace Speed.Data.Generation
             }
             else
             {
-#if DEBUG
-                Database.Code.Add(code);
-#endif
             }
             return assembly;
         }
@@ -929,6 +923,9 @@ namespace Speed.Data.Generation
             CodeDomProvider provider = new CSharpCodeProvider();
             CompilerParameters cp = new CompilerParameters();
             cp.GenerateExecutable = false;
+
+            Database.Code.Add(code);
+
 
             if (fileDll == null)
             {
@@ -995,9 +992,6 @@ namespace Speed.Data.Generation
             }
             else
             {
-#if DEBUG
-                Database.Code.Add(code);
-#endif
             }
 
             if (fileDll != null)

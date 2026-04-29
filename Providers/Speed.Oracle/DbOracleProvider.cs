@@ -19,6 +19,7 @@ namespace Speed.Data
     {
 
         Database db;
+        private static readonly object _lockObj = new object();
         public string ParameterSymbol { get { return ":"; } }
         public string ParameterSymbolVar { get { return ":"; } }
 
@@ -630,7 +631,22 @@ ORDER BY
             get
             {
                 if (reservedWords == null)
-                    reservedWords = db.GetReservedWordsGeneric();
+                {
+                    lock (_lockObj)          // ← Protege a soma
+                    {
+                        reservedWords = new Dictionary<string, string>();
+                        // reservedWords = db.GetReservedWordsGeneric();
+                        DataTable tb = db.ExecuteDataTable("SELECT keyword FROM v$reserved_words WHERE reserved = 'Y' and not keyword is null ORDER BY keyword");
+                        foreach (DataRow row in tb.Rows)
+                        {
+                            string word = (string)row[0];
+                            if (word.Length > 1)
+                            {
+                                reservedWords.Add(word, null);
+                            }
+                        }
+                    }
+                }
                 return reservedWords;
             }
         }

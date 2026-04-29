@@ -189,6 +189,11 @@ namespace Speed.Data.MetaData
             {
                 // Usa DataTable
                 tc.Next("DbColumnInfo");
+                if (tb2 == null)
+                {
+                    throw new Exception($"Table/View not found: {FullName}");
+                }
+                
                 foreach (DataColumn col in tb2.Columns)
                 {
                     DbColumnInfo item = new DbColumnInfo(db, tableName, col);

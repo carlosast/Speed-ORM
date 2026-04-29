@@ -1,21 +1,21 @@
+Ôªøusing Speed.Common;
+using Speed.Data.Generation;
+using Speed.Data.MetaData;
+using Speed.IO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-using System.IO;
-using Speed.Data.MetaData;
-using Speed.Data.Generation;
-using Speed.Common;
-using Speed.IO;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 
 namespace Speed.Data
 {
 
     /// <summary>
-    /// Classe de armazenamento em memÛria das classes geradas e compiladas dinamicamente,
-    /// para otimizar a execuÁ„o de cÛdigo, pois Reflection È muito lento
+    /// Classe de armazenamento em mem√≥ria das classes geradas e compiladas dinamicamente,
+    /// para otimizar a execu√ß√£o de c√≥digo, pois Reflection √© muito lento
     /// </summary>
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
@@ -26,7 +26,7 @@ namespace Speed.Data
         private Dictionary<Type, DataClass> cache;
         private Dictionary<string, DataClass> cacheByName;
         /// <summary>
-        /// Tipos em cache pra reflex„o apenas.
+        /// Tipos em cache pra reflex√£o apenas.
         /// </summary>
         private static List<string> assRegistered = new List<string>();
         private static Dictionary<string, Type> refTypes = new Dictionary<string, Type>(StringComparer.InvariantCultureIgnoreCase);
@@ -100,7 +100,7 @@ namespace Speed.Data
 
             //TimerCount tc = new TimerCount("RegisterAssemblyAndCompile");
 
-            // n„o registra duas vezes
+            // n√£o registra duas vezes
             Sys.Trace("name = " + name);
             Sys.Trace("Connection: " + db.Connection.ConnectionString + db.ProviderType);
             lock (assRegistered)
@@ -132,11 +132,16 @@ namespace Speed.Data
                 {
                     foreach (Type tp in tps)
                     {
-                        if (!refTypes.ContainsKey(tp.Name))
-                            refTypes.Add(tp.Name, tp);
-                        types.Add(tp);
+                        try
+                        {
+                            if (!refTypes.ContainsKey(tp.Name))
+                                refTypes.Add(tp.Name, tp);
+                            types.Add(tp);
+                        }
+                        catch { }
                     }
                 }
+
                 assTypes.Add(name, types);
 #if DEBUG2
             records = records.OrderBy(p => p.Name).ToList();
@@ -153,7 +158,7 @@ namespace Speed.Data
 
             //TimerCount tc = new TimerCount("RegisterAssemblyAndCompile");
 
-            // n„o registra duas vezes
+            // n√£o registra duas vezes
             lock (refTypes)
             {
                 if (!refTypes.ContainsKey(type.Name))
@@ -221,12 +226,13 @@ namespace Speed.Data
             var tables = types.Select(type => DataReflectionUtil.GetTableName(type));
 
             // string lastModified = db.Provider.GetHash(tables) ?? db.Provider.GetLastModified();
-            string lastModified = string.Empty;
+            string lastModified = null;
             string dir = GetDirectory(types, db, lastModified);
             string fileCode = Path.Combine(dir, "Speed.Code.cs");
             string fileDll = Path.Combine(dir, "Speed." + types[0].Assembly.GetName().Name + ".dll");
 
-            if (!recompile && lastModified != null)
+            // se n√£o for recompila√ß√£o for√ßada, checa se a fileDll existe
+            if (!recompile /* && lastModified != null*/)
             {
                 if (!Directory.Exists(dir))
                     Directory.CreateDirectory(dir);
@@ -268,6 +274,8 @@ namespace Speed.Data
 
             List<string> codes = new List<string>();
 
+
+            var tc2 = new TimerCount("Gerar c√≥digo");
             int i = 0;
             foreach (var type in types)
             {
@@ -296,6 +304,8 @@ namespace Speed.Data
                 i++;
             }
 
+            Console.WriteLine(tc2.ToString());
+
             if (erros.Length > 0)
             {
                 Sys.Trace("Erros: " + erros.ToString());
@@ -320,7 +330,7 @@ namespace Speed.Data
             Assembly ass = null;
 
 #if DEBUG
-            //Descomentar somente se for necess·rio. Impacta muito a performance
+            //Descomentar somente se for necess√°rio. Impacta muito a performance
             try
             {
                 string dirAc = Path.Combine(@"..\..\DataClass", types[0].Namespace);
@@ -332,7 +342,7 @@ namespace Speed.Data
             catch { }
 #endif
 
-            // para aplicaÁıes web, Assembly.GetEntryAssembly() sempre retorna null
+            // para aplica√ß√µes web, Assembly.GetEntryAssembly() sempre retorna null
             //if (Assembly.GetEntryAssembly() != null)
             //{
             tc.Next("Compile");
@@ -389,13 +399,13 @@ namespace Speed.Data
 
             if (ass == null)
             {
-                Sys.Trace("Compilando na memÛria");
-                // compila na memÛria
+                Sys.Trace("Compilando na mem√≥ria");
+                // compila na mem√≥ria
                 if (!singleClass)
                     ass = CodeGenerator.Compile(db, types[0], code, "All Classes", fileDll, otherUsings);
                 else
                     ass = CodeGenerator.Compile(db, types[0], code, types[0].FullName, null, otherUsings);
-                Sys.Trace("Compilado na memÛria: " + fileDll);
+                Sys.Trace("Compilado na mem√≥ria: " + fileDll);
             }
 
 #if DEBUG2
@@ -439,7 +449,7 @@ namespace Speed.Data
         /// </summary>
         /// <param name="types"></param>
         /// <param name="db"></param>
-        /// <param name="lastModified">⁄ltima data de table ou view aterado na base</param>
+        /// <param name="lastModified">√öltima data de table ou view aterado na base</param>
         /// <returns></returns>
         string GetDirectory(List<Type> types, Database db, string lastModified)
         {
@@ -448,12 +458,16 @@ namespace Speed.Data
                 string nspace = types.First().Namespace;
                 var tnames = new StringBuilder();
 
-                var fullName = this.GetType().Assembly.Location;
-                tnames.Append(fullName);
-                tnames.Append(getFileTime(fullName));
+                var speedfullName = this.GetType().Assembly.Location;
+                tnames.Append(speedfullName);
+                tnames.Append(getFileTime(speedfullName));
 
                 foreach (var type in types)
                 {
+#if DEBUG
+                    var x = DataReflectionUtil.GetColumns(type);
+                    var s = string.Join(",", DataReflectionUtil.GetColumns(type).Where(p => p.Value != null).Select(q => q.Value.ToString()));
+#endif
                     tnames.Append(type.FullName + " - " + DataReflectionUtil.GetSchemaName(type) + " - " + DataReflectionUtil.GetTableName(type));
                     var tcols = Cryptography.Hash(string.Join(",", DataReflectionUtil.GetColumns(type).Where(p => p.Value != null).Select(q => q.Value.ToString())));
                     tnames.Append(" -> " + tcols);
@@ -484,7 +498,7 @@ namespace Speed.Data
                     dirBase = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                     dir = Path.Combine(dirBase, "Speed", db.ProviderType.ToString(), nspace, hashName);
                 }
-                
+
                 return dir;
             }
             catch (Exception ex)
@@ -499,7 +513,10 @@ namespace Speed.Data
             try
             {
                 if (!string.IsNullOrEmpty(path) && File.Exists(path))
-                    return File.GetLastWriteTime(path);
+                {
+                    var d = File.GetLastWriteTime(path);
+                    return new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second);
+                }
                 return null;
             }
             catch

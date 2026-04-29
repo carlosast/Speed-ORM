@@ -19,6 +19,26 @@
             Classe de atributo de um view do banco de dados
             </summary>
         </member>
+        <member name="M:Speed.Data.Common.ParallelProcessor.AddAction(System.Action)">
+            <summary>
+            Adiciona um método/action para ser executado em paralelo
+            </summary>
+        </member>
+        <member name="M:Speed.Data.Common.ParallelProcessor.AddActions(System.Collections.Generic.IEnumerable{System.Action})">
+            <summary>
+            Adiciona vários métodos de uma vez
+            </summary>
+        </member>
+        <member name="M:Speed.Data.Common.ParallelProcessor.Process(System.Threading.CancellationToken)">
+            <summary>
+            Executa todos os Actions adicionados em paralelo (com limite de simultaneidade)
+            </summary>
+        </member>
+        <member name="M:Speed.Data.Common.ParallelProcessor.Clear">
+            <summary>
+            Limpa todas as actions adicionadas
+            </summary>
+        </member>
         <member name="T:Speed.Data.BLClass`1">
             <summary>
             Classe template pra usar na BL

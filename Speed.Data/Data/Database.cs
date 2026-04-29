@@ -34,9 +34,7 @@ namespace Speed.Data
 
         // [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         // private static extern bool SetDllDirectory(string path);
-#if DEBUG
         public static List<string> Code = new List<string>();
-#endif
 
         #region Declarations
 

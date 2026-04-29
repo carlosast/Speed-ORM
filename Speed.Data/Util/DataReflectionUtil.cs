@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Speed.Data
 {
@@ -83,6 +84,7 @@ namespace Speed.Data
             {
                 Type t = pi.PropertyType;
                 string name = t.Name;
+                var propType = Nullable.GetUnderlyingType(pi.PropertyType) ?? pi.PropertyType;
 
                 var cas = pi.GetCustomAttributes(typeof(DbColumnAttribute), true).ToList();
                 if (cas.Count == 1)
@@ -97,6 +99,9 @@ namespace Speed.Data
                 {
                     columns.Add(pi.Name, new DbColumnAttribute(pi.Name));
                 }
+
+                if (columns[pi.Name].DataTypeDotNet == null)
+                    columns[pi.Name].DataTypeDotNet = propType.Name;
             }
             return columns;
         }
