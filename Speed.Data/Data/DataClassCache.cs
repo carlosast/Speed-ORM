@@ -1,6 +1,7 @@
 ﻿using Speed.Common;
 using Speed.Data.Generation;
 using Speed.Data.MetaData;
+using Speed.Data.Util;
 using Speed.IO;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Speed.Data
@@ -215,6 +217,7 @@ namespace Speed.Data
 
         private void GenerateDataClasses(Database db, List<Type> types, bool singleClass = false, bool recompile = false)
         {
+            var tc = new TimerCount("GenerateDataClasses");
             Sys.Trace("GenerateDataClasses. types.Count = " + types.Count);
             if (types.Count == 0)
                 return;
@@ -231,6 +234,12 @@ namespace Speed.Data
             string fileCode = Path.Combine(dir, "Speed.Code.cs");
             string fileDll = Path.Combine(dir, "Speed." + types[0].Assembly.GetName().Name + ".dll");
 
+
+            LogClear();
+            WriteLog("Dir: " +  Path.GetDirectoryName(Sys.AppDirectory));
+            WriteLog($"recompile: {recompile}");
+
+            tc.Next("IF");
             // se não for recompilação forçada, checa se a fileDll existe
             if (!recompile /* && lastModified != null*/)
             {
@@ -242,9 +251,12 @@ namespace Speed.Data
 
                 if (File.Exists(fileDll))
                 {
+                    WriteLog($"fileDll Exists: {fileDll}");
                     Sys.Trace("fileDll Exists");
                     try
                     {
+
+                        tc.Next($"Assembly.LoadFile");
                         var assCache = Assembly.LoadFile(fileDll);
 
                         var typesDataClass = assCache.GetExportedTypes();
@@ -255,6 +267,7 @@ namespace Speed.Data
                         }
 
                         Sys.Trace("fileDll carregada do cache");
+                        WriteLog(tc.ToString());
                         return;
                     }
                     catch (Exception ex)
@@ -266,7 +279,8 @@ namespace Speed.Data
                 }
             }
 
-            TimerCount tc = new TimerCount("TestSelect");
+            WriteLog($"Recompilando: {fileDll}");
+            tc.Next("Recompilando");
 
             Dictionary<Type, dataInfo> dataInfos = new Dictionary<Type, dataInfo>();
             // other usings 
@@ -442,6 +456,7 @@ namespace Speed.Data
                 }
             }
             string time = tc.ToString();
+            WriteLog(time);
         }
 
         /// <summary>
@@ -458,13 +473,13 @@ namespace Speed.Data
                 string nspace = types.First().Namespace;
                 var tnames = new StringBuilder();
 
-                var speedfullName = this.GetType().Assembly.Location;
-                tnames.Append(speedfullName);
-                tnames.Append(getFileTime(speedfullName));
+                //var speedfullName = this.GetType().Assembly.Location;
+                //tnames.Append(speedfullName);
+                //tnames.Append(getFileTime(speedfullName));
 
                 foreach (var type in types)
                 {
-#if DEBUG
+#if DEBUG2
                     var x = DataReflectionUtil.GetColumns(type);
                     var s = string.Join(",", DataReflectionUtil.GetColumns(type).Where(p => p.Value != null).Select(q => q.Value.ToString()));
 #endif
@@ -472,11 +487,6 @@ namespace Speed.Data
                     var tcols = Cryptography.Hash(string.Join(",", DataReflectionUtil.GetColumns(type).Where(p => p.Value != null).Select(q => q.Value.ToString())));
                     tnames.Append(" -> " + tcols);
                     tnames.AppendLine(Cryptography.Hash(string.Join(",", type.GetProperties().Select(p => p.ToString()))));
-                }
-
-                if (!Debugger.IsAttached)
-                {
-                    tnames.Append(getFileTime(types[0].Assembly.Location));
                 }
 
                 string hashName = FileTools.ToValidPath(Cryptography.Hash(
@@ -487,7 +497,11 @@ namespace Speed.Data
                     .Replace("=", "").Replace("/", "").Replace("\\", ""));
 
                 string dirBase = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                string dir = Path.Combine(dirBase, "Speed", db.ProviderType.ToString(), nspace, hashName);
+                string assName = AppAssembly.GetFullName();
+                if (assName.Contains(","))
+                    assName = assName.Substring(0, assName.IndexOf(","));
+
+                string dir = Path.Combine(dirBase, "Speed", assName, db.ProviderType.ToString(), nspace, hashName);
 
                 try
                 {
@@ -540,5 +554,27 @@ namespace Speed.Data
         {
             return cacheByName.ContainsKey(typeName);
         }
+
+        private void WriteLog(string msg)
+        {
+            return;
+            string fileLog = Path.Combine(Path.GetDirectoryName(Sys.AppDirectory), "Speed.log");
+        
+            using (StreamWriter w = new StreamWriter(fileLog, true))
+            {
+                w.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " - " + msg);
+            }
+        }
+
+        private void LogClear()
+        {
+            return;
+            string fileLog = Path.Combine(Path.GetDirectoryName(Sys.AppDirectory), "Speed.log");
+            if (File.Exists(fileLog))
+            {
+                File.Delete(fileLog);
+            }
+        }
+
     }
 }

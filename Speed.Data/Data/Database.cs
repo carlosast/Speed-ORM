@@ -1,4 +1,4 @@
-#define USELINQ2
+Ôªø#define USELINQ2
 
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace Speed.Data
 {
 
     /// <summary>
-    /// Classe de conex„o e mÈtodos ˙teis de acesso ‡ base de dados
+    /// Classe de conex√£o e m√©todos √∫teis de acesso √† base de dados
     /// </summary>
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
@@ -54,12 +54,12 @@ namespace Speed.Data
 
         IDbProvider provider;
         EnumDbProviderType providerType;
-        private bool usingTransaction; // indica que uma transaÁ„o est· pendente
-        private DbConnection cn;  // vari·vel de conex„o
-        private DbTransaction tr; // vari·vel de transaÁ„o
+        private bool usingTransaction; // indica que uma transa√ß√£o est√° pendente
+        private DbConnection cn;  // vari√°vel de conex√£o
+        private DbTransaction tr; // vari√°vel de transa√ß√£o
         private string databaseName;
         /// <summary>
-        /// Cache est·tico (usado por todas as inst‚ncias)
+        /// Cache est√°tico (usado por todas as inst√¢ncias)
         /// </summary>
         private static DataClassCache cache = new DataClassCache();
         // private event EventHandler<DbSqlInfoMessage> infoMessage;
@@ -93,7 +93,7 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// Propriedade que indica que uma transaÁ„o est· em uso
+        /// Propriedade que indica que uma transa√ß√£o est√° em uso
         /// </summary>
         public bool UsingTransaction
         {
@@ -298,14 +298,14 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// Fecha a conex„o com o banco de dados.
-        /// Caso esteja em transaÁ„o, d· rollback autom·tico
+        /// Fecha a conex√£o com o banco de dados.
+        /// Caso esteja em transa√ß√£o, d√° rollback autom√°tico
         /// </summary>
         public void Close()
         {
             if (tr != null)
             {
-                // se o desenvolvedor n„o deu commit, d· rollback autom·tico
+                // se o desenvolvedor n√£o deu commit, d√° rollback autom√°tico
                 if (usingTransaction)
                     tr.Rollback();
                 tr.Dispose();
@@ -340,7 +340,7 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// inicia uma transaÁ„o
+        /// inicia uma transa√ß√£o
         /// </summary>
         public void BeginTransaction()
         {
@@ -348,13 +348,13 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// inicia uma transaÁ„o
+        /// inicia uma transa√ß√£o
         /// </summary>
         /// <param name="iso">Isolation Level</param>
         public void BeginTransaction(System.Data.IsolationLevel iso)
         {
             usingTransaction = true;
-            // se n„o carregou ainda, carrega os data types
+            // se n√£o carregou ainda, carrega os data types
             var d = Provider.DataTypes;
             tr = cn.BeginTransaction(iso);
         }
@@ -601,7 +601,7 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// Retorna todos os registros. Se desejar que estes possam ser usados para atualizaÁ„o no banco
+        /// Retorna todos os registros. Se desejar que estes possam ser usados para atualiza√ß√£o no banco
         /// de dados, use concurrency = true
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -629,7 +629,7 @@ namespace Speed.Data
         #region SelectColumns
 
         /// <summary>
-        /// Retorna todos os registros. Se desejar que estes possam ser usados para atualizaÁ„o no banco
+        /// Retorna todos os registros. Se desejar que estes possam ser usados para atualiza√ß√£o no banco
         /// de dados, use concurrency = true
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -662,7 +662,7 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// Retorn 1 record. Se desejar que estes possam ser usados para atualizaÁ„o no banco
+        /// Retorn 1 record. Se desejar que estes possam ser usados para atualiza√ß√£o no banco
         /// de dados, use concurrency = true
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -863,7 +863,7 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// Exclui registros filtrados pela cl·usula where
+        /// Exclui registros filtrados pela cl√°usula where
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="where"></param>
@@ -875,7 +875,7 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// Exclui registros filtrados pela cl·usula where
+        /// Exclui registros filtrados pela cl√°usula where
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="where"></param>
@@ -889,7 +889,7 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// Exclui registros filtrados pela cl·usula where
+        /// Exclui registros filtrados pela cl√°usula where
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="where"></param>
@@ -903,7 +903,7 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// Exclui registros filtrados pela cl·usula where
+        /// Exclui registros filtrados pela cl√°usula where
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="where"></param>
@@ -916,7 +916,7 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// Exclui registros filtrados pela cl·usula where
+        /// Exclui registros filtrados pela cl√°usula where
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="where"></param>
@@ -1175,7 +1175,7 @@ namespace Speed.Data
         #region Metadata
 
         /// <summary>
-        /// Retorna informaÁıes de todas as colunas da tabela tableName
+        /// Retorna informa√ß√µes de todas as colunas da tabela tableName
         /// </summary>
         /// <param name="db"></param>
         /// <param name="tableName"></param>
@@ -1208,7 +1208,7 @@ namespace Speed.Data
                 if (dataType != null)
                     col.DataTypeDotNet = dataType.GetDataTypeDotNet(true);
                 else
-                    return null; // objeto inv·lido
+                    return null; // objeto inv√°lido
             }
             return cols;
         }
@@ -1324,7 +1324,7 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// MÈtodo r·pido e simples de retornar o Schema
+        /// M√©todo r√°pido e simples de retornar o Schema
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
@@ -1358,7 +1358,7 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// MÈtodo r·pido e simples de retornar o Schema
+        /// M√©todo r√°pido e simples de retornar o Schema
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
@@ -1503,8 +1503,8 @@ namespace Speed.Data
 
                     DataTable tb, tbAux;
 
-                    // TODO: retirar essa lÛgica daqui e mover para os providers
-                    // TODO: ReferentialContraints e outras vari·veis est·ticas deve ser dependente da base de dados. Se trabalhar com mais uma base de dados n„o funcionar·. usar DataTimer e indexar por (ProviderType+ConnectionString)
+                    // TODO: retirar essa l√≥gica daqui e mover para os providers
+                    // TODO: ReferentialContraints e outras vari√°veis est√°ticas deve ser dependente da base de dados. Se trabalhar com mais uma base de dados n√£o funcionar√°. usar DataTimer e indexar por (ProviderType+ConnectionString)
 
                     if (provider.SupportInformationSchema)
                     {
@@ -1604,7 +1604,7 @@ namespace Speed.Data
                                     {
                                         if (providerType != EnumDbProviderType.Access)
                                         {
-                                            // seta somente se n„o veio do metadata
+                                            // seta somente se n√£o veio do metadata
                                             DbConstraintColumnInfo col = fk.Columns[i];
                                             if (col.ReferencedTableName == null)
                                             {
@@ -1851,7 +1851,7 @@ namespace Speed.Data
 
                     string sql = "select * from INFORMATION_SCHEMA.PARAMETERS";
                     if (ProviderType == EnumDbProviderType.MySql)
-                        sql = sql += " WHERE ¥SPECIFIC_SCHEMA = '" + databaseName + "'";
+                        sql = sql += " WHERE ¬¥SPECIFIC_SCHEMA = '" + databaseName + "'";
 
                     using (var tb = ExecuteDataTable(sql))
                     {
@@ -1903,7 +1903,7 @@ namespace Speed.Data
             this.provider = new DbQueryProvider(db, StandardPolicy, log);
             this.SelectSql = new SelectSql<Record>(this.provider);
             islinqInit = true;
-            // sÛ pra tirar o warning de n„o usado
+            // s√≥ pra tirar o warning de n√£o usado
             islinqInit.ToString();
         }
 
@@ -2025,13 +2025,13 @@ namespace Speed.Data
 
         /*
         /// <summary>
-        /// Registrar classe de um assembly. Isto somente È necess·rio se desejar usar os mÈtodos de reflex„o
+        /// Registrar classe de um assembly. Isto somente √© necess√°rio se desejar usar os m√©todos de reflex√£o
         /// </summary>
         /// <param name="assembly"></param>
         public static void RegisterAssembly(string assemblyName)
         {
             string name = assemblyName.Trim().ToLower();
-            // n„o registra duas vezes
+            // n√£o registra duas vezes
             lock (assRegistered)
             {
                 if (assRegistered.Contains(name))
@@ -2045,7 +2045,7 @@ namespace Speed.Data
             {
                 foreach (Type tp in tps)
                 {
-                    // sÛ registra as classes que herdam de Record
+                    // s√≥ registra as classes que herdam de Record
                     if ((Activator.CreateInstance(tp) as Record) != null)
                         if (!refTypes.ContainsKey(tp.Name))
                             refTypes.Add(tp.Name, tp);
@@ -2056,13 +2056,13 @@ namespace Speed.Data
 
         /*
         /// <summary>
-        /// Registrar classe de um assembly. Isto somente È necess·rio se desejar usar os mÈtodos de reflex„o
+        /// Registrar classe de um assembly. Isto somente √© necess√°rio se desejar usar os m√©todos de reflex√£o
         /// </summary>
         /// <param name="assembly"></param>
         public static void RegisterAssembly(Assembly assembly)
         {
             string name = assembly.FullName.ToLower();
-            // n„o registra duas vezes
+            // n√£o registra duas vezes
             lock (assRegistered)
             {
                 if (assRegistered.Contains(name))
@@ -2076,7 +2076,7 @@ namespace Speed.Data
             //{
             //    foreach (Type tp in tps)
             //    {
-            //        // sÛ registra as classes que herdam de Record
+            //        // s√≥ registra as classes que herdam de Record
             //        try
             //        {
             //            if ((Activator.CreateInstance(tp) as Record) != null)
@@ -2111,7 +2111,7 @@ namespace Speed.Data
 
         /*
         /// <summary>
-        /// Registrar classe de um assembly. Isto somente È necess·rio se desejar usar os mÈtodos de reflex„o
+        /// Registrar classe de um assembly. Isto somente √© necess√°rio se desejar usar os m√©todos de reflex√£o
         /// </summary>
         /// <param name="type">Tipo de qualquer classe contida no assembly</param>
         public static void RegisterAssembly(Type type)
@@ -2129,13 +2129,13 @@ namespace Speed.Data
         /*
         /// <summary>
         /// Checa se o tipo foi registrado, usando RegisterAssembly.
-        /// Se n„o, dispara um erro
+        /// Se n√£o, dispara um erro
         /// </summary>
         /// <param name="typeName"></param>
         private void checkType(string fullTypeName)
         {
             if (!refTypes.ContainsKey(typeName))
-                throw new Exception("Tipo n„o registrado: " + typeName + ".\r\nUser o mÈtodo 'RegisterAssembly' para registrar o assembly onde '" + typeName + "' existe, para chamada de mÈtodos de reflection");
+                throw new Exception("Tipo n√£o registrado: " + typeName + ".\r\nUser o m√©todo 'RegisterAssembly' para registrar o assembly onde '" + typeName + "' existe, para chamada de m√©todos de reflection");
             else CheckCache(typeName);
         }
         */
@@ -2233,7 +2233,7 @@ namespace Speed.Data
 
         /*
         /// <summary>
-        /// sÛ pra testes
+        /// s√≥ pra testes
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="db"></param>
@@ -2652,11 +2652,11 @@ namespace Speed.Data
             // GenColumns
             var gcols = item.Columns.ToDictionary(p => p.ColumnName, StringComparer.InvariantCultureIgnoreCase);
 
-            // TODO: J· foi testado pro Sql Server. Para o MySql t· dando problemas, que est· invertendo as colunas
+            // TODO: J√° foi testado pro Sql Server. Para o MySql t√° dando problemas, que est√° invertendo as colunas
             //if (!(ProviderType == EnumDbProviderType.SqlServer | ProviderType == EnumDbProviderType.SqlServerCe))
             //    return;
 
-            // Dictionaries pra guardar os mÈtodos gerados, pra evitar duplicidades. Isso ocorre em bases de dados
+            // Dictionaries pra guardar os m√©todos gerados, pra evitar duplicidades. Isso ocorre em bases de dados
             // que possuem relacionamentos repetidos entre tabelas
             List<string> parentMethods = new List<string>();
             List<string> childMethods = new List<string>();
@@ -2708,7 +2708,7 @@ namespace Speed.Data
                             string _prop = "_" + prop;
 
                             string type = colRef.DataTypeDotNet;
-                            // se um È nullable e ou outro n„o, usa nullable, sen„o d· erro de compilaÁ„o
+                            // se um √© nullable e ou outro n√£o, usa nullable, sen√£o d√° erro de compila√ß√£o
                             if (col.IsNullable && !colRef.IsNullable)
                                 if (type != "String" & type != "Object" & type.ToLower() != "byte[]")
                                     type += "?";
@@ -2820,7 +2820,7 @@ namespace Speed.Data
                             if (table.Columns.ContainsKey(fkCol.ReferencedColumnName))
                                 col = table.Columns[fkCol.ReferencedColumnName];
 
-                            // TODO: para o MySql n„o acha a linha acima (col = table.Columns[fkCol.ReferencedColumnName]). Checar
+                            // TODO: para o MySql n√£o acha a linha acima (col = table.Columns[fkCol.ReferencedColumnName]). Checar
                             if (col == null)
                                 goto Skip;
 
@@ -3154,7 +3154,7 @@ namespace Speed.Data
                     if (dict.TryGetValue(col.ColumnName, out gcol))
                     {
                         dict.Remove(col.ColumnName); // remove as existentes
-                        // se existe, mas o banco È required, forÁa required;
+                        // se existe, mas o banco √© required, for√ßa required;
                         if (!col.IsNullable)
                             gcol.IsRequired = true;
 
@@ -3197,7 +3197,7 @@ namespace Speed.Data
         /// <param name="businnesDirectory"></param>
         /// <param name="businnesDirectoryExt"></param>
         /// <param name="alias"></param>
-        /// <param name="tableSchema">Nome do Schema. Para o MySql È importante, sen„o retornar„o todas as tabelas do servidor</param>
+        /// <param name="tableSchema">Nome do Schema. Para o MySql √© importante, sen√£o retornar√£o todas as tabelas do servidor</param>
         /// <returns></returns>
         public Dictionary<string, GenTableResult> Generate(string entityNameSpace, string businnesNameSpace, string entityDirectory, string entityDirectoryExt, string businnesDirectory, string businnesDirectoryExt, GenTableCollection alias, bool includeSchema = false, EnumNameCase nameCase = EnumNameCase.Pascal)
         {
@@ -3414,7 +3414,7 @@ namespace Speed.Data
 
         /// <summary>
         /// Retorna, uma matriz bi-dimensional dos dados, no formato Linha, Coluna
-        /// Por exemplo: ret[4][1] È a primeira coluna do registro 5.
+        /// Por exemplo: ret[4][1] √© a primeira coluna do registro 5.
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
@@ -3455,7 +3455,7 @@ namespace Speed.Data
 
         /// <summary>
         /// Retorna uma matriz unidimensional contendo os valores da primeira coluna
-        /// Por exemplo: ret[4] È a primeira coluna (a ˙nica) do registro 5.
+        /// Por exemplo: ret[4] √© a primeira coluna (a √∫nica) do registro 5.
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
@@ -3536,7 +3536,7 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// MÈtodo genÈrico de GetAllTables. N„o foi testado em todos os providers
+        /// M√©todo gen√©rico de GetAllTables. N√£o foi testado em todos os providers
         /// </summary>
         /// <param name="tableSchema"></param>
         /// <param name="tableType"></param>
@@ -3573,7 +3573,7 @@ namespace Speed.Data
         }
 
         /// <summary>
-        /// MÈtodo de retorna ReservedWords usando GetSchema
+        /// M√©todo de retorna ReservedWords usando GetSchema
         /// </summary>
         /// <returns></returns>
         public Dictionary<string, string> GetReservedWordsGeneric()
@@ -3688,6 +3688,44 @@ namespace Speed.Data
         public override string ToString()
         {
             return connectionString;
+        }
+
+        /// <summary>
+        /// Executa uma query e converte o resultado em <see cref="List{T}"/> de forma gen√©rica e perform√°tica.
+        /// T pode ser qualquer classe com propriedades p√∫blicas grav√°veis que correspondam aos nomes das colunas
+        /// retornadas pelo DbDataReader. A compara√ß√£o de nomes √© case-insensitive.
+        /// </summary>
+        /// <typeparam name="T">Tipo de destino do mapeamento.</typeparam>
+        /// <param name="db">Inst√¢ncia do banco.</param>
+        /// <param name="commandText">SQL ou nome do comando.</param>
+        /// <param name="parameters">Par√¢metros do comando.</param>
+        /// <param name="commandTimeout">Timeout em segundos. Padr√£o: 30.</param>
+        /// <param name="commandType">Tipo do comando. Padr√£o: Text.</param>
+        /// <param name="transaction">Transa√ß√£o opcional a ser associada ao comando.</param>
+        /// <param name="columnMappings">
+        /// Mapeamento opcional coluna ‚Üí propriedade, usado quando o nome da coluna n√£o coincide
+        /// com a propriedade (nem ap√≥s remover _, $ e #).
+        /// Chave = nome da coluna no reader; Valor = nome da propriedade em T.
+        /// Exemplo:
+        /// <code>
+        /// var mappings = new Dictionary&lt;string, string&gt;(StringComparer.OrdinalIgnoreCase)
+        /// {
+        ///     { "ID_FER", "IdFerrovia" },
+        ///     { "COD_VG", "CodigoVagao" },
+        ///     { "DT_REF", "DataReferencia" }
+        /// };
+        /// </code>
+        /// </param>
+        /// <returns>Lista de <typeparamref name="T"/> mapeada a partir do result set.</returns>
+        public List<T> Query<T>(
+            string commandText,
+            IEnumerable<DbParameter> parameters = null,
+            int commandTimeout = 30,
+            CommandType commandType = CommandType.Text,
+            DbTransaction transaction = null,
+            Dictionary<string, string> columnMappings = null) where T : class, new()
+        {
+            return DataLoader.Query<T>(this, commandText, parameters, commandTimeout, commandType, transaction, columnMappings);
         }
     }
 

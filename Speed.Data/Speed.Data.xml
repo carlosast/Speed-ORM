@@ -458,6 +458,35 @@
             <typeparam name="T"></typeparam>
             <param name="record"></param>
         </member>
+        <member name="M:Speed.Data.Database.Query``1(System.String,System.Collections.Generic.IEnumerable{System.Data.Common.DbParameter},System.Int32,System.Data.CommandType,System.Data.Common.DbTransaction,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Executa uma query e converte o resultado em <see cref="T:System.Collections.Generic.List`1"/> de forma genérica e performática.
+            T pode ser qualquer classe com propriedades públicas graváveis que correspondam aos nomes das colunas
+            retornadas pelo DbDataReader. A comparação de nomes é case-insensitive.
+            </summary>
+            <typeparam name="T">Tipo de destino do mapeamento.</typeparam>
+            <param name="db">Instância do banco.</param>
+            <param name="commandText">SQL ou nome do comando.</param>
+            <param name="parameters">Parâmetros do comando.</param>
+            <param name="commandTimeout">Timeout em segundos. Padrão: 30.</param>
+            <param name="commandType">Tipo do comando. Padrão: Text.</param>
+            <param name="transaction">Transação opcional a ser associada ao comando.</param>
+            <param name="columnMappings">
+            Mapeamento opcional coluna → propriedade, usado quando o nome da coluna não coincide
+            com a propriedade (nem após remover _, $ e #).
+            Chave = nome da coluna no reader; Valor = nome da propriedade em T.
+            Exemplo:
+            <code>
+            var mappings = new Dictionary&lt;string, string&gt;(StringComparer.OrdinalIgnoreCase)
+            {
+                { "ID_FER", "IdFerrovia" },
+                { "COD_VG", "CodigoVagao" },
+                { "DT_REF", "DataReferencia" }
+            };
+            </code>
+            </param>
+            <returns>Lista de <typeparamref name="T"/> mapeada a partir do result set.</returns>
+        </member>
         <member name="F:Speed.Data.DataClass.Code">
             <summary>
             Guarda o código C# da classe. Apenas pra proposta de debug
@@ -487,6 +516,64 @@
             <param name="db"></param>
             <param name="lastModified">Última data de table ou view aterado na base</param>
             <returns></returns>
+        </member>
+        <member name="T:Speed.Data.DataLoader">
+            <summary>
+            Classe de carregar dados usando internamente um datatable
+            </summary>
+        </member>
+        <member name="M:Speed.Data.DataLoader.Query``1(Speed.Data.Database,System.String,System.Collections.Generic.IEnumerable{System.Data.Common.DbParameter},System.Int32,System.Data.CommandType,System.Data.Common.DbTransaction,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Executa uma query e converte o resultado em <see cref="T:System.Collections.Generic.List`1"/> de forma genérica e performática.
+            T pode ser qualquer classe com propriedades públicas graváveis que correspondam aos nomes das colunas
+            retornadas pelo DbDataReader. A comparação de nomes é case-insensitive.
+            </summary>
+            <typeparam name="T">Tipo de destino do mapeamento.</typeparam>
+            <param name="db">Instância do banco.</param>
+            <param name="commandText">SQL ou nome do comando.</param>
+            <param name="parameters">Parâmetros do comando.</param>
+            <param name="commandTimeout">Timeout em segundos. Padrão: 30.</param>
+            <param name="commandType">Tipo do comando. Padrão: Text.</param>
+            <param name="transaction">Transação opcional a ser associada ao comando.</param>
+            <param name="columnMappings">
+            Mapeamento opcional coluna → propriedade, usado quando o nome da coluna não coincide
+            com a propriedade (nem após remover _, $ e #).
+            Chave = nome da coluna no reader; Valor = nome da propriedade em T.
+            Exemplo:
+            <code>
+            var mappings = new Dictionary&lt;string, string&gt;(StringComparer.OrdinalIgnoreCase)
+            {
+                { "ID_FER", "IdFerrovia" },
+                { "COD_VG", "CodigoVagao" },
+                { "DT_REF", "DataReferencia" }
+            };
+            </code>
+            </param>
+            <returns>Lista de <typeparamref name="T"/> mapeada a partir do result set.</returns>
+        </member>
+        <member name="M:Speed.Data.DataLoader.ToList``1(System.Data.Common.DbDataReader,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Converte um DbDataReader em List&lt;T&gt; de forma genérica e performática.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="reader"></param>
+            <param name="columnMappings">
+            Mapeamento opcional coluna → propriedade, usado quando o nome da coluna não coincide
+            com a propriedade (nem após remover _, $ e #).
+            Chave = nome da coluna no reader; Valor = nome da propriedade em T.
+            Exemplo:
+            <code>
+            var mappings = new Dictionary&lt;string, string&gt;
+            {
+                { "ID_FER", "IdFerrovia" },
+                { "COD_VG", "CodigoVagao" },
+                { "DT_REF", "DataReferencia" }
+            };
+            </code>
+            </param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
         </member>
         <member name="F:Speed.Data.DataTableUtil.DateFormat">
             <summary>
